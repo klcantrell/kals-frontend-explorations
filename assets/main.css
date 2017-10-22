@@ -1,0 +1,91 @@
+@font-face {
+	font-family: 'Dosis';
+	src: url('fonts/Dosis/Dosis-Regular.ttf');
+}
+
+@font-face {
+	font-family: 'Raleway';
+	src: url('fonts/Raleway/Raleway-Regular.ttf');
+}
+
+html, body {
+	width: 100%;
+	height: 100%;
+	background: thistle;
+	overflow: hidden;
+}
+
+.header {
+	font-family: 'Dosis', sans-serif;
+	text-transform: uppercase;
+	text-align: center;
+}
+
+.root {
+	font-family: 'Raleway', sans-serif;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin: auto;
+	width: 70%;
+	max-width: 793px;
+	height: 80%;
+}
+
+.catList {
+	display: flex;
+	flex-flow: column;
+	justify-content: center;
+	margin: 30px;
+}
+
+.catList__button {
+	font-family: Dosis, sans-serif;
+	font-size: 1.2em;
+	min-width: 50px;
+	max-width: 300px;
+	margin: 5px;
+	border: none;
+	border-radius: 5%;
+	outline: 0;
+}
+
+.catInfo {
+	display: flex;
+	flex-flow: column;
+	align-items: center;
+	width: 90%;
+	min-width: 300px;
+	max-width: 600px;
+}
+
+.catInfo__pic {
+	border-radius: 8%;
+	max-width: 100%;
+	max-height: 500px;
+}
+
+.admin {
+	display: flex;
+	margin: 20px;
+}
+
+.admin__form {
+	margin-left: 30px;
+}
+
+.admin__form--hidden {
+	display: none;
+}
+
+@media screen and (max-width: 500px) {
+	.root {
+		flex-flow: column;
+		justify-content: flex-start;
+
+	}
+	.catList {
+		flex-flow: row;
+		position: initial;
+	}
+}

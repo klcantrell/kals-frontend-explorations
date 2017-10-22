@@ -1,0 +1,28 @@
+{
+  "name": "cat-clicker-premium",
+  "version": "1.0.0",
+  "description": "",
+  "main": "/assets/main.js",
+  "scripts": {
+    "js": "babel assets/main.js --watch --out-file dist/compiled.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "babel": "^6.23.0",
+    "babel-cli": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "grunt": "^1.0.1",
+    "grunt-contrib-clean": "^1.1.0",
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-mkdir": "^1.0.0",
+    "grunt-responsive-images": "^1.10.1",
+    "install": "^0.10.1",
+    "webpack": "^3.7.1"
+  },
+  "babel": {
+    "presets": [
+      "es2015"
+    ]
+  }
+}
