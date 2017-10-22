@@ -12,6 +12,10 @@
 		<div class="catList" id="catList">
 		</div>
 		<div class="catInfo" id="catInfo">
+			<div class="catInfo__mvoModule" id="mvoModule"></div>
+			<div id="knockoutModule">
+				<p data-bind="text: level"></p>
+			</div>
 		</div>
 	</div>
 	<div class="admin" id="admin">
@@ -27,6 +31,7 @@
 			<button id="cancelAdmin">Cancel</button>
 		</div>
 	</div>
-<script type="text/javascript" src="dist/compiled.js"></script>
+	<script type="text/javascript" src="assets/lib/knockout-3.4.2.js"></script>
+	<script type="text/javascript" src="dist/compiled.js"></script>
 </body>
 </html>

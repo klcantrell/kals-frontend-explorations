@@ -50,7 +50,7 @@ html, body {
 	outline: 0;
 }
 
-.catInfo {
+.catInfo__mvoModule {
 	display: flex;
 	flex-flow: column;
 	align-items: center;

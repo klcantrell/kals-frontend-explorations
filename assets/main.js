@@ -29,16 +29,32 @@ const model = {
 	isAdminVisible: false
 };
 
+const KO_Model = {
+	clicks: ko.observable(0)
+};
+
+function ViewModel() {
+	this.level = ko.computed(function() {
+		if (KO_Model.clicks() > 5) {
+			return "Level: AWESOME CAT";
+		} else {
+			return "Level: COOL CAT";
+		}
+	}, this)
+}
+
 const octopus = {
 	init: function() {
 		this.setCurrentCat();
 		listView.init();
 		infoView.init();
 		adminView.init();
+		ko.applyBindings(new ViewModel());
 	},
 	updateClicks: function() {
 		model.allCats[model.currentCat].clicks += 1;
 		infoView.renderNewClicks(model.allCats[model.currentCat].clicks);
+		KO_Model.clicks(model.allCats[model.currentCat].clicks);
 	},
 	updateCatInfo: function() {
 		model.allCats[model.currentCat].name = adminView.nameField.value;
@@ -71,6 +87,7 @@ const octopus = {
 	},
 	setCurrentCat: function(key = 'cat1') {
 		model.currentCat = key;
+		KO_Model.clicks(model.allCats[model.currentCat].clicks);
 	},
 	getCurrentCat: function() {
 		return model.currentCat;
@@ -97,15 +114,17 @@ const infoView = {
 	},
 	cacheDom: function() {
 		this.catInfo = document.getElementById("catInfo");
+		this.mvoModule = this.catInfo.querySelector("#mvoModule");
+		this.knockoutModule = this.catInfo.querySelector("#knockoutModule");
 	},
 	render: function(dataKey = undefined) {
 		this.clearEvents();
-		let catData = octopus.getCatData(dataKey);
-		let tempString = 
-			`<h2>${catData.name}</h2>
-			<img class="catInfo__pic" src="${catData.url}">
-			<p>This cat has <span id="clicks">${catData.clicks}</span> clicks!</p>`;
-		this.catInfo.innerHTML = tempString;
+		let catData = octopus.getCatData(dataKey),
+			tempString = 
+				`<h2>${catData.name}</h2>
+				<img class="catInfo__pic" src="${catData.url}">
+				<p>This cat has <span id="clicks">${catData.clicks}</span> clicks!</p>`;
+		this.mvoModule.innerHTML = tempString;
 		this.setTargets();
 		this.bindEvents();
 	},
@@ -130,8 +149,6 @@ const listView = {
 	init: function() {
 		this.cacheDom();
 		this.render();
-		// this.getButtons();
-		// this.bindEvents();
 	},
 	cacheDom: function() {
 		this.catList = document.getElementById("catList");
@@ -158,21 +175,6 @@ const listView = {
 			octopus.setCurrentCat(dataKey);
 		});
 	}
-	// getButtons: function() {
-	// 	this.buttons = this.catList.querySelectorAll(".catList__button");
-	// },
-	// bindEvents: function() {
-	// 	for (let i = 0, keys = Object.keys(this.buttons); i < keys.length; i++) {
-	// 		let button = this.buttons[keys[i]];
-	// 		let dataKey = button.getAttribute("data-bind");
-	// 		button.addEventListener('click', (function() {
-	// 			return function() {
-	// 				infoView.render(dataKey);
-	// 				octopus.setCurrentCat(dataKey);
-	// 			};
-	// 		})(dataKey));
-	// 	}
-	// }
 };
 
 const adminView = {
