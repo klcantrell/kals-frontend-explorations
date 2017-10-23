@@ -18,7 +18,8 @@ html, body {
 .header {
 	font-family: 'Dosis', sans-serif;
 	text-transform: uppercase;
-	text-align: center;
+	text-align: left;
+	margin-left: 100px;
 }
 
 .root {
@@ -26,10 +27,10 @@ html, body {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	margin: auto;
+	margin: 60px auto;
 	width: 70%;
 	max-width: 793px;
-	height: 80%;
+	height: 70%;
 }
 
 .catList {
@@ -50,7 +51,7 @@ html, body {
 	outline: 0;
 }
 
-.catInfo__mvoModule {
+.catInfo {
 	display: flex;
 	flex-flow: column;
 	align-items: center;
@@ -65,8 +66,22 @@ html, body {
 	max-height: 500px;
 }
 
+.catInfo__nicknames {
+	width: 50%;
+}
+
+.catInfo__nicknamesList {
+	width: 100%;
+}
+
+.catInfo__nicknameItems {
+	float: left;
+	margin: 0 20px;
+}
+
 .admin {
 	display: flex;
+	align-items: center;
 	margin: 20px;
 }
 

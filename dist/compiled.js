@@ -1,232 +1,69 @@
 'use strict';
 
-var model = {
-	allCats: {
-		cat1: {
-			name: 'Cat 1',
-			url: 'dist/images/cat_peek-800_large_1x.jpg',
-			clicks: 0,
-			nicknames: ['fuzzy', 'wuzzy']
-		},
-		cat2: {
-			name: 'Cat 2',
-			url: 'dist/images/cat_fuzzy-800_large_1x.jpg',
-			clicks: 0,
-			nicknames: ['kitty', 'ditty']
-		},
-		cat3: {
-			name: 'Cat 3',
-			url: 'dist/images/cat_glasses-800_large_1x.jpg',
-			clicks: 0,
-			nicknames: ['whiny', 'tiny']
-		},
-		cat4: {
-			name: 'Cat 4',
-			url: 'dist/images/cat_sleep-800_large_1x.jpg',
-			clicks: 0,
-			nicknames: ['jumpy', 'lumpy']
-		},
-		cat5: {
-			name: 'Cat 5',
-			url: 'dist/images/cat_woods-800_large_1x.jpg',
-			clicks: 0,
-			nicknames: ['smelly', 'belly']
-		}
-	},
-	isAdminVisible: false
-};
-
-var KO_Model = {
-	clicks: ko.observable(model.allCats.cat1.clicks),
-	nicknames: ko.observable(model.allCats.cat1.nicknames)
-};
-
-function ViewModel() {
-	this.level = ko.computed(function () {
+var Cat = function Cat() {
+	this.name = ko.observable('Cat 1');
+	this.imgSrc = ko.observable('dist/images/cat_peek-800_large_1x.jpg');
+	this.clickCount = ko.observable(0);
+	this.title = ko.computed(function () {
+		var title = void 0,
+		    clicks = this.clickCount();
 		switch (true) {
-			case KO_Model.clicks() > 10:
-				return "Level 3: ULTRA CAT";
-			case KO_Model.clicks() > 5:
-				return "Level 2: AWESOME CAT";
+			case clicks > 10:
+				title = 'Ultra Cat';
+				break;
+			case clicks > 5:
+				title = 'Awesome Cat';
+				break;
 			default:
-				return "Level 1: COOL CAT";
+				title = 'Cool Cat';
+				break;
 		}
+		return title;
 	}, this);
-	this.nicknames = ko.computed(function () {
-		return KO_Model.nicknames();
-	});
-}
-
-var octopus = {
-	init: function init() {
-		this.setCurrentCat();
-		listView.init();
-		infoView.init();
-		adminView.init();
-		ko.applyBindings(new ViewModel());
-	},
-	updateClicks: function updateClicks() {
-		model.allCats[model.currentCat].clicks += 1;
-		infoView.renderNewClicks(model.allCats[model.currentCat].clicks);
-		KO_Model.clicks(model.allCats[model.currentCat].clicks);
-	},
-	updateCatInfo: function updateCatInfo() {
-		model.allCats[model.currentCat].name = adminView.nameField.value;
-		model.allCats[model.currentCat].url = adminView.urlField.value;
-		model.allCats[model.currentCat].clicks = this.processClicksInput(adminView.clicksField.value);
-		listView.render();
-		infoView.render();
-		adminView.render();
-	},
-	processClicksInput: function processClicksInput(input) {
-		if (!isNaN(input)) {
-			return parseInt(input);
-		} else {
-			return model.allCats[model.currentCat].clicks;
-		}
-	},
-	getCatKeysAndNames: function getCatKeysAndNames() {
-		var cats = model.allCats,
-		    keysAndNames = {};
-		for (var i = 0, keys = Object.keys(cats); i < keys.length; i++) {
-			keysAndNames[i] = {
-				key: keys[i],
-				name: cats[keys[i]].name
-			};
-		}
-		return keysAndNames;
-	},
-	getCatData: function getCatData() {
-		var key = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : model.currentCat;
-
-		return model.allCats[key];
-	},
-	setCurrentCat: function setCurrentCat() {
-		var key = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'cat1';
-
-		model.currentCat = key;
-		KO_Model.clicks(model.allCats[model.currentCat].clicks);
-		KO_Model.nicknames(model.allCats[model.currentCat].nicknames);
-	},
-	getCurrentCat: function getCurrentCat() {
-		return model.currentCat;
-	},
-	changeCatView: function changeCatView(dataKey) {
-		if (model.isAdminVisible) {
-			this.changeIsAdminVisible();
-		}
-		infoView.render(dataKey);
-	},
-	changeIsAdminVisible: function changeIsAdminVisible() {
-		model.isAdminVisible = model.isAdminVisible ? false : true;
-		adminView.render();
-	},
-	getIsAdminVisible: function getIsAdminVisible() {
-		return model.isAdminVisible;
-	}
+	this.nicknames = ko.observableArray(['fuzzy', 'wuzzy']);
 };
 
-var infoView = {
-	init: function init() {
-		this.cacheDom();
-		this.render();
-	},
-	cacheDom: function cacheDom() {
-		this.catInfo = document.getElementById("catInfo");
-		this.mvoModule = this.catInfo.querySelector("#mvoModule");
-		this.knockoutModule = this.catInfo.querySelector("#knockoutModule");
-	},
-	render: function render() {
-		var dataKey = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : undefined;
-
-		this.clearEvents();
-		var catData = octopus.getCatData(dataKey),
-		    tempString = '<h2>' + catData.name + '</h2>\n\t\t\t\t<img class="catInfo__pic" src="' + catData.url + '">\n\t\t\t\t<p>This cat has <span id="clicks">' + catData.clicks + '</span> clicks!</p>';
-		this.mvoModule.innerHTML = tempString;
-		this.setTargets();
-		this.bindEvents();
-	},
-	setTargets: function setTargets() {
-		this.clickTarget = this.catInfo.querySelector(".catInfo__pic");
-		this.clicksField = this.catInfo.querySelector("#clicks");
-	},
-	clearEvents: function clearEvents() {
-		if (this.clickTarget) {
-			this.clickTarget.removeEventListener("click", octopus.updateClicks);
-		}
-	},
-	bindEvents: function bindEvents() {
-		this.clickTarget.addEventListener("click", octopus.updateClicks);
-	},
-	renderNewClicks: function renderNewClicks(newClicks) {
-		this.clicksField.textContent = newClicks;
-	}
+var ViewModel = function ViewModel() {
+	this.currentCat = ko.observable(new Cat());
+	this.incrementCounter = function () {
+		this.currentCat().clickCount(this.currentCat().clickCount() + 1);
+	};
 };
 
-var listView = {
-	init: function init() {
-		this.cacheDom();
-		this.render();
-	},
-	cacheDom: function cacheDom() {
-		this.catList = document.getElementById("catList");
-	},
-	render: function render() {
-		this.catList.innerHTML = '';
-		var catKeysAndNames = octopus.getCatKeysAndNames();
-		for (var i = 0, keys = Object.keys(catKeysAndNames); i < keys.length; i++) {
-			var tempString = '<button class="catList__button" data-bind="' + catKeysAndNames[keys[i]].key + '">\n\t\t\t\t\t' + catKeysAndNames[keys[i]].name + '\n\t\t\t\t</button>';
-			var tempShell = document.createElement('div');
-			tempShell.innerHTML = tempString;
-			var button = tempShell.firstChild;
-			this.bindEvents(button);
-			this.catList.appendChild(button);
-		}
-	},
-	bindEvents: function bindEvents(button) {
-		var dataKey = button.getAttribute("data-bind");
-		button.addEventListener("click", function () {
-			octopus.changeCatView(dataKey);
-			octopus.setCurrentCat(dataKey);
-		});
-	}
-};
+ko.applyBindings(new ViewModel());
 
-var adminView = {
-	init: function init() {
-		this.cacheDom();
-		this.render();
-		this.bindEvents();
-	},
-	cacheDom: function cacheDom() {
-		this.rootEl = document.getElementById("admin");
-		this.adminButton = this.rootEl.querySelector("#adminButton");
-		this.adminForm = this.rootEl.querySelector("#adminForm");
-		this.nameField = this.rootEl.querySelector("#name");
-		this.urlField = this.rootEl.querySelector("#url");
-		this.clicksField = this.rootEl.querySelector("#clicks");
-		this.saveButton = this.rootEl.querySelector("#saveAdmin");
-		this.cancelButton = this.rootEl.querySelector("#cancelAdmin");
-	},
-	bindEvents: function bindEvents() {
-		this.adminButton.addEventListener("click", octopus.changeIsAdminVisible);
-		this.cancelButton.addEventListener("click", octopus.changeIsAdminVisible);
-		this.saveButton.addEventListener("click", function () {
-			octopus.updateCatInfo();
-			octopus.changeIsAdminVisible();
-		});
-	},
-	render: function render() {
-		if (octopus.getIsAdminVisible()) {
-			this.adminForm.classList.remove("admin__form--hidden");
-			var catData = octopus.getCatData();
-			this.nameField.value = catData.name;
-			this.urlField.value = catData.url;
-			this.clicksField.value = catData.clicks;
-		} else {
-			this.adminForm.classList.add("admin__form--hidden");
-		}
-	}
-};
-
-octopus.init();
+// const model = {
+// 	allCats: {
+// 		cat1: {
+// 			name: 'Cat 1',
+// 			url: 'dist/images/cat_peek-800_large_1x.jpg',
+// 			clicks: 0,
+// 			nicknames: ['fuzzy', 'wuzzy']
+// 		},
+// 		cat2: {
+// 			name: 'Cat 2',
+// 			url: 'dist/images/cat_fuzzy-800_large_1x.jpg',
+// 			clicks: 0,
+// 			nicknames: ['kitty', 'ditty']
+// 		},
+// 		cat3: {
+// 			name: 'Cat 3',
+// 			url: 'dist/images/cat_glasses-800_large_1x.jpg',
+// 			clicks: 0,
+// 			nicknames: ['whiny', 'tiny']
+// 		},
+// 		cat4: {
+// 			name: 'Cat 4',
+// 			url: 'dist/images/cat_sleep-800_large_1x.jpg',
+// 			clicks: 0,
+// 			nicknames: ['jumpy', 'lumpy']
+// 		},
+// 		cat5: {
+// 			name: 'Cat 5',
+// 			url: 'dist/images/cat_woods-800_large_1x.jpg',
+// 			clicks: 0,
+// 			nicknames: ['smelly', 'belly']
+// 		}
+// 	},
+// 	isAdminVisible: false
+// };

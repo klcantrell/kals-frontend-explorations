@@ -12,12 +12,14 @@
 		<div class="catList" id="catList">
 		</div>
 		<div class="catInfo" id="catInfo">
-			<div class="catInfo__mvoModule" id="mvoModule"></div>
-			<div id="knockoutModule">
-				<p data-bind="text: level"></p>
-				<p>Nicknames:</p>
-				<ul data-bind="foreach: nicknames">
-					<li data-bind="text: $data"></li>
+			<h3 data-bind="text: currentCat().name"></h3>
+			<img class="catInfo__pic" src="" alt="cat" data-bind="click: incrementCounter, attr: {src: currentCat().imgSrc}">
+			<p data-bind="text: currentCat().clickCount"></p>
+			<p data-bind="text: currentCat().title"></p>
+			<div class="catInfo__nicknames">
+				<h4>Nicknames:</h4>
+				<ul class="catInfo__nicknamesList" data-bind="foreach: currentCat().nicknames">
+					<li class="catInfo__nicknameItems" data-bind="text: $data"></li>
 				</ul>
 			</div>
 		</div>
