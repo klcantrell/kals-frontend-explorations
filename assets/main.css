@@ -79,10 +79,13 @@ html, body {
 }
 
 @media screen and (max-width: 500px) {
+	html, body {
+		overflow: auto;
+	}
 	.root {
 		flex-flow: column;
 		justify-content: flex-start;
-
+		height: auto;
 	}
 	.catList {
 		flex-flow: row;
