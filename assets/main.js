@@ -23,19 +23,18 @@ const Cat = function() {
 
 
 const ViewModel = function() {
+	this.initVal = function() {
+		alert('sup');
+	};
 	this.currentCat = ko.observable(new Cat());
 	this.incrementCounter = function() {
-		this.currentCat().clickCount(this.currentCat().clickCount() + 1);
-	}
+		this.clickCount(this.clickCount() + 1);
+	};
 };
 
 
+
 ko.applyBindings(new ViewModel());
-
-
-
-
-
 
 
 

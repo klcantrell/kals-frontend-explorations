@@ -8,17 +8,17 @@
 </head>
 <body>
 	<h1 class="header">Cat Clicker</h1>
-	<div class="root" id="root">
+	<div class="root" id="root" data-bind="with: currentCat">
 		<div class="catList" id="catList">
 		</div>
 		<div class="catInfo" id="catInfo">
-			<h3 data-bind="text: currentCat().name"></h3>
-			<img class="catInfo__pic" src="" alt="cat" data-bind="click: incrementCounter, attr: {src: currentCat().imgSrc}">
-			<p data-bind="text: currentCat().clickCount"></p>
-			<p data-bind="text: currentCat().title"></p>
+			<h3 data-bind="text: name"></h3>
+			<img class="catInfo__pic" src="" alt="cat" data-bind="click: $root.incrementCounter, attr: {src: imgSrc}">
+			<p data-bind="text: clickCount"></p>
+			<p data-bind="text: title"></p>
 			<div class="catInfo__nicknames">
 				<h4>Nicknames:</h4>
-				<ul class="catInfo__nicknamesList" data-bind="foreach: currentCat().nicknames">
+				<ul class="catInfo__nicknamesList" data-bind="foreach: nicknames">
 					<li class="catInfo__nicknameItems" data-bind="text: $data"></li>
 				</ul>
 			</div>
