@@ -8,10 +8,15 @@
 </head>
 <body>
 	<h1 class="header">Cat Clicker</h1>
-	<div class="root" id="root" data-bind="with: currentCat">
-		<div class="catList" id="catList">
+	<div class="root" id="root">
+		<div class="catList" id="catList" data-bind="with: catList">
+			<button></button>
+			<button></button>
+			<button></button>
+			<button></button>
+			<button></button>
 		</div>
-		<div class="catInfo" id="catInfo">
+		<div class="catInfo" id="catInfo" data-bind="with: currentCat">
 			<h3 data-bind="text: name"></h3>
 			<img class="catInfo__pic" src="" alt="cat" data-bind="click: $root.incrementCounter, attr: {src: imgSrc}">
 			<p data-bind="text: clickCount"></p>
