@@ -10,7 +10,7 @@
 	<h1 class="header">Cat Clicker</h1>
 	<div class="root" id="root">
 		<div class="catList" id="catList" data-bind="foreach: catList">
-			<button class="catList__button" data-bind="text: $data.name, click: $parent.changeCatView"></button>
+			<button class="catList__button" data-bind="text: name, click: $parent.changeCatView"></button>
 		</div>
 		<div class="catInfo" id="catInfo" data-bind="with: currentCat">
 			<h3 data-bind="text: name"></h3>

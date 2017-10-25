@@ -71,8 +71,8 @@ const ViewModel = function() {
 		this.clickCount(this.clickCount() + 1);
 	};
 
-	self.changeCatView = function(cat) {
-		self.currentCat(cat);
+	self.changeCatView = function(clickedCat) {
+		self.currentCat(clickedCat);
 	};
 };
 
