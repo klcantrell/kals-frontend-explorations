@@ -9,22 +9,22 @@
 <body>
 	<h1 class="header">Cat Clicker</h1>
 	<div class="root" id="root">
-		<div class="catList" id="catList" data-bind="with: catList">
-			<button></button>
-			<button></button>
-			<button></button>
-			<button></button>
-			<button></button>
+		<div class="catList" id="catList" data-bind="foreach: catList">
+			<button class="catList__button" data-bind="text: $data.name, click: $parent.changeCatView"></button>
 		</div>
 		<div class="catInfo" id="catInfo" data-bind="with: currentCat">
 			<h3 data-bind="text: name"></h3>
-			<img class="catInfo__pic" src="" alt="cat" data-bind="click: $root.incrementCounter, attr: {src: imgSrc}">
-			<p data-bind="text: clickCount"></p>
-			<p data-bind="text: title"></p>
+			<img class="catInfo__pic" src="" alt="cat" data-bind="click: $parent.incrementCounter, attr: {src: imgSrc}">
+			<div class="catInfo__clicks">
+				<span class="catInfo__label">Clicks:</span>
+				<span data-bind="text: clickCount"></span>
+				<span class="catInfo__label">Title: </span>
+				<span data-bind="text: title"></span>
+			</div>
 			<div class="catInfo__nicknames">
-				<h4>Nicknames:</h4>
-				<ul class="catInfo__nicknamesList" data-bind="foreach: nicknames">
-					<li class="catInfo__nicknameItems" data-bind="text: $data"></li>
+				<p class="catInfo__label">Nicknames:</p>
+				<ul data-bind="foreach: nicknames">
+					<li data-bind="text: $data"></li>
 				</ul>
 			</div>
 		</div>

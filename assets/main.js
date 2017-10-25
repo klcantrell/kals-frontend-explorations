@@ -63,13 +63,16 @@ const ViewModel = function() {
 		self.catList.push(new Cat(initialData[dataKeys[i]]));
 	}
 
-	console.log(self.catList()[0]);
 	self.currentCat = ko.observable(self.catList()[0]);
 
 
 	// binding context is currentCat
 	self.incrementCounter = function() {
 		this.clickCount(this.clickCount() + 1);
+	};
+
+	self.changeCatView = function(cat) {
+		self.currentCat(cat);
 	};
 };
 
