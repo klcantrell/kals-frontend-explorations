@@ -27,6 +27,7 @@
 			<div class="view">
 				<input class="toggle" type="checkbox" <%= completed ? 'checked' : '' %>>
 				<label><%- title %></label>
+				<p class="complete-message"><%= completed ? '--done' : '' %></p>
 				<button class="destroy"></button>
 			</div>
 			<input class="edit" value="<%- title %>">

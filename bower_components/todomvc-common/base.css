@@ -598,3 +598,12 @@ hr {
 		margin: 130px auto 40px auto;
 	}
 }
+
+
+/*ME*/
+
+.complete-message {
+	position: absolute;
+	top: 0;
+	right: 100px;
+}
