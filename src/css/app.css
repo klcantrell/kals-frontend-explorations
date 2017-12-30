@@ -7,13 +7,21 @@
 	width: 400px;
 	background: white;
 	border: 1px solid black;
+	transition-property: width, visibility;
+	transition-duration: 0.5s;
+	overflow: hidden;
+	display: flex;
+	justify-content: center;
 }
 
 .cardRoot--hide {
 	visibility: hidden;
+	width: 0;
 }
 
 .card {
+	flex-shrink: 0;
+	width: 400px;
 	display: flex;
 	flex-flow: column;
 	align-items: center;
