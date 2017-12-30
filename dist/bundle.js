@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 1);
+/******/ 	return __webpack_require__(__webpack_require__.s = 2);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -82,13 +82,19 @@ const $hashTo = (hash) => {
 
 /***/ }),
 /* 1 */
+/***/ (function(module, exports) {
+
+module.exports = "<div>\r\n\t<p>I'm portfolio 1's external html</p>\r\n\t<button>SUP</button>\r\n</div>";
+
+/***/ }),
+/* 2 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__router__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__controller__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__model__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__router__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__controller__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__model__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__view__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__utils__ = __webpack_require__(0);
 
@@ -134,7 +140,7 @@ Object(__WEBPACK_IMPORTED_MODULE_4__utils__["b" /* $on */])(window, 'load', func
 });
 
 /***/ }),
-/* 2 */
+/* 3 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -178,7 +184,7 @@ class Router {
 
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -196,11 +202,11 @@ class BasicController {
 
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__html_portfolio1_html__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__html_portfolio1_html__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__html_portfolio1_html___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__html_portfolio1_html__);
 
 
@@ -222,12 +228,6 @@ const PortfolioModel = {
 };
 /* harmony export (immutable) */ __webpack_exports__["a"] = PortfolioModel;
 
-
-/***/ }),
-/* 5 */
-/***/ (function(module, exports) {
-
-module.exports = "<div>\r\n\t<p>I'm portfolio 1's external html</p>\r\n</div>";
 
 /***/ }),
 /* 6 */
