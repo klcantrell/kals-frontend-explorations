@@ -84,7 +84,7 @@ const $hashTo = (hash) => {
 /* 1 */
 /***/ (function(module, exports) {
 
-module.exports = "<div>\r\n\t<p>I'm portfolio 1's external html</p>\r\n\t<button>SUP</button>\r\n</div>";
+module.exports = "<div>\r\n\t<p>I'm portfolio 1's external html</p>\r\n</div>";
 
 /***/ }),
 /* 2 */
