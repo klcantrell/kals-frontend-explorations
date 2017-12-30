@@ -31,6 +31,7 @@ const portfolio = data => {
     <div class="portfolio">
       <h1>Hey I'm Page ${data.page}</h1>
       <p>My info is ${data.info}</p>
+      ${data.content}
       <button id="returnHome">Return</button>
     </div>
   `;

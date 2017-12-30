@@ -3,5 +3,14 @@ module.exports = {
 	output: {
 		path: __dirname + "/dist",
 		filename: "bundle.js"
+	},
+	module: {
+	    rules: [
+	        {
+	            test: /\.html$/,
+	            exclude: /node_modules/,
+	            use: {loader: 'html-loader'}
+	        }
+	    ]
 	}
 }
