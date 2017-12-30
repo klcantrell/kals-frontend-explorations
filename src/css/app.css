@@ -1,0 +1,47 @@
+.cardRoot {
+	position: absolute;
+	top: 20px;
+	left: 0;
+	right: 0;
+	margin: auto;
+	width: 400px;
+	background: white;
+	border: 1px solid black;
+}
+
+.cardRoot--hide {
+	visibility: hidden;
+}
+
+.card {
+	display: flex;
+	flex-flow: column;
+	align-items: center;
+}
+
+.card__controls {
+	width: 40%;
+	display: flex;
+	justify-content: space-between;
+}
+
+.projectList {
+	display: flex;
+	justify-content: space-around;
+	padding-left: 100px;
+	padding-right: 100px;
+	margin: 5px; 
+}
+
+.projectList__link {
+	padding: 3px;
+	border: 1px solid black;
+	font-size: 2rem;
+	color: navy;
+	text-decoration: none;
+}
+
+.projectList__link:hover {
+	background: lightgrey; 
+	cursor: pointer;
+}
