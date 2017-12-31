@@ -89,7 +89,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__router__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__controller__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__model__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__view__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__view__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__utils__ = __webpack_require__(0);
 
 
@@ -204,6 +204,9 @@ class BasicController {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__html_portfolio1_html___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__html_portfolio1_html__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__html_portfolio2_html__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__html_portfolio2_html___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__html_portfolio2_html__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__html_portfolio_scripts_portfolio1__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__html_portfolio_scripts_portfolio2__ = __webpack_require__(10);
+
 
 
 
@@ -213,13 +216,15 @@ const PortfolioModel = {
 		page: 1,
 		info: "Sup",
 		description: 'Page 1 stuff...sup',
-		content: __WEBPACK_IMPORTED_MODULE_0__html_portfolio1_html___default.a
+		content: __WEBPACK_IMPORTED_MODULE_0__html_portfolio1_html___default.a,
+		script: __WEBPACK_IMPORTED_MODULE_2__html_portfolio_scripts_portfolio1__["a" /* default */]
 	},
 	portfolio2: {
 		page: 2,
 		info: "Yo",
 		description: 'Page 2 stuff, yo',
-		content: __WEBPACK_IMPORTED_MODULE_1__html_portfolio2_html___default.a
+		content: __WEBPACK_IMPORTED_MODULE_1__html_portfolio2_html___default.a,
+		script: __WEBPACK_IMPORTED_MODULE_3__html_portfolio_scripts_portfolio2__["a" /* default */]
 	}
 };
 /* harmony export (immutable) */ __webpack_exports__["a"] = PortfolioModel;
@@ -229,35 +234,61 @@ const PortfolioModel = {
 /* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = "<div>\r\n\t<p>I'm portfolio 1's external html</p>\r\n\t<img src=\"" + __webpack_require__(6) + "\" alt=\"\">\r\n</div>";
+module.exports = "<div>\r\n\t<p>I'm portfolio 1's external html</p>\r\n\t<img src=\"" + __webpack_require__(6) + "\" alt=\"\">\r\n\t<button id=\"p1btn\">Sup</button>\r\n</div>";
 
 /***/ }),
 /* 6 */
 /***/ (function(module, exports) {
 
-module.exports = "dist/imgs/cloud-400.jpg";
+module.exports = "dist/assets/cloud-400.jpg";
 
 /***/ }),
 /* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = "<div>\r\n\t<p>I'm portfolio 2's external html</p>\r\n\t<img src=\"" + __webpack_require__(8) + "\" alt=\"\">\r\n</div>";
+module.exports = "<div>\r\n\t<p>I'm portfolio 2's external html</p>\r\n\t<img src=\"" + __webpack_require__(8) + "\" alt=\"\">\r\n\t<button id=\"p2btn\">Yo</button>\r\n</div>";
 
 /***/ }),
 /* 8 */
 /***/ (function(module, exports) {
 
-module.exports = "dist/imgs/logo-400.png";
+module.exports = "dist/assets/logo-400.png";
 
 /***/ }),
 /* 9 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = p1script;
+function p1script() {
+	const btn = document.getElementById("p1btn");
+	btn.addEventListener('click', function() {
+		console.log('sup');
+	});
+}
+
+/***/ }),
+/* 10 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = p2script;
+function p2script() {
+	const btn = document.getElementById("p2btn");
+	btn.addEventListener('click', function() {
+		console.log('yo');
+	});
+}
+
+/***/ }),
+/* 11 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CardView; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return PortfolioView; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return HomeView; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__template__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__template__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__utils__ = __webpack_require__(0);
 
 
@@ -290,7 +321,10 @@ class PortfolioView {
 	}
 
 	render(data) {
+		let script = document.createElement('SCRIPT');
+		script.innerHTML = `(${data.script})()`;
 		this.el.innerHTML = Object(__WEBPACK_IMPORTED_MODULE_0__template__["c" /* portfolio */])(data);
+		this.el.appendChild(script);
 		this.bindEvents();
 	}
 
@@ -332,7 +366,7 @@ class HomeView {
 
 
 /***/ }),
-/* 10 */
+/* 12 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
