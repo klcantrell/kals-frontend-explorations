@@ -1,5 +1,5 @@
 import portfolio1 from '../html/portfolio1.html';
-import portfolio2 from '../html/portfolio1.html';
+import portfolio2 from '../html/portfolio2.html';
 
 
 export const PortfolioModel = {
