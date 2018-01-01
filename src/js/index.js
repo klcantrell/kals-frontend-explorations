@@ -1,8 +1,9 @@
+import appStyles from '../css/app.css';
 import Router from './router';
 import BasicController from './controller';
 import { PortfolioModel } from './model';
 import { PortfolioView, CardView, HomeView } from './view';
-import { $on, $hashTo } from './utils'
+import { $on, $hashTo } from './utils';
 
 $on(window, 'load', function() {
 	class PortfolioViewer {

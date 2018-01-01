@@ -71,18 +71,22 @@
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return $on; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return $hashTo; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return html; });
-const $on = (target, event, handler) => {
+var $on = function $on(target, event, handler) {
   return target.addEventListener(event, handler);
 };
 
-const $hashTo = (hash) => {
-	window.location.hash = hash;
-}
+var $hashTo = function $hashTo(hash) {
+  window.location.hash = hash;
+};
 
-const html = (literals, ...customs) => {
-  let result = '';
-  customs.forEach((custom, i) => {
-    let lit = literals[i];
+var html = function html(literals) {
+  for (var _len = arguments.length, customs = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+    customs[_key - 1] = arguments[_key];
+  }
+
+  var result = '';
+  customs.forEach(function (custom, i) {
+    var lit = literals[i];
     if (Array.isArray(custom)) {
       custom = custom.join('');
     }
@@ -183,129 +187,164 @@ function toComment(sourceMap) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__router__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__controller__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__model__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__view__ = __webpack_require__(14);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__utils__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__css_app_css__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__css_app_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__css_app_css__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__router__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__controller__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__model__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__view__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__utils__ = __webpack_require__(0);
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 
 
 
 
 
-Object(__WEBPACK_IMPORTED_MODULE_4__utils__["b" /* $on */])(window, 'load', function() {
-	class PortfolioViewer {
-		constructor() {
-			const model = __WEBPACK_IMPORTED_MODULE_2__model__["a" /* PortfolioModel */];
-			const view = new __WEBPACK_IMPORTED_MODULE_3__view__["c" /* PortfolioView */]();
-			this.controller = new __WEBPACK_IMPORTED_MODULE_1__controller__["a" /* default */](model, view);
-		}
-	}
 
-	class CardViewer {
-		constructor() {
-			const model = __WEBPACK_IMPORTED_MODULE_2__model__["a" /* PortfolioModel */];
-			const view = new __WEBPACK_IMPORTED_MODULE_3__view__["a" /* CardView */]();
-			this.controller = new __WEBPACK_IMPORTED_MODULE_1__controller__["a" /* default */](model, view);
-		}
-	}
 
-	class HomeViewer {
-		constructor() {
-			this.view = new __WEBPACK_IMPORTED_MODULE_3__view__["b" /* HomeView */]();
-		}
-	}
+Object(__WEBPACK_IMPORTED_MODULE_5__utils__["b" /* $on */])(window, 'load', function () {
+	var PortfolioViewer = function PortfolioViewer() {
+		_classCallCheck(this, PortfolioViewer);
 
-	const portfolioApp = new PortfolioViewer();
-	const cardApp = new CardViewer();
-	const homeViewer = new HomeViewer();
+		var model = __WEBPACK_IMPORTED_MODULE_3__model__["a" /* PortfolioModel */];
+		var view = new __WEBPACK_IMPORTED_MODULE_4__view__["c" /* PortfolioView */]();
+		this.controller = new __WEBPACK_IMPORTED_MODULE_2__controller__["a" /* default */](model, view);
+	};
 
-	const r = new __WEBPACK_IMPORTED_MODULE_0__router__["a" /* default */]({
+	var CardViewer = function CardViewer() {
+		_classCallCheck(this, CardViewer);
+
+		var model = __WEBPACK_IMPORTED_MODULE_3__model__["a" /* PortfolioModel */];
+		var view = new __WEBPACK_IMPORTED_MODULE_4__view__["a" /* CardView */]();
+		this.controller = new __WEBPACK_IMPORTED_MODULE_2__controller__["a" /* default */](model, view);
+	};
+
+	var HomeViewer = function HomeViewer() {
+		_classCallCheck(this, HomeViewer);
+
+		this.view = new __WEBPACK_IMPORTED_MODULE_4__view__["b" /* HomeView */]();
+	};
+
+	var portfolioApp = new PortfolioViewer();
+	var cardApp = new CardViewer();
+	var homeViewer = new HomeViewer();
+
+	var r = new __WEBPACK_IMPORTED_MODULE_1__router__["a" /* default */]({
 		portfolio: portfolioApp.controller,
 		cards: cardApp.controller,
 		home: homeViewer.view
 	});
 
-	Object(__WEBPACK_IMPORTED_MODULE_4__utils__["a" /* $hashTo */])('#/home');
+	Object(__WEBPACK_IMPORTED_MODULE_5__utils__["a" /* $hashTo */])('#/home');
 });
 
 /***/ }),
 /* 3 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports) {
 
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__utils__ = __webpack_require__(0);
-
-
-class Router {
-	constructor(routes) {
-		this.routes = routes;
-		Object(__WEBPACK_IMPORTED_MODULE_0__utils__["b" /* $on */])(window, 'hashchange', this.routeHashChange.bind(this));
-		this.routeHashChange();
-	}
-
-	routeHashChange(e) {
-		if (window.location.hash.length > 0) {
-			let hashPaths = window.location.hash.split('/'),
-					hashRoot = hashPaths[1],
-					hashDestination = hashPaths[2];
-			this.sendToController(hashRoot, hashDestination);
-		} else {
-			console.log('default');
-		}
-	}
-
-	sendToController(type, data) {
-		switch (type) {
-			case 'portfolio':
-				this.routes[type].render(data);
-				break;
-			case 'cards':
-				this.routes[type].render(data);
-				break;
-			case 'home':
-				this.routes[type].render(data);
-			default:
-				break;
-		}
-	}
-}
-/* harmony export (immutable) */ __webpack_exports__["a"] = Router;
-
+// removed by extract-text-webpack-plugin
 
 /***/ }),
 /* 4 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-class BasicController {
-	constructor(model, view) {
-		this.model = model;
-		this.view = view;
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__utils__ = __webpack_require__(0);
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+
+
+var Router = function () {
+	function Router(routes) {
+		_classCallCheck(this, Router);
+
+		this.routes = routes;
+		Object(__WEBPACK_IMPORTED_MODULE_0__utils__["b" /* $on */])(window, 'hashchange', this.routeHashChange.bind(this));
+		this.routeHashChange();
 	}
 
-	render(page) {
-		this.view.render(this.model[page])
-	}
-}
-/* harmony export (immutable) */ __webpack_exports__["a"] = BasicController;
+	_createClass(Router, [{
+		key: 'routeHashChange',
+		value: function routeHashChange(e) {
+			if (window.location.hash.length > 0) {
+				var hashPaths = window.location.hash.split('/'),
+				    hashRoot = hashPaths[1],
+				    hashDestination = hashPaths[2];
+				this.sendToController(hashRoot, hashDestination);
+			} else {
+				console.log('default');
+			}
+		}
+	}, {
+		key: 'sendToController',
+		value: function sendToController(type, data) {
+			switch (type) {
+				case 'portfolio':
+					this.routes[type].render(data);
+					break;
+				case 'cards':
+					this.routes[type].render(data);
+					break;
+				case 'home':
+					this.routes[type].render(data);
+				default:
+					break;
+			}
+		}
+	}]);
 
+	return Router;
+}();
+
+/* harmony default export */ __webpack_exports__["a"] = (Router);
 
 /***/ }),
 /* 5 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__html_portfolio1_html__ = __webpack_require__(6);
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var BasicController = function () {
+	function BasicController(model, view) {
+		_classCallCheck(this, BasicController);
+
+		this.model = model;
+		this.view = view;
+	}
+
+	_createClass(BasicController, [{
+		key: "render",
+		value: function render(page) {
+			this.view.render(this.model[page]);
+		}
+	}]);
+
+	return BasicController;
+}();
+
+/* harmony default export */ __webpack_exports__["a"] = (BasicController);
+
+/***/ }),
+/* 6 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PortfolioModel; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__html_portfolio1_html__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__html_portfolio1_html___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__html_portfolio1_html__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__html_portfolio2_html__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__html_portfolio2_html__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__html_portfolio2_html___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__html_portfolio2_html__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__html_portfolio_scripts_portfolio1__ = __webpack_require__(10);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__html_portfolio_scripts_portfolio2__ = __webpack_require__(11);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__html_portfolio_styles_portfolio1_css__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__html_portfolio_scripts_portfolio1__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__html_portfolio_scripts_portfolio2__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__html_portfolio_styles_portfolio1_css__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__html_portfolio_styles_portfolio1_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__html_portfolio_styles_portfolio1_css__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__html_portfolio_styles_portfolio2_css__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__html_portfolio_styles_portfolio2_css__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__html_portfolio_styles_portfolio2_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__html_portfolio_styles_portfolio2_css__);
 
 
@@ -314,8 +353,7 @@ class BasicController {
 
 
 
-
-const PortfolioModel = {
+var PortfolioModel = {
 	portfolio1: {
 		page: 1,
 		info: "Sup",
@@ -333,35 +371,33 @@ const PortfolioModel = {
 		styles: __WEBPACK_IMPORTED_MODULE_5__html_portfolio_styles_portfolio2_css___default.a
 	}
 };
-/* harmony export (immutable) */ __webpack_exports__["a"] = PortfolioModel;
-
-
-/***/ }),
-/* 6 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = "<div class=\"background single-column\">\r\n\t<p>I'm portfolio 1's external html</p>\r\n\t<img src=\"" + __webpack_require__(7) + "\" alt=\"\">\r\n\t<button id=\"p1btn\" class=\"cool-btn\">Sup</button>\r\n</div>";
 
 /***/ }),
 /* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = "<div class=\"background single-column\">\r\n\t<p>I'm portfolio 1's external html</p>\r\n\t<img src=\"" + __webpack_require__(8) + "\" alt=\"\">\r\n\t<button id=\"p1btn\" class=\"cool-btn\">Sup</button>\r\n</div>";
+
+/***/ }),
+/* 8 */
 /***/ (function(module, exports) {
 
 module.exports = "dist/assets/cloud-400.jpg";
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = "<div class=\"background single-column\">\r\n\t<p>I'm portfolio 2's external html</p>\r\n\t<img src=\"" + __webpack_require__(9) + "\" alt=\"\">\r\n\t<button id=\"p2btn\" class=\"cool-btn\">Yo</button>\r\n</div>";
+module.exports = "<div class=\"background single-column\">\r\n\t<p>I'm portfolio 2's external html</p>\r\n\t<img src=\"" + __webpack_require__(10) + "\" alt=\"\">\r\n\t<button id=\"p2btn\" class=\"cool-btn\">Yo</button>\r\n</div>";
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, exports) {
 
 module.exports = "dist/assets/logo-400.png";
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -374,7 +410,7 @@ function p1script() {
 }
 
 /***/ }),
-/* 11 */
+/* 12 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -387,7 +423,7 @@ function p2script() {
 }
 
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)(undefined);
@@ -401,7 +437,7 @@ exports.push([module.i, ".background {\r\n\tbackground: blue;\r\n}\r\n\r\n.singl
 
 
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)(undefined);
@@ -415,92 +451,120 @@ exports.push([module.i, ".background {\r\n\tbackground: red;\r\n}\r\n\r\n.single
 
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CardView; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return PortfolioView; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return HomeView; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__template__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__template__ = __webpack_require__(16);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__utils__ = __webpack_require__(0);
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 
 
-class CardView {
-	constructor() {
+
+var CardView = function () {
+	function CardView() {
+		_classCallCheck(this, CardView);
+
 		this.rootEl = document.getElementById('root');
 	}
 
-	render(data) {
-		this.el = this.rootEl.querySelector('#cardRoot');
-		this.el.classList.contains('cardRoot--hide') && this.el.classList.remove('cardRoot--hide');
-		this.el.innerHTML = Object(__WEBPACK_IMPORTED_MODULE_0__template__["a" /* card */])(data);
-		this.bindEvents();
-	}
-
-	bindEvents() {
-		Object(__WEBPACK_IMPORTED_MODULE_1__utils__["b" /* $on */])(this.el, 'click', function(e) {
-			if (e.target.id === 'closeCard') {
-				this.el.classList.add('cardRoot--hide');
-				Object(__WEBPACK_IMPORTED_MODULE_1__utils__["a" /* $hashTo */])('#/home');
-			}
-		}.bind(this));
-	}
-}
-
-class PortfolioView {
-	constructor() {
-		this.el = document.getElementById('root');
-	}
-
-	render(data) {
-		this.el.innerHTML = Object(__WEBPACK_IMPORTED_MODULE_0__template__["c" /* portfolio */])(data);
-		let script = document.createElement('SCRIPT');
-		script.innerHTML = `(${data.script})()`;
-		this.el.appendChild(script);
-		this.bindEvents();
-	}
-
-	bindEvents() {
-		Object(__WEBPACK_IMPORTED_MODULE_1__utils__["b" /* $on */])(this.el, 'click', function returnHome(e) {
-			if (e.target.id === 'returnHome') {
-				Object(__WEBPACK_IMPORTED_MODULE_1__utils__["a" /* $hashTo */])('#/home');
-				e.currentTarget.removeEventListener('click', returnHome);
-			}
-		});
-	}
-}
-
-class HomeView {
-	constructor() {
-		this.el = document.getElementById('root');
-	}
-
-	render() {
-		if (this.el.querySelector('#cardRoot')) {
-			this.bindEvents();
-		} else {
-			this.el.innerHTML = Object(__WEBPACK_IMPORTED_MODULE_0__template__["b" /* home */])();
+	_createClass(CardView, [{
+		key: 'render',
+		value: function render(data) {
+			this.el = this.rootEl.querySelector('#cardRoot');
+			this.el.classList.contains('cardRoot--hide') && this.el.classList.remove('cardRoot--hide');
+			this.el.innerHTML = Object(__WEBPACK_IMPORTED_MODULE_0__template__["a" /* card */])(data);
 			this.bindEvents();
 		}
+	}, {
+		key: 'bindEvents',
+		value: function bindEvents() {
+			Object(__WEBPACK_IMPORTED_MODULE_1__utils__["b" /* $on */])(this.el, 'click', function (e) {
+				if (e.target.id === 'closeCard') {
+					this.el.classList.add('cardRoot--hide');
+					Object(__WEBPACK_IMPORTED_MODULE_1__utils__["a" /* $hashTo */])('#/home');
+				}
+			}.bind(this));
+		}
+	}]);
+
+	return CardView;
+}();
+
+var PortfolioView = function () {
+	function PortfolioView() {
+		_classCallCheck(this, PortfolioView);
+
+		this.el = document.getElementById('root');
 	}
 
-	bindEvents() {
-		this.list = this.el.querySelector('.projectList');
-		Object(__WEBPACK_IMPORTED_MODULE_1__utils__["b" /* $on */])(this.list, 'click', function hashToHome(e) {
-			if (e.target.className === 'projectList__link') {
-				Object(__WEBPACK_IMPORTED_MODULE_1__utils__["a" /* $hashTo */])(e.target.getAttribute('data-hash'));
-				e.currentTarget.removeEventListener('click', hashToHome)
-			}
-		});
+	_createClass(PortfolioView, [{
+		key: 'render',
+		value: function render(data) {
+			this.el.innerHTML = Object(__WEBPACK_IMPORTED_MODULE_0__template__["c" /* portfolio */])(data);
+			var script = document.createElement('SCRIPT');
+			script.innerHTML = '(' + data.script + ')()';
+			this.el.appendChild(script);
+			this.bindEvents();
+		}
+	}, {
+		key: 'bindEvents',
+		value: function bindEvents() {
+			Object(__WEBPACK_IMPORTED_MODULE_1__utils__["b" /* $on */])(this.el, 'click', function returnHome(e) {
+				if (e.target.id === 'returnHome') {
+					Object(__WEBPACK_IMPORTED_MODULE_1__utils__["a" /* $hashTo */])('#/home');
+					e.currentTarget.removeEventListener('click', returnHome);
+				}
+			});
+		}
+	}]);
+
+	return PortfolioView;
+}();
+
+var HomeView = function () {
+	function HomeView() {
+		_classCallCheck(this, HomeView);
+
+		this.el = document.getElementById('root');
 	}
-}
+
+	_createClass(HomeView, [{
+		key: 'render',
+		value: function render() {
+			if (this.el.querySelector('#cardRoot')) {
+				this.bindEvents();
+			} else {
+				this.el.innerHTML = Object(__WEBPACK_IMPORTED_MODULE_0__template__["b" /* home */])();
+				this.bindEvents();
+			}
+		}
+	}, {
+		key: 'bindEvents',
+		value: function bindEvents() {
+			this.list = this.el.querySelector('.projectList');
+			Object(__WEBPACK_IMPORTED_MODULE_1__utils__["b" /* $on */])(this.list, 'click', function hashToHome(e) {
+				if (e.target.className === 'projectList__link') {
+					Object(__WEBPACK_IMPORTED_MODULE_1__utils__["a" /* $hashTo */])(e.target.getAttribute('data-hash'));
+					e.currentTarget.removeEventListener('click', hashToHome);
+				}
+			});
+		}
+	}]);
+
+	return HomeView;
+}();
 
 
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -508,46 +572,25 @@ class HomeView {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return portfolio; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return home; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__utils__ = __webpack_require__(0);
+var _templateObject = _taggedTemplateLiteral(['\n    <div class="card">\n      <h1>Page Info</h1>\n      <p>This page is about ', '</p>\n      <div class="card__controls">\n        <a href="#/portfolio/portfolio', '">Learn more</a>\n        <button id="closeCard">Close</button>\n      </div>\n    </div>\n  '], ['\n    <div class="card">\n      <h1>Page Info</h1>\n      <p>This page is about ', '</p>\n      <div class="card__controls">\n        <a href="#/portfolio/portfolio', '">Learn more</a>\n        <button id="closeCard">Close</button>\n      </div>\n    </div>\n  ']),
+    _templateObject2 = _taggedTemplateLiteral(['\n    <style>', '</style>\n    <div class="portfolio">\n      <h1>Hey I\'m Page ', '</h1>\n      <div class="portfolio__controls">\n        <p>My info is ', '</p>\n        <button id="returnHome">Return</button>\n      </div>\n      ', '\n    </div>\n  '], ['\n    <style>', '</style>\n    <div class="portfolio">\n      <h1>Hey I\'m Page ', '</h1>\n      <div class="portfolio__controls">\n        <p>My info is ', '</p>\n        <button id="returnHome">Return</button>\n      </div>\n      ', '\n    </div>\n  ']),
+    _templateObject3 = _taggedTemplateLiteral(['\n    <nav class="projectList">\n        <a class="projectList__link" data-hash="#/cards/portfolio1">Portfolio Item 1</a>\n        <a class="projectList__link" data-hash="#/cards/portfolio2">Portfolio Item 2</a>\n    </nav>\n    <section id="cardRoot" class="cardRoot cardRoot--hide">\n    </section>\n  '], ['\n    <nav class="projectList">\n        <a class="projectList__link" data-hash="#/cards/portfolio1">Portfolio Item 1</a>\n        <a class="projectList__link" data-hash="#/cards/portfolio2">Portfolio Item 2</a>\n    </nav>\n    <section id="cardRoot" class="cardRoot cardRoot--hide">\n    </section>\n  ']);
+
+function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
 
-const card = data => {
-  return __WEBPACK_IMPORTED_MODULE_0__utils__["c" /* html */]`
-    <div class="card">
-      <h1>Page Info</h1>
-      <p>This page is about ${data.description}</p>
-      <div class="card__controls">
-        <a href="#/portfolio/portfolio${data.page}">Learn more</a>
-        <button id="closeCard">Close</button>
-      </div>
-    </div>
-  `;
-}
 
-
-const portfolio = data => {
-  return __WEBPACK_IMPORTED_MODULE_0__utils__["c" /* html */]`
-    <style>${data.styles.toString()}</style>
-    <div class="portfolio">
-      <h1>Hey I'm Page ${data.page}</h1>
-      <div class="portfolio__controls">
-        <p>My info is ${data.info}</p>
-        <button id="returnHome">Return</button>
-      </div>
-      ${data.content}
-    </div>
-  `;
+var card = function card(data) {
+  return Object(__WEBPACK_IMPORTED_MODULE_0__utils__["c" /* html */])(_templateObject, data.description, data.page);
 };
 
-const home = () => {
-  return __WEBPACK_IMPORTED_MODULE_0__utils__["c" /* html */]`
-    <nav class="projectList">
-        <a class="projectList__link" data-hash="#/cards/portfolio1">Portfolio Item 1</a>
-        <a class="projectList__link" data-hash="#/cards/portfolio2">Portfolio Item 2</a>
-    </nav>
-    <section id="cardRoot" class="cardRoot cardRoot--hide">
-    </section>
-  `;
-}
+var portfolio = function portfolio(data) {
+  return Object(__WEBPACK_IMPORTED_MODULE_0__utils__["c" /* html */])(_templateObject2, data.styles.toString(), data.page, data.info, data.content);
+};
+
+var home = function home() {
+  return Object(__WEBPACK_IMPORTED_MODULE_0__utils__["c" /* html */])(_templateObject3);
+};
 
 
 
