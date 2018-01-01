@@ -1,5 +1,6 @@
-const path = require('path');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const path = require('path'),
+			ExtractTextPlugin = require('extract-text-webpack-plugin'),
+			CompressionPlugin = require('compression-webpack-plugin');
 
 module.exports = {
 	entry: "./src/js/index.js",
@@ -42,7 +43,10 @@ module.exports = {
 		      {
 		        test: /\.css$/,
 		        exclude: path.resolve(__dirname, 'src/css'),
-		        loader: 'css-loader'
+		        loader: 'css-loader',
+		        options: {
+		        	minimize: true
+		        }
 		      },
 		      {
 		        test: /\.css$/,
@@ -52,13 +56,19 @@ module.exports = {
 		        		{ loader: 'css-loader',
 		        			options: { minimize: true } 
 		        		}
-               ]
-             	}
+              ]}
             )
 		      }
 	    ]
 	},
   plugins: [
     new ExtractTextPlugin("app.css")
+    // new CompressionPlugin({
+    //   asset: "[path].gz[query]",
+    //   algorithm: "gzip",
+    //   test: /\.js$|\.css$|\.html$/
+    //   threshold: 10240,
+    //   minRatio: 0
+    // })
   ]
 }
