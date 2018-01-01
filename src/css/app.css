@@ -34,6 +34,8 @@
 }
 
 .projectList {
+	position: relative;
+	top: 100px;
 	display: flex;
 	justify-content: space-around;
 	padding-left: 100px;
@@ -52,4 +54,18 @@
 .projectList__link:hover {
 	background: lightgrey; 
 	cursor: pointer;
+}
+
+.portfolio {
+	display: flex;
+	flex-flow: column;
+	align-items: center;
+	justify-content: center;
+}
+
+.portfolio__controls {
+	width: 400px;
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
 }

@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 1);
+/******/ 	return __webpack_require__(__webpack_require__.s = 2);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -70,6 +70,7 @@
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return $on; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return $hashTo; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return html; });
 const $on = (target, event, handler) => {
   return target.addEventListener(event, handler);
 };
@@ -78,18 +79,114 @@ const $hashTo = (hash) => {
 	window.location.hash = hash;
 }
 
+const html = (literals, ...customs) => {
+  let result = '';
+  customs.forEach((custom, i) => {
+    let lit = literals[i];
+    if (Array.isArray(custom)) {
+      custom = custom.join('');
+    }
+    result += lit;
+    result += custom;
+  });
+  result += literals[literals.length - 1];
+  return result;
+};
+
 
 
 /***/ }),
 /* 1 */
+/***/ (function(module, exports) {
+
+/*
+	MIT License http://www.opensource.org/licenses/mit-license.php
+	Author Tobias Koppers @sokra
+*/
+// css base code, injected by the css-loader
+module.exports = function(useSourceMap) {
+	var list = [];
+
+	// return the list of modules as css string
+	list.toString = function toString() {
+		return this.map(function (item) {
+			var content = cssWithMappingToString(item, useSourceMap);
+			if(item[2]) {
+				return "@media " + item[2] + "{" + content + "}";
+			} else {
+				return content;
+			}
+		}).join("");
+	};
+
+	// import a list of modules into the list
+	list.i = function(modules, mediaQuery) {
+		if(typeof modules === "string")
+			modules = [[null, modules, ""]];
+		var alreadyImportedModules = {};
+		for(var i = 0; i < this.length; i++) {
+			var id = this[i][0];
+			if(typeof id === "number")
+				alreadyImportedModules[id] = true;
+		}
+		for(i = 0; i < modules.length; i++) {
+			var item = modules[i];
+			// skip already imported module
+			// this implementation is not 100% perfect for weird media query combinations
+			//  when a module is imported multiple times with different media queries.
+			//  I hope this will never occur (Hey this way we have smaller bundles)
+			if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
+				if(mediaQuery && !item[2]) {
+					item[2] = mediaQuery;
+				} else if(mediaQuery) {
+					item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
+				}
+				list.push(item);
+			}
+		}
+	};
+	return list;
+};
+
+function cssWithMappingToString(item, useSourceMap) {
+	var content = item[1] || '';
+	var cssMapping = item[3];
+	if (!cssMapping) {
+		return content;
+	}
+
+	if (useSourceMap && typeof btoa === 'function') {
+		var sourceMapping = toComment(cssMapping);
+		var sourceURLs = cssMapping.sources.map(function (source) {
+			return '/*# sourceURL=' + cssMapping.sourceRoot + source + ' */'
+		});
+
+		return [content].concat(sourceURLs).concat([sourceMapping]).join('\n');
+	}
+
+	return [content].join('\n');
+}
+
+// Adapted from convert-source-map (MIT)
+function toComment(sourceMap) {
+	// eslint-disable-next-line no-undef
+	var base64 = btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap))));
+	var data = 'sourceMappingURL=data:application/json;charset=utf-8;base64,' + base64;
+
+	return '/*# ' + data + ' */';
+}
+
+
+/***/ }),
+/* 2 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__router__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__controller__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__model__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__view__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__router__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__controller__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__model__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__view__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__utils__ = __webpack_require__(0);
 
 
@@ -134,7 +231,7 @@ Object(__WEBPACK_IMPORTED_MODULE_4__utils__["b" /* $on */])(window, 'load', func
 });
 
 /***/ }),
-/* 2 */
+/* 3 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -178,7 +275,7 @@ class Router {
 
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -196,16 +293,23 @@ class BasicController {
 
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__html_portfolio1_html__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__html_portfolio1_html__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__html_portfolio1_html___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__html_portfolio1_html__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__html_portfolio2_html__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__html_portfolio2_html__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__html_portfolio2_html___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__html_portfolio2_html__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__html_portfolio_scripts_portfolio1__ = __webpack_require__(9);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__html_portfolio_scripts_portfolio2__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__html_portfolio_scripts_portfolio1__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__html_portfolio_scripts_portfolio2__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__html_portfolio_styles_portfolio1_css__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__html_portfolio_styles_portfolio1_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__html_portfolio_styles_portfolio1_css__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__html_portfolio_styles_portfolio2_css__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__html_portfolio_styles_portfolio2_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__html_portfolio_styles_portfolio2_css__);
+
+
+
 
 
 
@@ -217,45 +321,47 @@ const PortfolioModel = {
 		info: "Sup",
 		description: 'Page 1 stuff...sup',
 		content: __WEBPACK_IMPORTED_MODULE_0__html_portfolio1_html___default.a,
-		script: __WEBPACK_IMPORTED_MODULE_2__html_portfolio_scripts_portfolio1__["a" /* default */]
+		script: __WEBPACK_IMPORTED_MODULE_2__html_portfolio_scripts_portfolio1__["a" /* default */],
+		styles: __WEBPACK_IMPORTED_MODULE_4__html_portfolio_styles_portfolio1_css___default.a
 	},
 	portfolio2: {
 		page: 2,
 		info: "Yo",
 		description: 'Page 2 stuff, yo',
 		content: __WEBPACK_IMPORTED_MODULE_1__html_portfolio2_html___default.a,
-		script: __WEBPACK_IMPORTED_MODULE_3__html_portfolio_scripts_portfolio2__["a" /* default */]
+		script: __WEBPACK_IMPORTED_MODULE_3__html_portfolio_scripts_portfolio2__["a" /* default */],
+		styles: __WEBPACK_IMPORTED_MODULE_5__html_portfolio_styles_portfolio2_css___default.a
 	}
 };
 /* harmony export (immutable) */ __webpack_exports__["a"] = PortfolioModel;
 
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = "<div>\r\n\t<p>I'm portfolio 1's external html</p>\r\n\t<img src=\"" + __webpack_require__(6) + "\" alt=\"\">\r\n\t<button id=\"p1btn\">Sup</button>\r\n</div>";
+module.exports = "<div class=\"background single-column\">\r\n\t<p>I'm portfolio 1's external html</p>\r\n\t<img src=\"" + __webpack_require__(7) + "\" alt=\"\">\r\n\t<button id=\"p1btn\" class=\"cool-btn\">Sup</button>\r\n</div>";
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports) {
 
 module.exports = "dist/assets/cloud-400.jpg";
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = "<div>\r\n\t<p>I'm portfolio 2's external html</p>\r\n\t<img src=\"" + __webpack_require__(8) + "\" alt=\"\">\r\n\t<button id=\"p2btn\">Yo</button>\r\n</div>";
+module.exports = "<div class=\"background single-column\">\r\n\t<p>I'm portfolio 2's external html</p>\r\n\t<img src=\"" + __webpack_require__(9) + "\" alt=\"\">\r\n\t<button id=\"p2btn\" class=\"cool-btn\">Yo</button>\r\n</div>";
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, exports) {
 
 module.exports = "dist/assets/logo-400.png";
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -268,7 +374,7 @@ function p1script() {
 }
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -281,14 +387,42 @@ function p2script() {
 }
 
 /***/ }),
-/* 11 */
+/* 12 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(1)(undefined);
+// imports
+
+
+// module
+exports.push([module.i, ".background {\r\n\tbackground: blue;\r\n}\r\n\r\n.single-column {\r\n\tdisplay: flex;\r\n\tflex-flow: column;\r\n\talign-items: center;\r\n\tjustify-content: center;\r\n}\r\n\r\n.cool-btn {\r\n\tfont-size: 1.2rem;\r\n\ttext-transform: uppercase;\r\n\tmargin: 5px;\r\n\tpadding: 10px;\r\n\tbackground: white;\r\n\tborder: 2px white;\r\n}", ""]);
+
+// exports
+
+
+/***/ }),
+/* 13 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(1)(undefined);
+// imports
+
+
+// module
+exports.push([module.i, ".background {\r\n\tbackground: red;\r\n}\r\n\r\n.single-column {\r\n\tdisplay: flex;\r\n\tflex-flow: column;\r\n\talign-items: center;\r\n\tjustify-content: center;\r\n}\r\n\r\n.cool-btn {\r\n\tfont-size: 1.2rem;\r\n\ttext-transform: uppercase;\r\n\tmargin: 5px;\r\n\tpadding: 10px;\r\n\tbackground: white;\r\n\tborder: 2px white;\r\n}", ""]);
+
+// exports
+
+
+/***/ }),
+/* 14 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CardView; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return PortfolioView; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return HomeView; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__template__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__template__ = __webpack_require__(15);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__utils__ = __webpack_require__(0);
 
 
@@ -321,9 +455,9 @@ class PortfolioView {
 	}
 
 	render(data) {
+		this.el.innerHTML = Object(__WEBPACK_IMPORTED_MODULE_0__template__["c" /* portfolio */])(data);
 		let script = document.createElement('SCRIPT');
 		script.innerHTML = `(${data.script})()`;
-		this.el.innerHTML = Object(__WEBPACK_IMPORTED_MODULE_0__template__["c" /* portfolio */])(data);
 		this.el.appendChild(script);
 		this.bindEvents();
 	}
@@ -366,29 +500,18 @@ class HomeView {
 
 
 /***/ }),
-/* 12 */
+/* 15 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return card; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return portfolio; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return home; });
-const html = (literals, ...customs) => {
-  let result = '';
-  customs.forEach((custom, i) => {
-    let lit = literals[i];
-    if (Array.isArray(custom)) {
-      custom = custom.join('');
-    }
-    result += lit;
-    result += custom;
-  });
-  result += literals[literals.length - 1];
-  return result;
-};
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__utils__ = __webpack_require__(0);
+
 
 const card = data => {
-  return html`
+  return __WEBPACK_IMPORTED_MODULE_0__utils__["c" /* html */]`
     <div class="card">
       <h1>Page Info</h1>
       <p>This page is about ${data.description}</p>
@@ -402,18 +525,21 @@ const card = data => {
 
 
 const portfolio = data => {
-  return html`
+  return __WEBPACK_IMPORTED_MODULE_0__utils__["c" /* html */]`
+    <style>${data.styles.toString()}</style>
     <div class="portfolio">
       <h1>Hey I'm Page ${data.page}</h1>
-      <p>My info is ${data.info}</p>
+      <div class="portfolio__controls">
+        <p>My info is ${data.info}</p>
+        <button id="returnHome">Return</button>
+      </div>
       ${data.content}
-      <button id="returnHome">Return</button>
     </div>
   `;
 };
 
 const home = () => {
-  return html`
+  return __WEBPACK_IMPORTED_MODULE_0__utils__["c" /* html */]`
     <nav class="projectList">
         <a class="projectList__link" data-hash="#/cards/portfolio1">Portfolio Item 1</a>
         <a class="projectList__link" data-hash="#/cards/portfolio2">Portfolio Item 2</a>

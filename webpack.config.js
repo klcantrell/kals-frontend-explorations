@@ -1,4 +1,4 @@
-const path = require('path');
+const ETP = require("extract-text-webpack-plugin");
 
 module.exports = {
 	entry: "./src/js/index.js",
@@ -11,7 +11,7 @@ module.exports = {
 	        {
             test: /\.html$/,
             exclude: /node_modules/,
-            use: {loader: 'html-loader'}
+            loader: 'html-loader'
 	        },
 		      {
 		        test: /\.(png|jpg|gif)$/,
@@ -25,7 +25,11 @@ module.exports = {
 							  }  
 		          }
 		        ]
-		      }
+		      },
+	      {
+	        test: /\.css$/,
+	        loader: 'css-loader'
+	      }
 	    ]
 	}
 }

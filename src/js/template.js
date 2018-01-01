@@ -1,16 +1,4 @@
-const html = (literals, ...customs) => {
-  let result = '';
-  customs.forEach((custom, i) => {
-    let lit = literals[i];
-    if (Array.isArray(custom)) {
-      custom = custom.join('');
-    }
-    result += lit;
-    result += custom;
-  });
-  result += literals[literals.length - 1];
-  return result;
-};
+import { html } from './utils';
 
 const card = data => {
   return html`
@@ -28,11 +16,14 @@ const card = data => {
 
 const portfolio = data => {
   return html`
+    <style>${data.styles.toString()}</style>
     <div class="portfolio">
       <h1>Hey I'm Page ${data.page}</h1>
-      <p>My info is ${data.info}</p>
+      <div class="portfolio__controls">
+        <p>My info is ${data.info}</p>
+        <button id="returnHome">Return</button>
+      </div>
       ${data.content}
-      <button id="returnHome">Return</button>
     </div>
   `;
 };
