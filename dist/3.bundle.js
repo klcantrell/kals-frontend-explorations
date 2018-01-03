@@ -1,0 +1,1 @@
+webpackJsonp([3],{43:function(e,n,t){"use strict";function c(){document.getElementById("p1btn").addEventListener("click",function(){console.log("sup")})}Object.defineProperty(n,"__esModule",{value:!0}),n.default=c}});

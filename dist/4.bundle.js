@@ -1,0 +1,1 @@
+webpackJsonp([4,6],{108:function(o,t){o.exports="dist/assets/logo-400.png"},113:function(o,t,n){o.exports="<div class=\"background single-column\"> <p>I'm portfolio 2's external html</p> <img src="+n(108)+' alt=""> <button id=p2btn class=cool-btn>Yo</button> </div>'}});

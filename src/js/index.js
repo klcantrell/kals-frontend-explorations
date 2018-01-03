@@ -1,6 +1,6 @@
 import appStyles from '../css/app.css';
 import Router from './router';
-import BasicController from './controller';
+import { BasicController, PortfolioController } from './controller';
 import { PortfolioModel } from './model';
 import { PortfolioView, CardView, HomeView } from './view';
 import { $on, $hashTo } from './utils';
@@ -10,7 +10,7 @@ $on(window, 'load', function() {
 		constructor() {
 			const model = PortfolioModel;
 			const view = new PortfolioView();
-			this.controller = new BasicController(model, view);
+			this.controller = new PortfolioController(model, view);
 		}
 	}
 

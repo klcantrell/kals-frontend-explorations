@@ -1,0 +1,1 @@
+webpackJsonp([8],{111:function(n,e,o){e=n.exports=o(109)(void 0),e.push([n.i,".background{background:red}.single-column{display:flex;flex-flow:column;align-items:center;justify-content:center}.cool-btn{font-size:1.2rem;text-transform:uppercase;margin:5px;padding:10px;background:#fff;border:2px #fff}",""])}});

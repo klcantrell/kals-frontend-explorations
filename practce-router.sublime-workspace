@@ -4,6 +4,14 @@
 		"selected_items":
 		[
 			[
+				"ex",
+				"extractCommons"
+			],
+			[
+				"p1",
+				"p1styles"
+			],
+			[
 				"transl",
 				"translateX()"
 			],
@@ -18,10 +26,6 @@
 			[
 				"port",
 				"portfolio1"
-			],
-			[
-				"ex",
-				"exclude"
 			],
 			[
 				"transition",
@@ -328,10 +332,6 @@
 				"addEventListener"
 			],
 			[
-				"p1",
-				"p1Button"
-			],
-			[
 				"text",
 				"text-transform"
 			],
@@ -355,16 +355,7 @@
 			"file": "index.html",
 			"settings":
 			{
-				"buffer_size": 245,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "src/css/app.css",
-			"settings":
-			{
-				"buffer_size": 1075,
+				"buffer_size": 289,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -373,7 +364,7 @@
 			"file": "src/js/index.js",
 			"settings":
 			{
-				"buffer_size": 932,
+				"buffer_size": 973,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -391,25 +382,16 @@
 			"file": "src/js/template.js",
 			"settings":
 			{
-				"buffer_size": 1062,
+				"buffer_size": 1070,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "src/html/portfolio styles/portfolio1.css",
+			"file": "webpack.config.js",
 			"settings":
 			{
-				"buffer_size": 271,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "src/html/portfolio styles/portfolio2.css",
-			"settings":
-			{
-				"buffer_size": 270,
+				"buffer_size": 1941,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -427,7 +409,25 @@
 			"file": "src/js/view.js",
 			"settings":
 			{
-				"buffer_size": 1663,
+				"buffer_size": 1971,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/portfolios/index.portfolio1.js",
+			"settings":
+			{
+				"buffer_size": 239,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/portfolios/index.portfolio2.js",
+			"settings":
+			{
+				"buffer_size": 239,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -436,7 +436,7 @@
 			"file": "src/js/model.js",
 			"settings":
 			{
-				"buffer_size": 670,
+				"buffer_size": 746,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -451,19 +451,10 @@
 			}
 		},
 		{
-			"file": "webpack.config.js",
-			"settings":
-			{
-				"buffer_size": 630,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
 			"file": "package.json",
 			"settings":
 			{
-				"buffer_size": 356,
+				"buffer_size": 844,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -523,19 +514,25 @@
 	"expanded_folders":
 	[
 		"/C/Users/kcantrell/Desktop/offline dev projects/practice router",
-		"/C/Users/kcantrell/Desktop/offline dev projects/practice router/src",
-		"/C/Users/kcantrell/Desktop/offline dev projects/practice router/src/html",
-		"/C/Users/kcantrell/Desktop/offline dev projects/practice router/src/html/portfolio styles"
+		"/C/Users/kcantrell/Desktop/offline dev projects/practice router/dist",
+		"/C/Users/kcantrell/Desktop/offline dev projects/practice router/src"
 	],
 	"file_history":
 	[
+		"/C/Users/kcantrell/Desktop/offline dev projects/practice router/dist/commons.js",
+		"/C/Users/kcantrell/Desktop/offline dev projects/practice router/src/portfolios/index.portfolio2.js",
+		"/C/Users/kcantrell/Desktop/offline dev projects/practice router/src/portfolios/index.portfolio1.js",
+		"/C/Users/kcantrell/Desktop/offline dev projects/practice router/src/portfolios/html/portfolio2.html",
+		"/C/Users/kcantrell/Desktop/offline dev projects/practice router/src/portfolios/html/portfolio1.html",
+		"/C/Users/kcantrell/Desktop/offline dev projects/practice router/src/css/app.css",
+		"/C/Users/kcantrell/Desktop/offline dev projects/practice router/dist/app.css",
+		"/C/Users/kcantrell/Desktop/offline dev projects/practice router/src/html/portfolio styles/portfolio2.css",
+		"/C/Users/kcantrell/Desktop/offline dev projects/practice router/src/html/portfolio styles/portfolio1.css",
 		"/C/Users/kcantrell/Desktop/offline dev projects/practice router/src/html/portfolio2.html",
 		"/C/Users/kcantrell/Desktop/offline dev projects/practice router/src/html/portfolio1.html",
 		"/C/Users/kcantrell/Desktop/offline dev projects/practice router/dist/main.styles.css",
 		"/C/Users/kcantrell/Desktop/offline dev projects/practice router/dist/styles.css",
 		"/C/Users/kcantrell/Desktop/offline dev projects/practice router/package.json",
-		"/C/Users/kcantrell/Desktop/offline dev projects/practice router/src/html/portfolio styles/portfolio1.css",
-		"/C/Users/kcantrell/Desktop/offline dev projects/practice router/src/html/portfolio styles/portfolio2.css",
 		"/C/Users/kcantrell/Desktop/offline dev projects/practice router/src/html/portfolio2.js",
 		"/C/Users/kcantrell/Desktop/offline dev projects/practice router/src/html/portfolio1.js",
 		"/C/Users/kcantrell/Desktop/offline dev projects/practice router/src/html/portfolio scripts/portfolio2.js",
@@ -649,14 +646,7 @@
 		"/C/Users/kcantrell/Google Drive/dev projects/colt steele advanced bootcamp/ajax/bitcoin-exercise/package.json",
 		"/C/Users/kcantrell/Google Drive/dev projects/colt steele advanced bootcamp/ajax/bitcoin-exercise/webpack.config.js",
 		"/C/Users/kcantrell/Google Drive/dev projects/colt steele advanced bootcamp/ajax/random-user-exercise/package.json",
-		"/C/Users/kcantrell/Google Drive/dev projects/colt steele advanced bootcamp/ajax/bitcoin-exercise/src/main.scss",
-		"/C/Users/kcantrell/Google Drive/dev projects/colt steele advanced bootcamp/ajax/bitcoin-exercise/src/main.js",
-		"/C/Users/kcantrell/Google Drive/dev projects/colt steele advanced bootcamp/ajax/bitcoin-exercise/dist/main.css",
-		"/C/Users/kcantrell/Google Drive/dev projects/colt steele advanced bootcamp/ajax/bitcoin-exercise/index.html",
-		"/C/Users/kcantrell/Google Drive/dev projects/colt steele advanced bootcamp/ajax/bitcoin-exercise/main.css",
-		"/C/Users/kcantrell/Google Drive/dev projects/colt steele advanced bootcamp/ajax/bitcoin-exercise/main.js",
-		"/C/Users/kcantrell/Google Drive/dev projects/colt steele advanced bootcamp/ajax/bitcoin-exercise/main.scss",
-		"/C/Users/kcantrell/Google Drive/dev projects/colt steele advanced bootcamp/async foundations/countdown-function-exercise.js"
+		"/C/Users/kcantrell/Google Drive/dev projects/colt steele advanced bootcamp/ajax/bitcoin-exercise/src/main.scss"
 	],
 	"find":
 	{
@@ -727,7 +717,7 @@
 	"groups":
 	[
 		{
-			"selected": 4,
+			"selected": 0,
 			"sheets":
 			[
 				{
@@ -736,15 +726,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 245,
+						"buffer_size": 289,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								153,
-								153
+								289,
+								289
 							]
 						],
 						"settings":
@@ -755,53 +745,24 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 5,
+					"stack_index": 0,
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "src/css/app.css",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1075,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								965,
-								965
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/CSS/CSS.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 361.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 6,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
 					"file": "src/js/index.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 932,
+						"buffer_size": 973,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								249,
-								249
+								256,
+								256
 							]
 						],
 						"settings":
@@ -813,11 +774,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 7,
+					"stack_index": 6,
 					"type": "text"
 				},
 				{
-					"buffer": 3,
+					"buffer": 2,
 					"file": "src/js/router.js",
 					"semi_transient": false,
 					"settings":
@@ -829,8 +790,8 @@
 						"selection":
 						[
 							[
-								107,
-								107
+								512,
+								512
 							]
 						],
 						"settings":
@@ -839,27 +800,27 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 24.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 12,
+					"stack_index": 8,
 					"type": "text"
 				},
 				{
-					"buffer": 4,
+					"buffer": 3,
 					"file": "src/js/template.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1062,
+						"buffer_size": 1070,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								439,
-								399
+								919,
+								919
 							]
 						],
 						"settings":
@@ -869,78 +830,49 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 192.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 7,
 					"type": "text"
 				},
 				{
-					"buffer": 5,
-					"file": "src/html/portfolio styles/portfolio1.css",
+					"buffer": 4,
+					"file": "webpack.config.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 271,
+						"buffer_size": 1941,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								149,
-								149
+								1941,
+								1941
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/CSS/CSS.sublime-syntax",
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 9,
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "src/html/portfolio styles/portfolio2.css",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 270,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								270,
-								270
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/CSS/CSS.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 8,
+					"stack_index": 4,
 					"type": "text"
 				}
 			]
 		},
 		{
-			"selected": 2,
+			"selected": 0,
 			"sheets":
 			[
 				{
-					"buffer": 7,
+					"buffer": 5,
 					"file": "src/js/controller.js",
 					"semi_transient": false,
 					"settings":
@@ -964,24 +896,24 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 10,
+					"stack_index": 1,
 					"type": "text"
 				},
 				{
-					"buffer": 8,
+					"buffer": 6,
 					"file": "src/js/view.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1663,
+						"buffer_size": 1971,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								688,
-								688
+								1275,
+								1275
 							]
 						],
 						"settings":
@@ -990,10 +922,66 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
+						"translation.y": 720.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "src/portfolios/index.portfolio1.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 239,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								175,
+								175
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax"
+						},
+						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 11,
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "src/portfolios/index.portfolio2.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 239,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								175,
+								175
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 10,
 					"type": "text"
 				},
 				{
@@ -1002,15 +990,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 670,
+						"buffer_size": 746,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								222,
-								222
+								561,
+								561
 							]
 						],
 						"settings":
@@ -1022,7 +1010,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 9,
 					"type": "text"
 				},
 				{
@@ -1052,53 +1040,24 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 11,
 					"type": "text"
 				},
 				{
 					"buffer": 11,
-					"file": "webpack.config.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 630,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 12,
 					"file": "package.json",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 356,
+						"buffer_size": 844,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								268,
-								268
+								592,
+								592
 							]
 						],
 						"settings":
@@ -1111,7 +1070,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 3,
 					"type": "text"
 				}
 			]
@@ -1145,7 +1104,7 @@
 		"cols":
 		[
 			0.0,
-			0.503125,
+			0.517202452153,
 			1.0
 		],
 		"rows":
@@ -1208,7 +1167,7 @@
 	"show_minimap": false,
 	"show_open_files": true,
 	"show_tabs": true,
-	"side_bar_visible": true,
+	"side_bar_visible": false,
 	"side_bar_width": 409.0,
 	"status_bar_visible": true,
 	"template_settings":

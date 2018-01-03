@@ -1,12 +1,17 @@
 const path = require('path'),
 			ExtractTextPlugin = require('extract-text-webpack-plugin'),
-			CompressionPlugin = require('compression-webpack-plugin');
+			CompressionPlugin = require('compression-webpack-plugin'),
+			webpack = require('webpack');
 
 module.exports = {
-	entry: "./src/js/index.js",
+	entry: {
+		app: './src/js/index.js'
+	},
 	output: {
-		path: __dirname + "/dist",
-		filename: "bundle.js"
+		path: __dirname + '/dist',
+		publicPath: __dirname + '/dist/',
+		filename: "[name].bundle.js",
+		chunkFilename: "[name].bundle.js"
 	},
 	module: {
 	    rules: [
@@ -62,7 +67,14 @@ module.exports = {
 	    ]
 	},
   plugins: [
-    new ExtractTextPlugin("app.css")
+    new ExtractTextPlugin("app.css"),
+    new webpack.optimize.CommonsChunkPlugin({
+				name: 'commons',
+				filename: 'commons.js'
+		})
+  ]
+}
+
     // new CompressionPlugin({
     //   asset: "[path].gz[query]",
     //   algorithm: "gzip",
@@ -70,5 +82,3 @@ module.exports = {
     //   threshold: 10240,
     //   minRatio: 0
     // })
-  ]
-}
