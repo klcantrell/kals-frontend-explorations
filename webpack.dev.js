@@ -29,10 +29,12 @@ module.exports = {
 			    },
 		      {
 		        test: /\.(png|jpg|gif)$/,
-		        use: [
-		        	'responsive-loader',
-		        	'file-loader?hash=sha1&digest=hex&name=[name].[ext]'
-		        ]
+		        use: {
+		        	loader: 'responsive-loader',
+		        	options: {
+		        		name: 'imgs/[name]-[width].[ext]'
+		        	}
+		        }
 		      },
 		      {
 		        test: /\.css$/,

@@ -1,14 +1,4 @@
-webpackJsonp([11],{
-
-/***/ 45:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__js_utils__ = __webpack_require__(12);
-
-
-const calculatorMarkup = __WEBPACK_IMPORTED_MODULE_0__js_utils__["d" /* html */]`
+webpackJsonp([11],{45:function(a,b,c){"use strict";Object.defineProperty(b,"__esModule",{value:!0});var d=c(12);const e=d.d`
 <section>
   <div class="scene">
     <div class="object">
@@ -49,10 +39,4 @@ const calculatorMarkup = __WEBPACK_IMPORTED_MODULE_0__js_utils__["d" /* html */]
     </div>
   </div>
 </section>
-`;
-/* harmony export (immutable) */ __webpack_exports__["calculatorMarkup"] = calculatorMarkup;
-
-
-/***/ })
-
-});
+`;b.calculatorMarkup=e}});

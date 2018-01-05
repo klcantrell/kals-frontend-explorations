@@ -1,36 +1,40 @@
-webpackJsonp([10],{
-
-/***/ 129:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = {srcSet:__webpack_require__.p + "8aeb8490ad5036d261b48c86c0b7e211-399.png 399w"+","+__webpack_require__.p + "f4d0cbeee3c1fb6723eb72cbd657a686-200.png 200w",images:[{path:__webpack_require__.p + "8aeb8490ad5036d261b48c86c0b7e211-399.png",width:399,height:256},{path:__webpack_require__.p + "f4d0cbeee3c1fb6723eb72cbd657a686-200.png",width:200,height:128}],src:__webpack_require__.p + "8aeb8490ad5036d261b48c86c0b7e211-399.png",toString:function(){return __webpack_require__.p + "8aeb8490ad5036d261b48c86c0b7e211-399.png"},placeholder: undefined,width:399,height:256};
-
-/***/ }),
-
-/***/ 47:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__js_utils__ = __webpack_require__(12);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__imgs_logo_png_sizes_400_sizes_200__ = __webpack_require__(129);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__imgs_logo_png_sizes_400_sizes_200___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__imgs_logo_png_sizes_400_sizes_200__);
-
-
-
-const p2Markup = __WEBPACK_IMPORTED_MODULE_0__js_utils__["d" /* html */]`
-<div class="background single-column">
-	<p>I'm portfolio 2's external html</p>
-	<img class="logo" 
-		srcset='${__WEBPACK_IMPORTED_MODULE_1__imgs_logo_png_sizes_400_sizes_200___default.a.srcSet}'
-		src='${__WEBPACK_IMPORTED_MODULE_1__imgs_logo_png_sizes_400_sizes_200___default.a.src}'
-		sizes="(max-width: 700px) 200px, 400px" alt="meteor">
-	<button id="p2btn" class="cool-btn">Yo</button>
-</div>
-`;
-/* harmony export (immutable) */ __webpack_exports__["p2Markup"] = p2Markup;
-
-
-/***/ })
-
-});
+webpackJsonp([10],{48:function(a,b,c){"use strict";Object.defineProperty(b,"__esModule",{value:!0});var d=c(12);const e=d.d`
+<link href="https://fonts.googleapis.com/css?family=Julius+Sans+One|Marcellus|Raleway" rel="stylesheet">
+<section>
+  <svg class="board-grid hide-before-load" style="stroke-dasharray: 1000; stroke-dashoffset: 1000;" width="600" height="600" viewBox="0 0 600 600">
+    <path id="vertical1" d="m 200 0 0 600" stroke="hsla(195, 58%, 31%, 1)" stroke-width="3"/>
+    <path id="vertical2" d="m 400 600 0 -600" stroke="hsla(195, 58%, 31%, 1)" stroke-width="3"/>
+    <path id="horizontal1" d="m 0 200 600 0" stroke="hsla(195, 58%, 31%, 1)" stroke-width="3"/>
+    <path id="horizontal2" d="m 600 400 -600 0" stroke="hsla(195, 58%, 31%, 1)" stroke-width="3"/>
+  </svg>
+  <div class="board hide-before-load">
+    <div class="board__square" id='0'><div class="board__square-shape">Yo,</div></div>
+    <div class="board__square" id='1'><div class="board__square-shape">Come</div></div>
+    <div class="board__square" id='2'><div class="board__square-shape">On</div></div>
+    <div class="board__square" id='3'><div class="board__square-shape">In</div></div>
+    <div class="board__square" id='4'><div class="board__square-shape"></div></div>
+    <div class="board__square" id='5'><div class="board__square-shape">And</div></div>
+    <div class="board__square" id='6'><div class="board__square-shape">Tic</div></div>
+    <div class="board__square" id='7'><div class="board__square-shape">Tac</div></div>
+    <div class="board__square" id='8'><div class="board__square-shape">Toe</div></div>
+  </div>
+  <div class="message message-invert" id="idle-message">
+    <p class="message__header">Make a move, it's your turn</p>
+    <button class="message__button">Got it</button>
+  </div>
+  <div class="message message-invert" id="choose-message">
+    <p class="message__header">Uh, that square is taken</p>
+    <button class="message__button">Got it</button>
+  </div>
+  <div class="message" id="game-start">
+    <p class="message__header">Choose your Shape</p>
+    <button class="message__button">X</button>
+    <button class="message__button">O</button>
+  </div>
+  <div class="message" id="game-end">
+    <p class="message__header">Game Over</p>
+    <p class="message__verdict"></p>
+    <button class="message__button">Reset</button>
+  </div>  
+</section>
+`;b.tictactoeMarkup=e}});
