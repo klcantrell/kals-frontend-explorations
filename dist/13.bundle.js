@@ -1,1 +1,0 @@
-webpackJsonp([13],{125:function(a,b,c){a.exports={srcSet:c.p+"imgs/logo-399.png 399w",images:[{path:c.p+"imgs/logo-399.png",width:399,height:256}],src:c.p+"imgs/logo-399.png",toString:function(){return c.p+"imgs/logo-399.png"},placeholder:void 0,width:399,height:256}}});

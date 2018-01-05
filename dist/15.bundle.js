@@ -1,1 +1,0 @@
-webpackJsonp([15],{119:function(a,b,c){a.exports={srcSet:c.p+"imgs/calculator-background-1920.jpg 1920w",images:[{path:c.p+"imgs/calculator-background-1920.jpg",width:1920,height:1280}],src:c.p+"imgs/calculator-background-1920.jpg",toString:function(){return c.p+"imgs/calculator-background-1920.jpg"},placeholder:void 0,width:1920,height:1280}}});

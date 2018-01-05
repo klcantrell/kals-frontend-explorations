@@ -1,1 +1,0 @@
-webpackJsonp([14],{124:function(a,b,c){a.exports={srcSet:c.p+"imgs/cloud-400.jpg 400w",images:[{path:c.p+"imgs/cloud-400.jpg",width:400,height:686}],src:c.p+"imgs/cloud-400.jpg",toString:function(){return c.p+"imgs/cloud-400.jpg"},placeholder:void 0,width:400,height:686}}});

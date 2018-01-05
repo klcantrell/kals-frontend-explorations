@@ -1,1 +1,0 @@
-webpackJsonp([7],{51:function(a,b){"use strict";Object.defineProperty(b,"__esModule",{value:!0}),b["default"]=function(){const a=document.getElementById("p2btn");a.addEventListener("click",function(){console.log("yo")})}}});

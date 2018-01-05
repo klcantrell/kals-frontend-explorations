@@ -62,6 +62,10 @@ module.exports = {
     new webpack.optimize.CommonsChunkPlugin({
 				name: 'commons',
 				filename: 'commons.js'
+		}),
+		new webpack.optimize.LimitChunkCountPlugin({
+		  maxChunks: 6
+		  // minChunkSize: 1000
 		})
   ]
 }
