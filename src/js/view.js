@@ -8,6 +8,10 @@ class CardView {
 
 	render(data) {
 		this.el = this.rootEl.querySelector('#cardRoot');
+		if (!this.el) {
+			$hashTo('#/home');
+			return;
+		}
 		this.el.classList.contains('cardRoot--hide') && this.el.classList.remove('cardRoot--hide');
 		this.el.innerHTML = card(data);
 		this.bindEvents();
@@ -49,6 +53,7 @@ class PortfolioView {
 class HomeView {
 	constructor() {
 		this.el = document.getElementById('root');
+		$hashTo('#/home');
 	}
 
 	render() {

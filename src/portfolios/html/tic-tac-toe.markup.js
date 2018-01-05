@@ -1,14 +1,6 @@
-webpackJsonp([9],{
+import { html } from '../../js/utils';
 
-/***/ 48:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__js_utils__ = __webpack_require__(12);
-
-
-const tictactoeMarkup = __WEBPACK_IMPORTED_MODULE_0__js_utils__["d" /* html */]`
+export const tictactoeMarkup = html`
 <link href="https://fonts.googleapis.com/css?family=Julius+Sans+One|Marcellus|Raleway" rel="stylesheet">
 <section>
   <svg class="board-grid hide-before-load" style="stroke-dasharray: 1000; stroke-dashoffset: 1000;" width="600" height="600" viewBox="0 0 600 600">
@@ -48,9 +40,3 @@ const tictactoeMarkup = __WEBPACK_IMPORTED_MODULE_0__js_utils__["d" /* html */]`
   </div>  
 </section>
 `;
-/* harmony export (immutable) */ __webpack_exports__["tictactoeMarkup"] = tictactoeMarkup;
-
-
-/***/ })
-
-});

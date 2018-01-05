@@ -27,22 +27,11 @@ module.exports = {
 			        }
 			      }]
 			    },
-	        {
-            test: /\.html$/,
-            exclude: /node_modules/,
-            loader: 'html-loader'
-	        },
 		      {
 		        test: /\.(png|jpg|gif)$/,
 		        use: [
-		          {
-		            loader: 'file-loader',
-							  options: {
-							    name: '[name].[ext]',
-							    outputPath: 'assets/',
-							    publicPath: 'dist/'
-							  }  
-		          }
+		        	'responsive-loader',
+		        	'file-loader?hash=sha1&digest=hex&name=[name].[ext]'
 		        ]
 		      },
 		      {
@@ -74,11 +63,3 @@ module.exports = {
 		})
   ]
 }
-
-    // new CompressionPlugin({
-    //   asset: "[path].gz[query]",
-    //   algorithm: "gzip",
-    //   test: /\.js$|\.css$|\.html$/
-    //   threshold: 10240,
-    //   minRatio: 0
-    // })

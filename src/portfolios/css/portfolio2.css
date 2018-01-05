@@ -1,5 +1,10 @@
+body {
+	background: #FFE681;
+}
+
 .background {
-	background: red;
+	border: 1px solid black;
+	width: 700px;
 }
 
 .single-column {
@@ -16,4 +21,14 @@
 	padding: 10px;
 	background: white;
 	border: 2px white;
+}
+
+.logo {
+	width: 70%;
+}
+
+@media screen and (max-width: 700px) {
+	.background {
+		width: 400px;
+	}
 }

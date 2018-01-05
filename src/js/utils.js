@@ -20,4 +20,10 @@ const html = (literals, ...customs) => {
   return result;
 };
 
-export { $on, $hashTo, html };
+const $math = {
+  round: function(num) {
+    return (Math.round(num * 100000) / 100000);
+  }
+}
+
+export { $on, $hashTo, html, $math };

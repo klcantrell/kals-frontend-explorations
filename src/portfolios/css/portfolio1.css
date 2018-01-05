@@ -1,5 +1,11 @@
+body {
+	background: black;
+	color: white;
+}
+
 .background {
-	background: blue;
+	border: 1px solid black;
+	width: 700px;
 }
 
 .single-column {
@@ -16,4 +22,14 @@
 	padding: 10px;
 	background: white;
 	border: 2px white;
+}
+
+.heroPic {
+	width: 70%;
+}
+
+@media screen and (max-width: 700px) {
+	.background {
+		width: 400px;
+	}
 }

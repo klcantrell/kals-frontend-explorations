@@ -3,9 +3,16 @@ import Router from './router';
 import { BasicController, PortfolioController } from './controller';
 import { PortfolioModel } from './model';
 import { PortfolioView, CardView, HomeView } from './view';
-import { $on, $hashTo } from './utils';
+import { $on, $hashTo, $math } from './utils';
+
+import kute from 'kute.js';
+import 'kute.js/kute-svg';
+
+window.KUTE = kute;
+window.$math = $math;
 
 $on(window, 'load', function() {
+
 	class PortfolioViewer {
 		constructor() {
 			const model = PortfolioModel;
@@ -38,5 +45,4 @@ $on(window, 'load', function() {
 		home: homeViewer.view
 	});
 
-	$hashTo('#/home');
 });

@@ -8,14 +8,10 @@ export default class Router {
 	}
 
 	routeHashChange(e) {
-		if (window.location.hash.length > 0) {
-			let hashPaths = window.location.hash.split('/'),
-					hashRoot = hashPaths[1],
-					hashDestination = hashPaths[2];
-			this.sendToController(hashRoot, hashDestination);
-		} else {
-			console.log('default');
-		}
+		let hashPaths = window.location.hash.split('/'),
+				hashRoot = hashPaths[1],
+				hashDestination = hashPaths[2];
+		this.sendToController(hashRoot, hashDestination);
 	}
 
 	sendToController(type, data) {
@@ -27,7 +23,7 @@ export default class Router {
 				this.routes[type].render(data);
 				break;
 			case 'home':
-				this.routes[type].render(data);
+				this.routes[type].render();
 			default:
 				break;
 		}

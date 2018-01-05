@@ -1,3 +1,7 @@
+body {
+	background: mistyrose;
+}
+
 .cardRoot {
 	position: absolute;
 	top: 20px;
@@ -5,7 +9,7 @@
 	right: 0;
 	margin: auto;
 	width: 400px;
-	background: white;
+	background: #FFF0E1;
 	border: 1px solid black;
 	transition-property: width, visibility;
 	transition-duration: 0.5s;
@@ -37,6 +41,7 @@
 	position: relative;
 	top: 100px;
 	display: flex;
+	flex-flow: row wrap;
 	justify-content: space-around;
 	padding-left: 100px;
 	padding-right: 100px;
@@ -44,9 +49,13 @@
 }
 
 .projectList__link {
+	flex: 0 0 200px;
+	height: 100px;
 	padding: 3px;
+	margin: 5px;
 	border: 1px solid black;
 	font-size: 2rem;
+	text-align: center;
 	color: navy;
 	text-decoration: none;
 }
