@@ -1,6 +1,7 @@
 const path = require('path'),
 			ExtractTextPlugin = require('extract-text-webpack-plugin'),
 			CompressionPlugin = require('compression-webpack-plugin'),
+			ImageminPlugin = require('imagemin-webpack-plugin').default,
 			webpack = require('webpack');
 
 module.exports = {
@@ -67,6 +68,7 @@ module.exports = {
 		new webpack.optimize.LimitChunkCountPlugin({
 		  maxChunks: 6
 		  // minChunkSize: 1000
-		})
+		}),
+    new ImageminPlugin()
   ]
 }
