@@ -4,7 +4,7 @@
   "description": "webpack, asset loaders, babel",
   "main": "./src/js/index.js",
   "scripts": {
-    "start": "webpack --config webpack.dev.js --watch",
+    "start": "webpack-dev-server --config webpack.dev.js",
     "build": "webpack --config webpack.prod.js"
   },
   "author": "Kalalau Cantrell",
@@ -30,6 +30,7 @@
     "jimp": "^0.2.28",
     "responsive-loader": "^1.1.0",
     "webpack": "^3.10.0",
+    "webpack-dev-server": "^2.10.0",
     "webpack-merge": "^4.1.1"
   },
   "dependencies": {

@@ -1,7 +1,8 @@
 const path = require('path'),
+			webpack = require('webpack'),
 			ExtractTextPlugin = require('extract-text-webpack-plugin'),
 			ImageminPlugin = require('imagemin-webpack-plugin').default,
-			webpack = require('webpack');
+      BabiliPlugin = require('babili-webpack-plugin');
 
 module.exports = {
 	entry: {
@@ -12,6 +13,11 @@ module.exports = {
 		publicPath: /*__dirname + '/*/'dist/',
 		filename: "[name].bundle.js",
 		chunkFilename: "[name].bundle.js"
+	},
+	devServer: {
+	  compress: true,
+	  stats: "errors-only",
+	  open: true
 	},
 	module: {
 	    rules: [
@@ -75,6 +81,7 @@ module.exports = {
 		  maxChunks: 6
 		  // minChunkSize: 1000
 		}),
-    new ImageminPlugin()
+    new ImageminPlugin(),
+		new BabiliPlugin()
   ]
 }
