@@ -1,7 +1,6 @@
 import { html } from '../../js/utils';
 
 export const tictactoeMarkup = html`
-<link href="https://fonts.googleapis.com/css?family=Julius+Sans+One|Marcellus|Raleway" rel="stylesheet">
 <section>
   <svg class="board-grid hide-before-load" style="stroke-dasharray: 1000; stroke-dashoffset: 1000;" width="600" height="600" viewBox="0 0 600 600">
     <path id="vertical1" d="m 200 0 0 600" stroke="hsla(195, 58%, 31%, 1)" stroke-width="3"/>

@@ -1,7 +1,7 @@
 const path = require('path'),
 			ExtractTextPlugin = require('extract-text-webpack-plugin'),
 			CompressionPlugin = require('compression-webpack-plugin'),
-			ImageminPlugin = require('imagemin-webpack-plugin').default,
+			ImageminPlugin = require('imagemin-webpack-plugin').default
 			webpack = require('webpack');
 
 module.exports = {
@@ -56,7 +56,14 @@ module.exports = {
 		        		} 
 		        	}]
 		        })
-		      }
+		      },
+					{
+					  test: /\.(ttf|eot|woff|woff2)$/,
+					  loader: "file-loader",
+					  options: {
+					    name: "fonts/[name].[ext]",
+					  },
+					}
 	    ]
 	},
   plugins: [
