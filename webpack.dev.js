@@ -9,7 +9,7 @@ module.exports = {
 	},
 	output: {
 		path: __dirname + '/dist',
-		publicPath: __dirname + '/dist/',
+		publicPath: /*__dirname + '/*/'dist/',
 		filename: "[name].bundle.js",
 		chunkFilename: "[name].bundle.js"
 	},
@@ -30,10 +30,10 @@ module.exports = {
 		      {
 		        test: /\.(png|jpg|gif)$/,
 		        use: {
-		        	loader: 'responsive-loader',
-		        	options: {
-		        		name: 'imgs/[name]-[width].[ext]'
-		        	}
+			        	loader: 'responsive-loader',
+			        	options: {
+			        		name: 'imgs/[name]-[width].[ext]'
+			        	}
 		        }
 		      },
 		      {
@@ -47,13 +47,14 @@ module.exports = {
 		      {
 		        test: /\.css$/,
 		        include: path.resolve(__dirname, 'src/css'),
-		        loader: ExtractTextPlugin.extract(
-		        	{use: [
-		        		{ loader: 'css-loader',
-		        			options: { minimize: true } 
-		        		}
-              ]}
-            )
+		        loader: ExtractTextPlugin.extract({
+		        	use: [{
+		        		loader: 'css-loader',
+		        		options: { 
+		        			minimize: true 
+		        		} 
+		        	}]
+		        })
 		      }
 	    ]
 	},

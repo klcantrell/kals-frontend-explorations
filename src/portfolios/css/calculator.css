@@ -127,7 +127,7 @@ body {
   width: 100%;
   border: 2px solid black;
   border-radius: 2rem;
-  background-image: url('../imgs/calculator-background.jpg');
+  background-image: url('../imgs/calculator-background.jpg?size=700');
   background-size: cover;
   opacity: .8;
 }
