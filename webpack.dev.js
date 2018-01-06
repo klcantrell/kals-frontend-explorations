@@ -1,7 +1,6 @@
 const path = require('path'),
 			ExtractTextPlugin = require('extract-text-webpack-plugin'),
-			CompressionPlugin = require('compression-webpack-plugin'),
-			ImageminPlugin = require('imagemin-webpack-plugin').default
+			ImageminPlugin = require('imagemin-webpack-plugin').default,
 			webpack = require('webpack');
 
 module.exports = {
@@ -62,7 +61,7 @@ module.exports = {
 					  loader: "file-loader",
 					  options: {
 					    name: "fonts/[name].[ext]",
-					  },
+					  }
 					}
 	    ]
 	},
