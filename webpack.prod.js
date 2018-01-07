@@ -5,7 +5,8 @@ const merge = require('webpack-merge'),
       ExtractTextPlugin = require('extract-text-webpack-plugin'),
       CompressionPlugin = require('compression-webpack-plugin'),
       ImageminPlugin = require('imagemin-webpack-plugin').default,
-      BabiliPlugin = require('babili-webpack-plugin');
+      BabiliPlugin = require('babili-webpack-plugin'),
+      HtmlCriticalPlugin = require('html-critical-webpack-plugin');
 
 module.exports = merge(baseConfig, {
   module: {
@@ -51,6 +52,19 @@ module.exports = merge(baseConfig, {
       // deleteOriginalAssets: true
     }),
     new ImageminPlugin(),
-    new BabiliPlugin()
+    new BabiliPlugin(),
+    new HtmlCriticalPlugin({
+      base: __dirname,
+      src: 'index.html',
+      dest: 'index-critical.html',
+      inline: true,
+      minify: true,
+      extract: true,
+      width: 1300,
+      height: 900,
+      penthouse: {
+        blockJSRequests: false,
+      }
+    })
 	]
 })

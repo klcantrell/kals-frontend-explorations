@@ -53,7 +53,8 @@ class PortfolioView {
 class HomeView {
 	constructor() {
 		this.el = document.getElementById('root');
-		$hashTo('#/home');
+		this.bindEvents();
+		// $hashTo('#/home');
 	}
 
 	render() {

@@ -1,0 +1,48 @@
+.cardRoot {
+  position: absolute;
+  top: 20px;
+  left: 0;
+  right: 0;
+  margin: auto;
+  width: 400px;
+  background: #fff0e1;
+  border: 1px solid #000;
+  transition-property: width,visibility;
+  transition-duration: .5s;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+}
+
+.card {
+  flex-shrink: 0;
+  width: 400px;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+}
+
+.card__controls {
+  width: 40%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.projectList__link:hover {
+  background: #d3d3d3;
+  cursor: pointer;
+}
+
+.portfolio {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.portfolio__controls {
+  width: 400px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}

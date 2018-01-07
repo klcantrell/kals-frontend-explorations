@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Practice Router</title>
+	<style type="text/css">
+	 body{background:#ffe4e1}.cardRoot{position:absolute;top:20px;left:0;right:0;margin:auto;width:400px;background:#fff0e1;border:1px solid #000;overflow:hidden;display:flex;justify-content:center}.cardRoot--hide{visibility:hidden;width:0}.projectList{position:relative;top:100px;display:flex;flex-flow:row wrap;justify-content:space-around;padding-left:100px;padding-right:100px;margin:5px}.projectList__link{flex:0 0 200px;height:100px;padding:3px;margin:5px;border:1px solid #000;font-size:2rem;text-align:center;color:navy;text-decoration:none}
+	</style>
+	<link rel="preload" href="dist/app.8fcd08bf.css" as="style" onload="this.rel='stylesheet'">
+	<noscript><link rel="stylesheet" href="dist/app.8fcd08bf.css"></noscript>
+	<script>!function(e){"use strict";var t=function(t,n,r){var o,a=e.document,l=a.createElement("link");if(n)o=n;else{var i=(a.body||a.getElementsByTagName("head")[0]).childNodes;o=i[i.length-1]}var d=a.styleSheets;l.rel="stylesheet",l.href=t,l.media="only x";!function e(t){if(a.body)return t();setTimeout(function(){e(t)})}(function(){o.parentNode.insertBefore(l,n?o:o.nextSibling)});var s=function(e){for(var t=l.href,n=d.length;n--;)if(d[n].href===t)return e();setTimeout(function(){s(e)})};function u(){l.addEventListener&&l.removeEventListener("load",u),l.media=r||"all"}return l.addEventListener&&l.addEventListener("load",u),l.onloadcssdefined=s,s(u),l};"undefined"!=typeof exports?exports.loadCSS=t:e.loadCSS=t}("undefined"!=typeof global?global:this),function(e){if(e.loadCSS){var t=loadCSS.relpreload={};if(t.support=function(){try{return e.document.createElement("link").relList.supports("preload")}catch(e){return!1}},t.poly=function(){for(var t=e.document.getElementsByTagName("link"),n=0;n<t.length;n++){var r=t[n];"preload"===r.rel&&"style"===r.getAttribute("as")&&(e.loadCSS(r.href,r,r.getAttribute("media")),r.rel=null)}},!t.support()){t.poly();var n=e.setInterval(t.poly,300);e.addEventListener&&e.addEventListener("load",function(){t.poly(),e.clearInterval(n)}),e.attachEvent&&e.attachEvent("onload",function(){e.clearInterval(n)})}}}(this);</script>
+</head>
+<body>
+	<main id="root">
+    <nav class="projectList">
+        <a class="projectList__link" data-hash="#/cards/p1">Fake Portfolio Item 1</a>
+        <a class="projectList__link" data-hash="#/cards/p2">Fake Portfolio Item 2</a>
+        <a class="projectList__link" data-hash="#/cards/p3">Tic Tac Toe</a>
+        <a class="projectList__link" data-hash="#/cards/p4">Calculator</a>
+    </nav>
+    <section id="cardRoot" class="cardRoot cardRoot--hide">
+    </section>
+	</main>
+	<script src="./dist/commons.js"></script>
+	<script src="./dist/app.bundle.js"></script>
+</body>
+</html>
