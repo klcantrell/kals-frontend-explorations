@@ -127,7 +127,7 @@ body {
   width: 100%;
   border: 2px solid black;
   border-radius: 2rem;
-  background-image: url('../imgs/calculator-background.jpg?size=700');
+  background-image: url('../imgs/background/resized/calculator-background_400.jpg');
   background-size: cover;
   opacity: .8;
 }
@@ -268,5 +268,9 @@ body {
     transform: rotateY(0deg) translateZ(-15px);
     -ms-transform: translateZ(50px) rotateY(45deg) rotateZ(20deg) rotateY(0deg) translateZ(-15px);
   /* Send to back for MS  */
+  }
+
+  .back-side .back-texture {
+    background-image: url('../imgs/background/resized/calculator-background_200.jpg')
   }
 }

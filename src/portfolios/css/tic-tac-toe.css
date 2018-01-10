@@ -1,16 +1,16 @@
 @font-face {
-  font-family: Raleway;
-  src: url("../fonts/Raleway-Regular.ttf") format("ttf");
+  font-family: 'Raleway';
+  src: url("../fonts/Raleway-Regular.ttf") format("truetype");
 }
 
 @font-face {
   font-family: 'Juluis Sans One';
-  src: url("../fonts/JuliusSansOne-Regular.ttf") format("ttf");
+  src: url("../fonts/JuliusSansOne-Regular.ttf") format("truetype");
 }
 
 @font-face {
-  font-family: Marcellus;
-  src: url("../fonts/Marcellus-Regular.ttf") format("ttf");
+  font-family: 'Marcellus';
+  src: url("../fonts/Marcellus-Regular.ttf") format("truetype");
 }
 
 body {

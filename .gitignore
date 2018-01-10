@@ -1,2 +1,4 @@
 node_modules/
-src/portfolios/imgs/
+.npmrc
+dist/imgs
+dist/fonts

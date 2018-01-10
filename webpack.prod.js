@@ -4,7 +4,6 @@ const merge = require('webpack-merge'),
       webpack = require('webpack'),
       ExtractTextPlugin = require('extract-text-webpack-plugin'),
       CompressionPlugin = require('compression-webpack-plugin'),
-      ImageminPlugin = require('imagemin-webpack-plugin').default,
       BabiliPlugin = require('babili-webpack-plugin'),
       HtmlCriticalPlugin = require('html-critical-webpack-plugin');
 
@@ -13,7 +12,7 @@ module.exports = merge(baseConfig, {
     rules: [
       {
         test: /\.css$/,
-        exclude: path.resolve(__dirname, 'src/css'),
+        exclude: path.join(__dirname, 'src/css'),
         loader: 'css-loader',
         options: {
           minimize: true
@@ -21,7 +20,7 @@ module.exports = merge(baseConfig, {
       },
       {
         test: /\.css$/,
-        include: path.resolve(__dirname, 'src/css'),
+        include: path.join(__dirname, 'src/css'),
         loader: ExtractTextPlugin.extract({
           use: [{
             loader: 'css-loader',
@@ -30,6 +29,42 @@ module.exports = merge(baseConfig, {
             } 
           }]
         })
+      },
+      {
+        test: /\.(png|jpg|gif)$/,
+        exclude: path.join(__dirname, 'src/portfolios/imgs/background'),
+        use: [
+          {
+            loader: 'srcset-loader'
+          },
+          {
+            loader: 'file-loader',
+            options: {
+              name: 'imgs/[name]-[hash].[ext]',
+              publicPath: 'dist/'
+          }
+        }]
+      },
+      {
+        test: /\.(png|jpg|gif)$/,
+        include: path.join(__dirname, 'src/portfolios/imgs/background'),
+        use: {
+            loader: 'file-loader',
+            options: {
+              name: 'imgs/[name].[ext]',
+              publicPath: 'dist/'
+          }
+        }
+      },
+      {
+        test: /\.(ttf|eot|woff|woff2)$/,
+        use: {
+          loader: "file-loader",
+          options: {
+            name: 'fonts/[name].[ext]',
+            publicPath: 'dist/'
+          }
+        }
       }
     ]
   },
@@ -43,20 +78,19 @@ module.exports = merge(baseConfig, {
       // minChunkSize: 1000
     }),
     new ExtractTextPlugin('app.css'),
-    new CompressionPlugin({
-      asset: "[path].gz[query]",
-      algorithm: "gzip",
-      test: /\.js$|\.css$|\.html$|\.ttf$/,
-      threshold: 10240,
-      minRatio: 0.8
+    // new CompressionPlugin({
+    //   asset: "[path].gz[query]",
+    //   algorithm: "gzip",
+    //   test: /\.js$|\.css$|\.html$|\.ttf$/,
+    //   threshold: 10240,
+    //   minRatio: 0.8
       // deleteOriginalAssets: true
-    }),
-    new ImageminPlugin(),
+    // }),
     new BabiliPlugin(),
     new HtmlCriticalPlugin({
       base: __dirname,
-      src: 'index.html',
-      dest: 'index-critical.html',
+      src: 'index-dev.html',
+      dest: 'index.html',
       inline: true,
       minify: true,
       extract: true,

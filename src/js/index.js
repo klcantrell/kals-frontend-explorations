@@ -1,12 +1,12 @@
+import "babel-polyfill";
+import kute from 'kute.js';
+import 'kute.js/kute-svg';
 import appStyles from '../css/app.css';
 import Router from './router';
 import { BasicController, PortfolioController } from './controller';
 import { PortfolioModel } from './model';
 import { PortfolioView, CardView, HomeView } from './view';
 import { $on, $hashTo, $math } from './utils';
-
-import kute from 'kute.js';
-import 'kute.js/kute-svg';
 
 window.KUTE = kute;
 window.$math = $math;

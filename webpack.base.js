@@ -2,44 +2,42 @@ const path = require('path');
 
 module.exports = {
 	entry: {
-		app: './src/js/index.js'
+		app: path.join(__dirname, 'src/js/index.js')
 	},
 	output: {
-		path: __dirname + '/dist',
+		path: path.join(__dirname, 'dist'),
 		publicPath: 'dist/',
 		filename: "[name].bundle.js",
 		chunkFilename: "[name].bundle.js"
 	},
 	module: {
 	    rules: [
-					{
-			      test: /\.js$/,
-			      include: path.resolve(__dirname, 'src/js'),
-			      use: [{
-			        loader: 'babel-loader',
-			        options: {
-			          presets: [
-			            ['env', { modules: false }]
-			          ]
-			        }
-			      }]
-			    },
-		      {
-		        test: /\.(png|jpg|gif)$/,
-		        use: {
-			        	loader: 'responsive-loader',
-			        	options: {
-			        		name: 'imgs/[name]-[width].[ext]'
-			        	}
+				{
+		      test: /\.js$/,
+		      exclude: /node_modules/,
+		      use: {
+		        loader: 'babel-loader',
+		        options: {
+		          presets: [
+		            ['env', { 
+		            	modules: false,
+		            	targets: {
+		            		browsers: [
+		            			"Explorer 11"
+		            		]
+		            	},
+		            	useBuiltIns: true
+		            }]
+		          ],
+		          plugins: [
+     						"syntax-dynamic-import",
+     						"syntax-async-functions",
+         				"transform-object-assign",
+     						"transform-regenerator"
+		          ]
 		        }
-		      },
-					{
-					  test: /\.(ttf|eot|woff|woff2)$/,
-					  loader: "file-loader",
-					  options: {
-					    name: "fonts/[name].[ext]",
-					  }
-					}
+		      }
+		    }
 	    ]
 	}
 }

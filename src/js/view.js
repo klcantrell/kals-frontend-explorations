@@ -34,9 +34,10 @@ class PortfolioView {
 
 	render(data) {
 		this.el.innerHTML = portfolio(data);
-		let script = document.createElement('SCRIPT');
-		script.innerHTML = `(${data.script})()`;
-		this.el.appendChild(script);
+		data.script();
+		// let script = document.createElement('SCRIPT');
+		// script.innerHTML = `(${data.script})()`;
+		// this.el.appendChild(script);
 		this.bindEvents();
 	}
 
