@@ -41,7 +41,7 @@ module.exports = merge(baseConfig, {
             loader: 'file-loader',
             options: {
               name: 'imgs/[name]-[hash].[ext]',
-              publicPath: 'dist/'
+              publicPath: 'https://s3.us-east-2.amazonaws.com/practice-router-content/'
           }
         }]
       },
@@ -52,7 +52,7 @@ module.exports = merge(baseConfig, {
             loader: 'file-loader',
             options: {
               name: 'imgs/[name].[ext]',
-              publicPath: 'dist/'
+              publicPath: 'https://s3.us-east-2.amazonaws.com/practice-router-content/'
           }
         }
       },
@@ -62,7 +62,7 @@ module.exports = merge(baseConfig, {
           loader: "file-loader",
           options: {
             name: 'fonts/[name].[ext]',
-            publicPath: 'dist/'
+            publicPath: 'https://s3.us-east-2.amazonaws.com/practice-router-content/'
           }
         }
       }
@@ -78,14 +78,14 @@ module.exports = merge(baseConfig, {
       // minChunkSize: 1000
     }),
     new ExtractTextPlugin('app.css'),
-    // new CompressionPlugin({
-    //   asset: "[path].gz[query]",
-    //   algorithm: "gzip",
-    //   test: /\.js$|\.css$|\.html$|\.ttf$/,
-    //   threshold: 10240,
-    //   minRatio: 0.8
-      // deleteOriginalAssets: true
-    // }),
+    new CompressionPlugin({
+      asset: "[path].gz[query]",
+      algorithm: "gzip",
+      test: /*/\.js$|\.css$|\.html$|*//\.ttf$/,
+      threshold: 10240,
+      minRatio: 0.8,
+      deleteOriginalAssets: true
+    }),
     new BabiliPlugin(),
     new HtmlCriticalPlugin({
       base: __dirname,

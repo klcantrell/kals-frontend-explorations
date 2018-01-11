@@ -12,7 +12,8 @@ class CardView {
 			$hashTo('#/home');
 			return;
 		}
-		this.el.classList.contains('cardRoot--hide') && this.el.classList.remove('cardRoot--hide');
+		this.el.classList.contains('cardRoot--show') || 
+			this.el.classList.add('cardRoot--show');
 		this.el.innerHTML = card(data);
 		this.bindEvents();
 	}
@@ -20,7 +21,7 @@ class CardView {
 	bindEvents() {
 		$on(this.el, 'click', function(e) {
 			if (e.target.id === 'closeCard') {
-				this.el.classList.add('cardRoot--hide');
+				this.el.classList.remove('cardRoot--show');
 				$hashTo('#/home');
 			}
 		}.bind(this));

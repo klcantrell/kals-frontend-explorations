@@ -4,14 +4,20 @@
   left: 0;
   right: 0;
   margin: auto;
-  width: 400px;
+  width: 0;
+  visibility: hidden;
   background: #fff0e1;
   border: 1px solid #000;
-  transition-property: width,visibility;
+  transition-property: width;
   transition-duration: .5s;
   overflow: hidden;
   display: flex;
   justify-content: center;
+}
+
+.cardRoot--show {
+  visibility: visible;
+  width: 400px;
 }
 
 .card {
