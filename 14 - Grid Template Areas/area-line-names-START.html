@@ -46,6 +46,16 @@
     .container {
       display: grid;
       grid-gap: 20px;
+      grid-template-areas: 
+        "Area-1 Area-1 Area-1 Area-1 Area-2 Area-2 Area-2 Area-2"
+        "Area-1 Area-1 Area-1 Area-1 Area-2 Area-2 Area-2 Area-2"
+        "Area-1 Area-1 Area-1 Area-1 Area-2 Area-2 Area-2 Area-2"
+        "Area-1 Area-1 Area-1 Area-1 Area-2 Area-2 Area-2 Area-2";
+    }
+  
+    .item3 {
+      grid-column: Area-1-start / span 2;
+      grid-row: Area-1-start / span 2;
     }
   </style>
 </body>
