@@ -1,7 +1,7 @@
 import React from "react";
 
 function ProductCategoryRow(props) {
-  return <h3 className="productCategoryRow">Cool products</h3>;
+  return <h5 className="productCategoryRow">{props.value}</h5>;
 }
 
 export default ProductCategoryRow;

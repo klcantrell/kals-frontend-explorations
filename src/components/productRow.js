@@ -3,7 +3,8 @@ import React from "react";
 function ProductRow(props) {
   return (
     <div className="productRow">
-      <p>{props.value}</p>
+      <p>{props.name}</p>
+      <p>{props.price}</p>
     </div>
   );
 }

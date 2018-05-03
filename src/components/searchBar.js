@@ -2,9 +2,11 @@ import React from "react";
 
 function SearchBar(props) {
   return (
-    <div className="searchBar">
-      <p>This is the search bar</p>
-    </div>
+    <input
+      placeholder="Search..."
+      value={props.userQuery}
+      className="searchBar"
+    />
   );
 }
 
