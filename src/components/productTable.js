@@ -1,0 +1,5 @@
+function ProductTable(props) {
+  return (
+
+  );
+}
