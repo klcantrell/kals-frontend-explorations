@@ -1,3 +1,46 @@
+:root {
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+.filterableProductTable {
+  margin: auto;
+  margin-top: 10vh;
+  height: 375px;
+  width: 275px;
+  border: 1px solid rgb(255, 174, 0);
+}
+
+.searchBar {
+  border: 1px solid blue;
+  margin: 3px;
+}
+
+.productTable {
+  border: 1px solid lightgreen;
+  margin: 3px;
+}
+
+.productCategoryRow {
+  border: 1px solid rgb(57, 179, 255);
+  margin: 3px;
+}
+
+.productRow {
+  border: 1px solid red;
+  margin: 3px;
+}
+.productRow > p {
+  margin: 0;
+}
+
+/* DEFAULT CREATE-REACT-APP STYLES */
+
 .App {
   text-align: center;
 }
