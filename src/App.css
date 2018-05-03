@@ -13,16 +13,24 @@
   margin-top: 10vh;
   height: 375px;
   width: 275px;
-  border: 1px solid rgb(255, 174, 0);
+  border-top: 3px solid rgb(255, 174, 0);
+  border-bottom: 3px solid rgb(255, 174, 0);
+  padding: 15px 0;
 }
 
 .searchBar {
-  border: 1px solid blue;
   margin: 3px;
+  display: flex;
+  flex-flow: column;
+  padding-bottom: 3px;
+  border-bottom: 1px solid black;
+}
+
+.searchBar input[type="checkbox"] {
+  margin: 10px 0;
 }
 
 .productTable {
-  border: 1px solid lightgreen;
   margin: 3px;
 }
 
@@ -37,12 +45,11 @@
 }
 
 .productCategoryRow {
-  border: 1px solid rgb(57, 179, 255);
   margin: 3px;
+  margin-top: 10px;
 }
 
 .productRow {
-  border: 1px solid red;
   margin: 3px;
   display: flex;
 }

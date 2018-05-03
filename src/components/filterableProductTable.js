@@ -42,15 +42,38 @@ class FilterableProductTable extends React.Component {
     super(props);
     this.state = {
       inStockOnly: false,
-      query: ""
+      userQuery: ""
     };
+    this.handleInput = this.handleInput.bind(this);
+    this.handleCheckbox = this.handleCheckbox.bind(this);
+  }
+
+  handleInput(e) {
+    this.setState({
+      userQuery: e.target.value
+    });
+  }
+
+  handleCheckbox(e) {
+    this.setState({
+      inStockOnly: e.target.checked
+    });
   }
 
   render() {
     return (
       <div className="filterableProductTable">
-        <SearchBar userQuery={this.state.userQuery} />
-        <ProductTable data={data} />
+        <SearchBar
+          inStockOnly={this.state.inStockOnly}
+          userQuery={this.state.userQuery}
+          onInputChange={this.handleInput}
+          onCheckboxChange={this.handleCheckbox}
+        />
+        <ProductTable
+          data={data}
+          userQuery={this.state.userQuery}
+          inStockOnly={this.state.inStockOnly}
+        />
       </div>
     );
   }

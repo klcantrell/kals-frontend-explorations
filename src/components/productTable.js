@@ -10,6 +10,9 @@ function ProductTable(props) {
     }, new Set())
   );
 
+  const query = props.userQuery;
+  const inStockOnly = props.inStockOnly;
+
   return (
     <div className="productTable">
       <div className="productTable__header">
@@ -21,7 +24,16 @@ function ProductTable(props) {
           <ProductCategoryRow value={category} />
           {props.data
             .filter(item => {
-              return item.category === category;
+              const inCategory = item.category === category;
+              if (inStockOnly) {
+                const stocked = item.stocked;
+                return inCategory && stocked;
+              } else {
+                const userFiltered = !query
+                  ? true
+                  : item.name.indexOf(query) >= 0;
+                return inCategory && userFiltered;
+              }
             })
             .map((item, idx) => (
               <ProductRow
