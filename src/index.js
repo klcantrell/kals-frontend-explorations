@@ -4,7 +4,10 @@ import "./index.css";
 
 function Square(props) {
   return (
-    <button className="square" onClick={props.onClick}>
+    <button
+      className={`square${props.highlight ? " highlighted" : ""}`}
+      onClick={props.onClick}
+    >
       {props.value}
     </button>
   );
@@ -12,28 +15,35 @@ function Square(props) {
 
 function Board(props) {
   function renderSquare(i) {
-    return <Square value={props.squares[i]} onClick={() => props.onClick(i)} />;
+    return (
+      <Square
+        key={i}
+        value={props.squares[i]}
+        highlight={i === props.lastSpace ? true : false}
+        onClick={() => props.onClick(i)}
+      />
+    );
   }
 
-  return (
-    <div>
-      <div className="board-row">
-        {renderSquare(0)}
-        {renderSquare(1)}
-        {renderSquare(2)}
+  const SQUARES_PER_ROW = 3;
+  const rows = [];
+  let currentSpace = 0;
+
+  for (let i = 0; i < 3; i++) {
+    const squares = [];
+    for (let x = 0; x < SQUARES_PER_ROW; x++) {
+      squares.push(renderSquare(currentSpace));
+      currentSpace++;
+    }
+
+    rows.push(
+      <div key={i} className="board-row">
+        {squares}
       </div>
-      <div className="board-row">
-        {renderSquare(3)}
-        {renderSquare(4)}
-        {renderSquare(5)}
-      </div>
-      <div className="board-row">
-        {renderSquare(6)}
-        {renderSquare(7)}
-        {renderSquare(8)}
-      </div>
-    </div>
-  );
+    );
+  }
+
+  return <div>{rows}</div>;
 }
 
 class Game extends React.Component {
@@ -42,7 +52,8 @@ class Game extends React.Component {
     this.state = {
       history: [
         {
-          squares: Array(9).fill(null)
+          squares: Array(9).fill(null),
+          lastSpace: null
         }
       ],
       stepNumber: 0,
@@ -64,7 +75,8 @@ class Game extends React.Component {
     this.setState({
       history: history.concat([
         {
-          squares: squares
+          squares: squares,
+          lastSpace: i
         }
       ]),
       stepNumber: history.length,
@@ -85,7 +97,13 @@ class Game extends React.Component {
     const winner = calculateWinner(current.squares);
 
     const moves = history.map((step, move) => {
-      const desc = move ? `Go to move #${move}` : "Go To game start";
+      let desc;
+      if (move) {
+        const [col, row] = calculateColRow(step.lastSpace);
+        desc = `Go to move #${move} at row ${row}, col ${col}`;
+      } else {
+        desc = "Go To game start";
+      }
 
       return (
         <li key={move}>
@@ -104,7 +122,11 @@ class Game extends React.Component {
     return (
       <div className="game">
         <div className="game-board">
-          <Board squares={current.squares} onClick={i => this.handleClick(i)} />
+          <Board
+            squares={current.squares}
+            lastSpace={current.lastSpace}
+            onClick={i => this.handleClick(i)}
+          />
         </div>
         <div className="game-info">
           <div className="status">{status}</div>
@@ -133,6 +155,21 @@ function calculateWinner(squares) {
     }
   }
   return null;
+}
+
+function calculateColRow(space) {
+  const mapping = {
+    0: [1, 1],
+    1: [2, 1],
+    2: [3, 1],
+    3: [1, 2],
+    4: [2, 2],
+    5: [3, 2],
+    6: [1, 3],
+    7: [2, 3],
+    8: [3, 3]
+  };
+  return mapping[space];
 }
 
 // ========================================
