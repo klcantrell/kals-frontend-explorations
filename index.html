@@ -40,28 +40,50 @@
   </style>
 
   <script type="text/babel">
-    function Box({style, size, className = '', ...rest}) {
-      const sizeClassName = size ? `box--${size}` : '';
+    const state = {eventCount: 0, username: ''};
+
+    function App() {
       return (
-        <div
-          className={`box ${className} ${sizeClassName}`.trim()}
-          style={{paddingLeft: '50px', ...style}}
-          {...rest}
-        />
+        <div>
+          <p>
+            There have been {state.eventCount} events
+          </p>
+          <p>
+            <button onClick={increment}>🌮</button>
+          </p>
+          <p>You typed: {state.username}</p>
+          <p>
+            <input onChange={updateUserName} />
+          </p>
+        </div>
       );
     }
 
-    const element = (
-      <div>
-        <Box size="small" style={{backgroundColor: 'lightblue'}}>small box</Box>
-        <Box size="medium" style={{backgroundColor: 'pink'}}>small box</Box>
-        <Box size="large" style={{backgroundColor: 'orange'}}>small box</Box>
-      </div>
-    );
+    function increment() {
+      setState({
+        eventCount: state.eventCount + 1,
+      });
+    }
 
+    function updateUserName(e) {
+      setState({
+        username: event.target.value
+      });
+    }
 
+    function setState(newState) {
+      Object.assign(state, newState);
+      renderApp();
+    }
 
-    ReactDOM.render(element, document.getElementById('root'))
+    function renderApp() {
+      ReactDOM.render(
+        <App />, 
+        document.getElementById('root')
+      );
+    }
+
+    renderApp();
   </script>
 </body>
 </html>
