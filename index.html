@@ -13,18 +13,17 @@
   <script crossorigin src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
   <script type="text/babel">
     const rootElement = document.getElementById('root');
-    // const element = React.createElement(
-    //   'div',
-    //   {className: 'container'},
-    //   'Hello World'
-    // )
+    const Message = props => <div>{props.children}</div>
 
-    const content = 'Hello World'
-    const props = {
-      className: 'container',
-      children: 'Hello World'
-    }
-    const element = <div {...props} className="override">Override</div>
+    const element = (
+      <div className="container">
+        <Message>
+          Hello World
+          <Message>Sup</Message>
+        </Message>
+        <Message>Goodbye World</Message>
+      </div>
+    )
 
     ReactDOM.render(element, rootElement);
   </script>
