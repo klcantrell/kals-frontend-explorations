@@ -10,22 +10,25 @@
   <div id="root"></div>
   <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+  <script crossorigin src="https://unpkg.com/prop-types@15.6/prop-types.js"></script>
   <script crossorigin src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
   <script type="text/babel">
-    const rootElement = document.getElementById('root');
-    const Message = props => <div>{props.children}</div>
+    class SayHello extends React.Component {
+      static propTypes = {
+        firstName: PropTypes.string.isRequired,
+        lastName: PropTypes.string.isRequired
+      };
+      render() {
+        const {firstName, lastName} = this.props;
+        return (
+          <div>
+            Hello {firstName} {lastName}!
+          </div>
+        );
+      }
+    }
 
-    const element = (
-      <div className="container">
-        <Message>
-          Hello World
-          <Message>Sup</Message>
-        </Message>
-        <Message>Goodbye World</Message>
-      </div>
-    )
-
-    ReactDOM.render(element, rootElement);
+    ReactDOM.render(<SayHello firstName={'Kal'} lastName={true}/>, document.getElementById('root'));
   </script>
 </body>
 </html>
