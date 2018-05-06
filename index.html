@@ -13,18 +13,20 @@
   <script crossorigin src="https://unpkg.com/prop-types@15.6/prop-types.js"></script>
   <script crossorigin src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
   <script type="text/babel">
-    function Message({message}) {
-      return (
+    const rootElement = document.getElementById('root');
+    function tick() {
+      const time = new Date().toLocaleTimeString();
+      const element = (
         <div>
-          {message 
-            ? <div>{message}</div> 
-            : <div>No Message</div>
-          }
+          It is
+            <input value={time} />
+            <input value={time} />
         </div>
       );
+      ReactDOM.render(element, rootElement)
     }
-
-    ReactDOM.render(<Message message={null}/>, document.getElementById('root'));
+    tick();
+    setInterval(tick, 1000);
   </script>
 </body>
 </html>
