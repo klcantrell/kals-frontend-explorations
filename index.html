@@ -12,21 +12,56 @@
   <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
   <script crossorigin src="https://unpkg.com/prop-types@15.6/prop-types.js"></script>
   <script crossorigin src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
-  <script type="text/babel">
-    const rootElement = document.getElementById('root');
-    function tick() {
-      const time = new Date().toLocaleTimeString();
-      const element = (
-        <div>
-          It is
-            <input value={time} />
-            <input value={time} />
-        </div>
-      );
-      ReactDOM.render(element, rootElement)
+
+  <style>
+    .box {
+      border: 1px solid black;
     }
-    tick();
-    setInterval(tick, 1000);
+
+    .box--small {
+      width: 60px;
+      height: 60px;
+    }
+
+    .box--medium {
+      width: 100px;
+      height: 100px;
+    }
+
+    .box--large {
+      width: 175px;
+      height: 175px;
+    }
+
+    .box--special {
+      width: 100%;
+      height: 175px;
+    }
+  </style>
+
+  <script type="text/babel">
+    function Box({style, size, className = '', ...rest}) {
+      const sizeClassName = size ? `box--${size}` : '';
+      return (
+        <div
+          className={`box ${className} ${sizeClassName}`.trim()}
+          style={{paddingLeft: '50px', ...style}}
+          {...rest}
+        />
+      );
+    }
+
+    const element = (
+      <div>
+        <Box size="small" style={{backgroundColor: 'lightblue'}}>small box</Box>
+        <Box size="medium" style={{backgroundColor: 'pink'}}>small box</Box>
+        <Box size="large" style={{backgroundColor: 'orange'}}>small box</Box>
+      </div>
+    );
+
+
+
+    ReactDOM.render(element, document.getElementById('root'))
   </script>
 </body>
 </html>
