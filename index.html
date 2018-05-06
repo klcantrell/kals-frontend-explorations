@@ -13,22 +13,18 @@
   <script crossorigin src="https://unpkg.com/prop-types@15.6/prop-types.js"></script>
   <script crossorigin src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
   <script type="text/babel">
-    class SayHello extends React.Component {
-      static propTypes = {
-        firstName: PropTypes.string.isRequired,
-        lastName: PropTypes.string.isRequired
-      };
-      render() {
-        const {firstName, lastName} = this.props;
-        return (
-          <div>
-            Hello {firstName} {lastName}!
-          </div>
-        );
-      }
+    function Message({message}) {
+      return (
+        <div>
+          {message 
+            ? <div>{message}</div> 
+            : <div>No Message</div>
+          }
+        </div>
+      );
     }
 
-    ReactDOM.render(<SayHello firstName={'Kal'} lastName={true}/>, document.getElementById('root'));
+    ReactDOM.render(<Message message={null}/>, document.getElementById('root'));
   </script>
 </body>
 </html>
