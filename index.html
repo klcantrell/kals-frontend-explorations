@@ -14,76 +14,53 @@
   <script crossorigin src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
 
   <style>
-    .box {
-      border: 1px solid black;
-    }
-
-    .box--small {
-      width: 60px;
-      height: 60px;
-    }
-
-    .box--medium {
-      width: 100px;
-      height: 100px;
-    }
-
-    .box--large {
-      width: 175px;
-      height: 175px;
-    }
-
-    .box--special {
-      width: 100%;
-      height: 175px;
-    }
   </style>
 
   <script type="text/babel">
-    const state = {eventCount: 0, username: ''};
+    class StopWatch extends React.Component {
+      state = {lapse: 0, running: false};
+      handleRunClick = () => {
+        this.setState(state => {
+          if (state.running) {
+            clearInterval(this.timer);
+          } else {
+            const startTime = Date.now() - state.lapse;
+            this.timer = setInterval(() => {
+              this.setState({
+                lapse: Date.now() - startTime
+              });
+            });
+          }
+          return {running: !state.running};
+        });
+      }
+      handleClearClick = () => {
+        clearInterval(this.timer);
+        this.setState({lapse: 0, running: false});
+      }
 
-    function App() {
-      return (
-        <div>
-          <p>
-            There have been {state.eventCount} events
-          </p>
-          <p>
-            <button onClick={increment}>🌮</button>
-          </p>
-          <p>You typed: {state.username}</p>
-          <p>
-            <input onChange={updateUserName} />
-          </p>
-        </div>
-      );
+      render() {
+        const {lapse, running} = this.state
+        const buttonStyles = {
+          border: '1px solid #ccc',
+          background: '#fff',
+          fontSize: '2em',
+          padding: '15px',
+          margin: '5px',
+          width: '200px'
+        };
+
+        return (
+          <div style={{textAlign: 'center'}}>
+            <label style={{fontSize: '5em', display: 'block'}}>{lapse}ms</label>
+            <button onClick={this.handleRunClick} style={buttonStyles}>{running ? 'Stop' : 'Start'}</button>
+            <button onClick={this.handleClearClick} style={buttonStyles}>Clear</button>
+          </div>
+        );
+      }
     }
 
-    function increment() {
-      setState({
-        eventCount: state.eventCount + 1,
-      });
-    }
-
-    function updateUserName(e) {
-      setState({
-        username: event.target.value
-      });
-    }
-
-    function setState(newState) {
-      Object.assign(state, newState);
-      renderApp();
-    }
-
-    function renderApp() {
-      ReactDOM.render(
-        <App />, 
-        document.getElementById('root')
-      );
-    }
-
-    renderApp();
+    ReactDOM.render(<StopWatch />, document.getElementById('root'));
   </script>
 </body>
 </html>
