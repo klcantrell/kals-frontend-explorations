@@ -15,64 +15,30 @@
   <script crossorigin src="https://unpkg.com/vanilla-tilt@1.4.1/dist/vanilla-tilt.min.js"></script>
 
   <style>
-    .tilt-root {
-      width: 300px;
-      height: 200px;
-      background: radial-gradient(pink, blueviolet);
-    }
 
-    .tilt-child {
-      height: 40%;
-      width: 40%;
-      background-color: white;
-      position: relative;
-      box-shadow: 0px 0px 10px black;
-    }
-
-    .totally-centered {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      transform: translateY(-50%) translateX(-50%);
-    }
   </style>
 
   <script type="text/babel">
-    class Tilt extends React.Component {
-      componentDidMount() {
-        VanillaTilt.init((this.rootNode), {
-          max: 25,
-          speed: 400,
-          glare: true,
-          'max-glare': 0.5
-        });
+    class NameForm extends React.Component {
+      handleSubmit = e => {
+        e.preventDefault();
+        console.log(this.inputNode.value);
       }
 
       render() {
         return (
-          <div 
-            ref={node => (this.rootNode = node)}
-            className="tilt-root"
-          >
-            <div className="tilt-child totally-centered">
-              <div {...this.props} />
-            </div>
-          </div>
+          <form onSubmit={this.handleSubmit}>
+            <label>
+              Name:
+              <input type="text" ref={node => this.inputNode = node} />
+            </label>
+            <button type="submit">Submit</button>
+          </form>
         );
       }
     }
 
-    const element = (
-      <div className="totally-centered">
-        <Tilt>
-          <div className="totally-centered">
-            vanilla-tilt.js
-          </div>
-        </Tilt>
-      </div>
-    );
-
-    ReactDOM.render(element, document.getElementById('root'));
+    ReactDOM.render(<NameForm />, document.getElementById('root'));
   </script>
 </body>
 </html>
