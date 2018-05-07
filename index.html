@@ -12,30 +12,67 @@
   <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
   <script crossorigin src="https://unpkg.com/prop-types@15.6/prop-types.js"></script>
   <script crossorigin src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+  <script crossorigin src="https://unpkg.com/vanilla-tilt@1.4.1/dist/vanilla-tilt.min.js"></script>
 
   <style>
+    .tilt-root {
+      width: 300px;
+      height: 200px;
+      background: radial-gradient(pink, blueviolet);
+    }
+
+    .tilt-child {
+      height: 40%;
+      width: 40%;
+      background-color: white;
+      position: relative;
+      box-shadow: 0px 0px 10px black;
+    }
+
+    .totally-centered {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translateY(-50%) translateX(-50%);
+    }
   </style>
 
   <script type="text/babel">
-    class Counter extends React.Component {
-      state = {count: 0};
-      handleClick = () => {
-        this.setState(({count}) => ({
-          count: count + 1
-        }));
+    class Tilt extends React.Component {
+      componentDidMount() {
+        VanillaTilt.init((this.rootNode), {
+          max: 25,
+          speed: 400,
+          glare: true,
+          'max-glare': 0.5
+        });
       }
 
       render() {
         return (
-          <button
-            onClick={this.handleClick}>
-            {this.state.count}
-          </button>
+          <div 
+            ref={node => (this.rootNode = node)}
+            className="tilt-root"
+          >
+            <div className="tilt-child totally-centered">
+              <div {...this.props} />
+            </div>
+          </div>
         );
       }
     }
 
-    ReactDOM.render(<Counter />, document.getElementById('root'));
+    const element = (
+      <div className="totally-centered">
+        <Tilt>
+          <div className="totally-centered">
+            vanilla-tilt.js
+          </div>
+        </Tilt>
+      </div>
+    );
+
+    ReactDOM.render(element, document.getElementById('root'));
   </script>
 </body>
 </html>
