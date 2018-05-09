@@ -1,11 +1,17 @@
 import React from "react";
 
-// class App extends React.Component {
-//   render() {
-//     return <h1>Hello World</h1>;
-//   }
-// }
+/* Need to return a single element in JSX,
+otherwise it's the equivalent of returning a function
+and then another function */
 
-const App = () => <h1>Hello stateless</h1>;
+class App extends React.Component {
+  render() {
+    return (
+      <div>
+        <h1>Hello World</h1> <p>Hi</p>
+      </div>
+    );
+  }
+}
 
 export default App;
