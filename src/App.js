@@ -10,16 +10,20 @@ class App extends React.Component {
   };
   componentWillMount() {
     console.log("componentWillMount");
-  }
-  componentDidMount() {
-    console.log("componentDidMount");
+    this.setState({ m: 2 });
   }
   render() {
     console.log("render");
-    return <button onClick={this.update}>{this.state.val}</button>;
+    const { val, m } = this.state;
+    return <button onClick={this.update}>{val * m}</button>;
+  }
+  componentDidMount() {
+    console.log("componentDidMount");
+    this.inc = setInterval(this.update, 500);
   }
   componentWillUnmount() {
     console.log("componentWillUmount");
+    clearInterval(this.inc);
   }
 }
 
