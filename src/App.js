@@ -1,33 +1,33 @@
 import React from "react";
-import ReactDOM from "react-dom";
 
 class App extends React.Component {
-  state = {
-    increasing: false
+  state = { items: [], filter: undefined };
+  filter = e => {
+    this.setState({ filter: e.target.value });
   };
-  update = () => {
-    ReactDOM.render(
-      <App val={this.props.val + 1} />,
-      document.getElementById("root")
-    );
-  };
-  componentWillReceiveProps(nextProps) {
-    this.setState({
-      increasing: nextProps.val > this.props.val
-    });
+
+  componentWillMount() {
+    fetch("https://swapi.co/api/people/?format=json")
+      .then(response => response.json())
+      .then(({ results: items }) => this.setState({ items }));
   }
-  shouldComponentUpdate(nextProps, nextState) {
-    return nextProps.val % 5 === 0;
-  }
-  componentDidUpdate(prevProps, prevState) {
-    console.log(`prevProps: ${prevProps.val}`);
-  }
+
   render() {
-    console.log(this.state.increasing);
-    return <button onClick={this.update}>{this.props.val}</button>;
+    let { items, filter } = this.state;
+    if (filter) {
+      items = items.filter(item =>
+        item.name.toLowerCase().includes(filter.toLowerCase())
+      );
+    }
+    return (
+      <div>
+        <input type="text" onChange={this.filter} />
+        <div>{items.map(item => <Person key={item.name} person={item} />)}</div>
+      </div>
+    );
   }
 }
 
-App.defaultProps = { val: 0 };
+const Person = props => <h4>{props.person.name}</h4>;
 
 export default App;
