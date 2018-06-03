@@ -1,11 +1,9 @@
-const path = require('path'),
-  HtmlWebpackPlugin = require('html-webpack-plugin'),
-  BrowserSyncPlugin = require('browser-sync-webpack-plugin');
+const path = require('path');
 
 module.exports = {
   mode: 'development',
   entry: {
-    app: path.join(__dirname, 'app.js'),
+    app: path.join(__dirname, 'index.js'),
   },
   output: {
     path: path.join(__dirname, 'dist'),
@@ -22,5 +20,4 @@ module.exports = {
       },
     ],
   },
-  plugins: [],
 };
