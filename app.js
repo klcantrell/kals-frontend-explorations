@@ -2,7 +2,7 @@ const initialState = {
   count: 0
 }
 
-function counter(state=initialState, action) {
+const counter = (state=initialState, action) => {
   let count;
   switch (action.type) {
     case 'INCREMENT':
