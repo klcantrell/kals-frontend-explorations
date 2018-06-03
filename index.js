@@ -1,3 +1,7 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { createStore } from 'redux';
+
 const initialState = {
   count: 0,
 };
@@ -16,43 +20,29 @@ const counter = (state = initialState, action) => {
   }
 };
 
-const createStore = reducer => {
-  let state;
-  let listeners = [];
+const Counter = ({ value, onIncrement, onDecrement }) => (
+  <div>
+    <h2>{value}</h2>
+    <button onClick={onIncrement}>+</button>
+    <button onClick={onDecrement}>-</button>
+  </div>
+);
 
-  const getState = () => state;
-
-  const dispatch = action => {
-    state = reducer(state, action);
-    listeners.length && listeners.forEach(listener => listener());
-  };
-
-  const subscribe = listener => {
-    listeners.push(listener);
-    return () => {
-      listeners = listeners.filter(l => l !== listener);
-    };
-  };
-
-  dispatch({});
-
-  return { getState, dispatch, subscribe };
-};
-
-const store = createStore(counter);
+const store = createStore(
+  counter,
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+);
 
 const render = () => {
-  const { count } = store.getState();
-  document.getElementById('countDisplay').textContent = count;
+  ReactDOM.render(
+    <Counter
+      value={store.getState().count}
+      onIncrement={() => store.dispatch({ type: 'INCREMENT' })}
+      onDecrement={() => store.dispatch({ type: 'DECREMENT' })}
+    />,
+    document.getElementById('root')
+  );
 };
 
 const unsubscribeRender = store.subscribe(render);
 render();
-
-document.getElementById('inc').addEventListener('click', () => {
-  store.dispatch({ type: 'INCREMENT' });
-});
-
-document.getElementById('unsub').addEventListener('click', () => {
-  unsubscribeRender();
-});
