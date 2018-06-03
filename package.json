@@ -17,6 +17,7 @@
     "babel-preset-react": "^6.24.1",
     "browser-sync": "^2.24.4",
     "browser-sync-webpack-plugin": "^2.2.2",
+    "deep-freeze": "0.0.1",
     "jest": "^23.1.0",
     "react": "^16.4.0",
     "react-dom": "^16.4.0",
