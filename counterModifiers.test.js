@@ -1,5 +1,5 @@
 import deepFreeze from 'deep-freeze';
-import { addCounter, removeCounter } from './counterModifiers';
+import { addCounter, removeCounter, incrementCounter } from './counterModifiers';
 
 test('returns a new copy of an array with an item added to it', () => {
   const listBefore = [];
@@ -17,4 +17,13 @@ test('returns a new copy of an array with an item removed from it', () => {
   deepFreeze(listBefore);
 
   expect(removeCounter(listBefore, 1)).toEqual(listAfter);
+});
+
+test('returns a new copy of an array with an item (number) incremented', () => {
+  const listBefore = [0, 10, 20];
+  const listAfter = [0, 11, 20];
+
+  deepFreeze(listBefore);
+
+  expect(incrementCounter(listBefore, 1)).toEqual(listAfter);
 });
