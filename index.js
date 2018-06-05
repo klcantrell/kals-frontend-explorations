@@ -1,7 +1,7 @@
 import { createStore } from 'redux';
-import todoAppCombinedReducers from './todosReducer';
+import todoApp from './todosReducer';
 
-const store = createStore(todoAppCombinedReducers);
+const store = createStore(todoApp);
 
 store.dispatch({
   type: 'ADD_TODO',
