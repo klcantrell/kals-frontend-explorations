@@ -94,7 +94,7 @@
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux */ \"./node_modules/redux/es/redux.js\");\n/* harmony import */ var _todosReducer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./todosReducer */ \"./todosReducer.js\");\n\n\n\nvar store = Object(redux__WEBPACK_IMPORTED_MODULE_0__[\"createStore\"])(_todosReducer__WEBPACK_IMPORTED_MODULE_1__[\"default\"]);\n\nstore.dispatch({\n  type: 'ADD_TODO',\n  id: 0,\n  text: 'Learn Redux'\n});\n\nconsole.log(store.getState());\n\nstore.dispatch({\n  type: 'ADD_TODO',\n  id: 1,\n  text: 'Learn React'\n});\n\nconsole.log(store.getState());\n\nstore.dispatch({\n  type: 'TOGGLE_TODO',\n  id: 1\n});\n\nconsole.log(store.getState());\n\nstore.dispatch({\n  type: 'SET_VISIBILITY_FILTER',\n  filter: 'SHOW_COMPLETED'\n});\n\nconsole.log(store.getState());\n\n//# sourceURL=webpack:///./index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux */ \"./node_modules/redux/es/redux.js\");\n/* harmony import */ var _reducers__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./reducers */ \"./reducers.js\");\n\n\n\nvar store = Object(redux__WEBPACK_IMPORTED_MODULE_0__[\"createStore\"])(_reducers__WEBPACK_IMPORTED_MODULE_2__[\"default\"]);\n\nstore.dispatch({\n  type: 'ADD_TODO',\n  id: 0,\n  text: 'Learn Redux'\n});\n\nconsole.log(store.getState());\n\nstore.dispatch({\n  type: 'ADD_TODO',\n  id: 1,\n  text: 'Learn React'\n});\n\nconsole.log(store.getState());\n\nstore.dispatch({\n  type: 'TOGGLE_TODO',\n  id: 1\n});\n\nconsole.log(store.getState());\n\nstore.dispatch({\n  type: 'SET_VISIBILITY_FILTER',\n  filter: 'SHOW_COMPLETED'\n});\n\nconsole.log(store.getState());\n\n//# sourceURL=webpack:///./index.js?");
 
 /***/ }),
 
@@ -156,6 +156,18 @@ eval("module.exports = function(originalModule) {\n\tif (!originalModule.webpack
 
 /***/ }),
 
+/***/ "./reducers.js":
+/*!*********************!*\
+  !*** ./reducers.js ***!
+  \*********************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _todosInitialState__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./todosInitialState */ \"./todosInitialState.js\");\nvar _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };\n\nfunction _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }\n\n\n\n// DEFINE COMBINE REDUCERS FROM SCRATCh\n\nvar combineReducers = function combineReducers(reducers) {\n  return function () {\n    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};\n    var action = arguments[1];\n\n    return Object.keys(reducers).reduce(function (nextState, key) {\n      nextState[key] = reducers[key](state[key], action);\n      return nextState;\n    }, {});\n  };\n};\n\n// TODOS\n\nvar todos = function todos() {\n  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _todosInitialState__WEBPACK_IMPORTED_MODULE_0__[\"default\"];\n  var action = arguments[1];\n\n  switch (action.type) {\n    case 'ADD_TODO':\n      return [].concat(_toConsumableArray(state), [todo(undefined, action)]);\n    case 'TOGGLE_TODO':\n      return state.map(function (t) {\n        return todo(t, action);\n      });\n    default:\n      return state;\n  }\n};\n\nvar todo = function todo(state, action) {\n  switch (action.type) {\n    case 'ADD_TODO':\n      return { id: action.id, text: action.text, completed: false };\n    case 'TOGGLE_TODO':\n      if (state.id === action.id) {\n        return _extends({}, state, { completed: !state.completed });\n      }\n      return state;\n    default:\n      return state;\n  }\n};\n\n// VISIBILITY\n\nvar visibilityFilter = function visibilityFilter() {\n  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'SHOW_ALL';\n  var action = arguments[1];\n\n  switch (action.type) {\n    case 'SET_VISIBILITY_FILTER':\n      return action.filter;\n    default:\n      return state;\n  }\n};\n\n// COMBINED\n\nvar todoApp = combineReducers({\n  todos: todos,\n  visibilityFilter: visibilityFilter\n});\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (todoApp);\n\n//# sourceURL=webpack:///./reducers.js?");
+
+/***/ }),
+
 /***/ "./todosInitialState.js":
 /*!******************************!*\
   !*** ./todosInitialState.js ***!
@@ -165,18 +177,6 @@ eval("module.exports = function(originalModule) {\n\tif (!originalModule.webpack
 
 "use strict";
 eval("__webpack_require__.r(__webpack_exports__);\nvar initialState = [];\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (initialState);\n\n//# sourceURL=webpack:///./todosInitialState.js?");
-
-/***/ }),
-
-/***/ "./todosReducer.js":
-/*!*************************!*\
-  !*** ./todosReducer.js ***!
-  \*************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux */ \"./node_modules/redux/es/redux.js\");\n/* harmony import */ var _todosInitialState__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./todosInitialState */ \"./todosInitialState.js\");\nvar _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };\n\nfunction _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }\n\n\n\n\n// TODOS\n\nvar todos = function todos() {\n  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _todosInitialState__WEBPACK_IMPORTED_MODULE_1__[\"default\"];\n  var action = arguments[1];\n\n  switch (action.type) {\n    case 'ADD_TODO':\n      return [].concat(_toConsumableArray(state), [todo(undefined, action)]);\n    case 'TOGGLE_TODO':\n      return state.map(function (t) {\n        return todo(t, action);\n      });\n    default:\n      return state;\n  }\n};\n\nvar todo = function todo(state, action) {\n  switch (action.type) {\n    case 'ADD_TODO':\n      return { id: action.id, text: action.text, completed: false };\n    case 'TOGGLE_TODO':\n      if (state.id === action.id) {\n        return _extends({}, state, { completed: !state.completed });\n      }\n      return state;\n    default:\n      return state;\n  }\n};\n\n// VISIBILITY\n\nvar visibilityFilter = function visibilityFilter() {\n  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'SHOW_ALL';\n  var action = arguments[1];\n\n  switch (action.type) {\n    case 'SET_VISIBILITY_FILTER':\n      return action.filter;\n    default:\n      return state;\n  }\n};\n\n// COMBINED\n\nvar todoApp = Object(redux__WEBPACK_IMPORTED_MODULE_0__[\"combineReducers\"])({\n  todos: todos,\n  visibilityFilter: visibilityFilter\n});\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (todoApp);\n\n//# sourceURL=webpack:///./todosReducer.js?");
 
 /***/ })
 

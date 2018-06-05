@@ -1,5 +1,15 @@
-import { combineReducers } from 'redux';
 import initialState from './todosInitialState';
+
+// DEFINE COMBINE REDUCERS FROM SCRATCh
+
+const combineReducers = (reducers) => {
+  return (state = {}, action) => {
+    return Object.keys(reducers).reduce((nextState, key) => {
+      nextState[key] = reducers[key](state[key], action);
+      return nextState;
+    }, {});
+  }
+};
 
 // TODOS
 
