@@ -1,6 +1,7 @@
 import React from 'react';
 import TodoInput from './TodoInput';
 import TodoList from './TodoList';
+import FilterLink from './FilterLink';
 
 class TodoApp extends React.Component {
 
@@ -22,11 +23,23 @@ class TodoApp extends React.Component {
     });
   };
 
+  filterTodos = filter => {
+    const { store } = this.props;
+    store.dispatch({
+      type: 'SET_VISIBILITY_FILTER',
+      filter
+    })
+  }
+
   render() {
+    const { todos, visibilityFilter } = this.props.store.getState();
     return (
       <div>
         <TodoInput addTodo={this.addTodo} />
-        <TodoList toggleTodo={this.toggleTodo} todos={this.props.store.getState().todos} />
+        <TodoList toggleTodo={this.toggleTodo} todos={todos} visibilityFilter={visibilityFilter} />
+        <FilterLink filter='SHOW_ALL' currentFilter={visibilityFilter} filterTodos={this.filterTodos}>Show All</FilterLink>
+        <FilterLink filter='SHOW_COMPLETED' currentFilter={visibilityFilter} filterTodos={this.filterTodos}>Show Completed</FilterLink>
+        <FilterLink filter='SHOW_ACTIVE' currentFilter={visibilityFilter} filterTodos={this.filterTodos}>Show Active</FilterLink>
       </div>
     );
   }
