@@ -14,11 +14,19 @@ class TodoApp extends React.Component {
     });
   };
 
+  toggleTodo = id => {
+    const { store } = this.props;
+    store.dispatch({
+      type: 'TOGGLE_TODO',
+      id,
+    });
+  };
+
   render() {
     return (
       <div>
         <TodoInput addTodo={this.addTodo} />
-        <TodoList todos={this.props.store.getState().todos} />
+        <TodoList toggleTodo={this.toggleTodo} todos={this.props.store.getState().todos} />
       </div>
     );
   }
