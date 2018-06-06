@@ -1,34 +1,14 @@
-import { createStore } from 'redux';
-import todoApp from './reducers';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import store from './store';
+import TodoApp from './components/TodoApp';
 
-const store = createStore(todoApp);
+const render = () => {
+  ReactDOM.render(
+    <TodoApp store={store} />,
+    document.getElementById('root')
+  );
+};
 
-store.dispatch({
-  type: 'ADD_TODO',
-  id: 0,
-  text: 'Learn Redux'
-});
-
-console.log(store.getState());
-
-store.dispatch({
-  type: 'ADD_TODO',
-  id: 1,
-  text: 'Learn React'
-});
-
-console.log(store.getState());
-
-store.dispatch({
-  type: 'TOGGLE_TODO',
-  id: 1,
-});
-
-console.log(store.getState());
-
-store.dispatch({
-  type: 'SET_VISIBILITY_FILTER',
-  filter: 'SHOW_COMPLETED'
-});
-
-console.log(store.getState());
+store.subscribe(render);
+render();

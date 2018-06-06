@@ -1,19 +1,8 @@
-import initialState from './todosInitialState';
-
-// DEFINE COMBINE REDUCERS FROM SCRATCh
-
-const combineReducers = (reducers) => {
-  return (state = {}, action) => {
-    return Object.keys(reducers).reduce((nextState, key) => {
-      nextState[key] = reducers[key](state[key], action);
-      return nextState;
-    }, {});
-  }
-};
+import { combineReducers } from 'redux';
 
 // TODOS
 
-const todos = (state=initialState, action) => {
+const todos = (state=[], action) => {
   switch(action.type) {
     case 'ADD_TODO':
       return [ ...state, todo(undefined, action) ];
@@ -49,13 +38,25 @@ const visibilityFilter = (state='SHOW_ALL', action) => {
     default:
       return state;
   }
-}
+};
+
+// ID
+
+const id = (state=0, action) => {
+  switch(action.type) {
+    case 'ADD_TODO':
+      return state + 1;
+    default:
+      return state;
+  }
+};
 
 // COMBINED
 
 const todoApp = combineReducers({
     todos,
     visibilityFilter,
+    id
 });
 
 export default todoApp;
