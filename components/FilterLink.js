@@ -1,6 +1,6 @@
 import React from 'react';
 
-const FilterLink = ({ filter, currentFilter, children, filterTodos }) => {
+const FilterLink = ({ filter, currentFilter, children, handleFilter }) => {
   const styles = {
     link: {
       margin: 10,
@@ -9,7 +9,7 @@ const FilterLink = ({ filter, currentFilter, children, filterTodos }) => {
 
   const handleClick = ({ event, filter }) => {
     event.preventDefault();
-    filterTodos(filter);
+    handleFilter(filter);
   };
 
   return filter == currentFilter ? (

@@ -1,7 +1,7 @@
 import React from 'react';
 import Todo from './Todo';
 
-const TodoList = ({ todos, handleTodoClick, visibilityFilter: filter }) => {
+const TodoList = ({ todos, handleTodoClick }) => {
   return (
     <ul>
       {todos.map((t, i) => (
