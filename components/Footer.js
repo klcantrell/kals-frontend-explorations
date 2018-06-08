@@ -8,7 +8,7 @@ const Footer = ({store}) => {
       <FilterLink filter="SHOW_COMPLETED" store={store}>Show Completed</FilterLink>
       <FilterLink filter="SHOW_ACTIVE" store={store}>Show Active</FilterLink>
     </div>
-  )
+  );
 }
 
 export default Footer;

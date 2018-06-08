@@ -1,6 +1,6 @@
 import React from 'react';
 
-const TodoInput = ({addTodo}) => {
+const TodoInput = ({store}) => {
   let input;
 
   const handleSubmit = e => {
@@ -8,6 +8,16 @@ const TodoInput = ({addTodo}) => {
     addTodo(input.value);
     input.value = '';
   }
+
+  const addTodo = text => {
+    const { id } = store.getState();
+    store.dispatch({
+      type: 'ADD_TODO',
+      text,
+      id,
+    });
+  };
+
   return (
     <form onSubmit={handleSubmit}>
       <input ref={node => input = node}/>
