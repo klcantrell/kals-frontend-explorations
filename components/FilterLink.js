@@ -1,28 +1,35 @@
-import React from 'react';
+import React, { Component } from 'react';
+import Link from './Link';
 
-const FilterLink = ({ filter, currentFilter, children, handleFilter }) => {
-  const styles = {
-    link: {
-      margin: 10,
-    },
-  };
+class FilterLink extends Component {
+  componentDidMount() {
+    this.unsubscribe = this.props.store.subscribe(() => {
+      this.forceUpdate();
+    });
+  }
 
-  const handleClick = ({ event, filter }) => {
-    event.preventDefault();
-    handleFilter(filter);
-  };
+  componentWillUnmount() {
+    this.unsubscribe();
+  }
 
-  return filter == currentFilter ? (
-    <span style={styles.link}>{children}</span>
-  ) : (
-    <a
-      href="#"
-      onClick={event => handleClick({ event, filter })}
-      style={styles.link}
-    >
-      {children}
-    </a>
-  );
-};
+  render() {
+    const props = this.props;
+    const state = props.store.getState();
+
+    return (
+      <Link
+        active={props.filter === state.visibilityFilter}
+        handleClick={() => {
+          props.store.dispatch({
+            type: 'SET_VISIBILITY_FILTER',
+            filter: props.filter,
+          })
+        }}
+      >
+        {props.children}
+      </Link>
+    );
+  }
+}
 
 export default FilterLink;

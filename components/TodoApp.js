@@ -51,7 +51,7 @@ const TodoApp = ({store}) => {
         handleTodoClick={toggleTodo}
         todos={getVisibleTodos(todos, filter)}
       />
-      <Footer filter={filter} filterTodos={filterTodos} />
+      <Footer filter={filter} filterTodos={filterTodos} store={store} />
     </div>
   );
 }
