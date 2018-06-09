@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-
+import { addTodo } from '../actionCreators';
+ 
 const TodoInput = ({id, addTodo}) => {
   let input;
 
@@ -26,13 +27,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    addTodo: (text, id) => {
-      dispatch({
-        type: 'ADD_TODO',
-        text,
-        id,
-      });
-    }
+    addTodo: (text, id) => dispatch(addTodo(text, id))
   }
 }
 

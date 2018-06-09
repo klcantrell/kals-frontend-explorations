@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import Link from './Link';
+import { connect } from 'react-redux';
+import { filterTodos } from '../actionCreators';
 
 class FilterLink extends Component {
 
@@ -26,12 +27,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    filterTodos: () => {
-      dispatch({
-        type: 'SET_VISIBILITY_FILTER',
-        filter: ownProps.filter
-      })
-    }
+    filterTodos: () => dispatch(filterTodos(ownProps.filter)),
   };
 };
 
