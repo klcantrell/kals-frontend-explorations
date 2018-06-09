@@ -1,23 +1,14 @@
 import React from 'react';
-import Connect from './Connect';
+import { connect } from 'react-redux';
 
-const TodoInput = ({store}) => {
+const TodoInput = ({id, addTodo}) => {
   let input;
 
   const handleSubmit = e => {
     e.preventDefault();
-    addTodo(input.value);
+    addTodo(input.value, id);
     input.value = '';
   }
-
-  const addTodo = text => {
-    const { id } = store.getState();
-    store.dispatch({
-      type: 'ADD_TODO',
-      text,
-      id,
-    });
-  };
 
   return (
     <form onSubmit={handleSubmit}>
@@ -27,4 +18,22 @@ const TodoInput = ({store}) => {
   )
 };
 
-export default Connect(TodoInput);
+const mapStateToProps = state => {
+  return {
+    id: state.id
+  }
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    addTodo: (text, id) => {
+      dispatch({
+        type: 'ADD_TODO',
+        text,
+        id,
+      });
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(TodoInput);
