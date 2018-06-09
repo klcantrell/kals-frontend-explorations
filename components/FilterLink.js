@@ -5,12 +5,12 @@ import Link from './Link';
 class FilterLink extends Component {
 
   render() {
-    const {filter, currentFilter, filterTodos} = this.props;
+    const {filter, active, filterTodos} = this.props;
 
     return (
       <Link
-        active={filter === currentFilter}
-        handleClick={() => filterTodos(filter)}
+        active={active}
+        handleClick={filterTodos}
       >
         {this.props.children}
       </Link>
@@ -18,18 +18,18 @@ class FilterLink extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, ownProps) => {
   return {
-    currentFilter: state.visibilityFilter,
+    active: state.visibilityFilter === ownProps.filter
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    filterTodos: filter => {
+    filterTodos: () => {
       dispatch({
         type: 'SET_VISIBILITY_FILTER',
-        filter,
+        filter: ownProps.filter
       })
     }
   };
