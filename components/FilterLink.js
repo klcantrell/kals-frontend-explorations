@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Link from './Link';
+import Connect from './Connect';
 
 class FilterLink extends Component {
   componentDidMount() {
@@ -34,4 +35,4 @@ class FilterLink extends Component {
   }
 }
 
-export default FilterLink;
+export default Connect(FilterLink);

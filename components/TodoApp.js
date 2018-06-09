@@ -3,15 +3,12 @@ import TodoInput from './TodoInput';
 import Footer from './Footer';
 import VisibleTodoList from './VisibleTodoList';
 
-const TodoApp = ({store}) => {
-
-  const { todos, visibilityFilter: filter } = store.getState();
-
+const TodoApp = () => {
   return (
     <div>
-      <TodoInput store={store} />
-      <VisibleTodoList store={store} />
-      <Footer store={store} />
+      <TodoInput />
+      <VisibleTodoList />
+      <Footer />
     </div>
   );
 }

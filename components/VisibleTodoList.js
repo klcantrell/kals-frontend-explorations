@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import TodoList from './TodoList';
-
+import Connect from './Connect';
 
 class VisibleTodoList extends Component {
   componentDidMount() {
@@ -49,4 +49,4 @@ class VisibleTodoList extends Component {
   }
 }
 
-export default VisibleTodoList;
+export default Connect(VisibleTodoList);

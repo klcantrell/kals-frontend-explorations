@@ -1,4 +1,5 @@
 import React from 'react';
+import Connect from './Connect';
 
 const TodoInput = ({store}) => {
   let input;
@@ -26,4 +27,4 @@ const TodoInput = ({store}) => {
   )
 };
 
-export default TodoInput;
+export default Connect(TodoInput);
