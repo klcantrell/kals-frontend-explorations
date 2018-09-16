@@ -1,0 +1,276 @@
+html, body {
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  background: grey;
+}
+
+/* front side and calculator layout */
+
+.front-side {
+  border: 2px solid black;
+  padding: 0;
+  display: flex;
+  flex-flow: column;
+  align-items: stretch;
+}
+
+.front-side p {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  cursor: default;
+}
+
+.display {
+  background: hsla( 0, 0%, 25%, 0.7 );
+  border-top-left-radius: 2rem;
+  border-top-right-radius: 2rem;
+  flex: 1.5;
+  padding-right: 5%;
+  display: flex;
+  flex-flow: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+
+.display p {
+  margin: 0;
+}
+
+.display #output {
+  font-size: 3em;
+  color: white;
+}
+
+.display #queue {
+  font-size: 1rem;
+  color: black;
+  height: 2rem;
+  width: 300px;
+  line-height: 1rem;
+  text-align: right;
+  word-break: normal;
+  overflow-y: auto;
+}
+
+.nums-ops {
+  flex: 5;
+  display: flex;
+  flex-flow: row;
+}
+
+.nums-ops p {
+  cursor: pointer;
+}
+
+.left-side {
+  flex: 3;
+  display: flex;
+  flex-flow: row wrap;
+  font-size: 2em;
+  color: white;
+}
+
+.left-side p {
+  background: hsla( 208, 100%, 50%, 0.6 );
+  flex: 1 30%;
+  border: 1px solid black;
+  text-align: center;
+  margin: 0;
+  line-height: 2.2em;
+}
+
+.left-side .top-ops {
+  background: hsla( 300, 100%, 50%, 0.6 );
+}
+
+.left-side #zero {
+  flex: 2 60%;
+  border-bottom-left-radius: 2rem;
+}
+
+.right-side {
+  background: hsla( 0, 0%, 25%, 0.7 );
+  border-bottom-right-radius: 2rem;
+  flex: 1;
+  display: flex;
+  flex-flow: column;
+  font-size: 3em;
+  color: white;
+}
+
+.right-side p {
+  border: 1px solid black;
+  text-align: center;
+  margin: 0;
+}
+
+.right-side #minus {
+  flex: 1;
+}
+
+.right-side #plus, .right-side #equals {
+  flex: 2;
+  line-height: 3em;
+}
+
+.right-side #equals {
+  border-bottom-right-radius: 2rem;
+}
+
+.back-side .back-texture {
+  height: 100%;
+  width: 100%;
+  border: 2px solid black;
+  border-radius: 2rem;
+  background-image: url('../imgs/background/resized/calculator-background_400.jpg');
+  background-size: cover;
+  opacity: .8;
+}
+
+/* 3D styling */
+
+.scene {
+  width: 326px;
+  height: 500px;
+  position: relative;
+  perspective: 1000px;
+  margin: 12vh auto;
+}
+
+.object {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+  -ms-transform-style: none;
+  -ms-perspective: 1000px;
+  transform: translateZ(50px) rotateY(45deg) rotateZ(20deg);
+  -ms-transform: none;
+  transition: transform 2s;
+}
+
+.object:hover {
+  transform: translateZ(50px) rotateY(0deg) rotateZ(0deg);
+  -ms-transform: none;
+}
+
+/* Hover for IE start */
+.object:hover .front-side {
+  -ms-transform:  translateZ(50px) rotateY(0deg) rotateZ(0deg) translateZ(20px);
+}
+.object:hover .back-side {
+  -ms-transform: translateZ(50px) rotateY(0deg) rotateZ(0deg) translateZ(-20px);
+}
+.object:hover .left-side-3D {
+  -ms-transform: translateZ(50px) rotateY(0deg) rotateZ(0deg) rotateY(-90deg) translateZ(162px);
+}
+.object:hover .right-side-3D {
+  -ms-transform: translateZ(50px) rotateY(0deg) rotateZ(0deg) rotateY(90deg) translateZ(162px);
+}
+/* Hover for IE end */
+
+.object figure {
+  margin: 0;
+  position: absolute;
+  backface-visibility: visible;
+  -webkit-backface-visibility: visible;
+  -ms-backface-visibility: visible;
+  -ms-transition: transform 1s ease-in-out;
+}
+
+.object .front-side, .object .back-side {
+  width: 324px;
+  height: 498px;
+}
+
+.object .front-side {
+  transform: rotateY(0deg) translateZ(20px);
+  -ms-transform: translateZ(50px) rotateY(45deg) rotateZ(20deg) rotateY(0deg) translateZ(20px);
+  border-radius: 2rem;
+}
+
+.object .back-side {
+  transform: rotateY(0deg) translateZ(-20px);
+  -ms-transform: translateZ(50px) rotateY(45deg) rotateZ(20deg) rotateY(0deg) translateZ(-20px);
+/* Send to back for MS  */
+  z-index: -1;
+}
+
+.object .left-side-3D, .object .right-side-3D {
+  background: hsla( 300, 4%, 45%, 1 );
+  height: 398px;
+  width: 40px;
+  left: 142px;
+  top: 50px;
+/*  Send to back for MS  */
+  z-index: -1;
+}
+
+.object .left-side-3D {
+  transform: rotateY(-90deg) translateZ(162px);
+  -ms-transform: translateZ(50px) rotateY(45deg) rotateZ(20deg) rotateY(-90deg) translateZ(162px);
+}
+
+.object .right-side-3D {
+  transform: rotateY(90deg) translateZ(162px);
+  -ms-transform: translateZ(50px) rotateY(45deg) rotateZ(20deg) rotateY(90deg) translateZ(162px);
+}
+
+@media screen and (max-width: 400px) {
+  .scene {
+    width: 245.5px;
+    height: 375px;
+  }
+  
+  .object .front-side, .object .back-side {
+    width: 243px;
+    height: 373.5px;
+  }
+  
+  .left-side p {
+    line-height: initial;
+  }
+  
+  .right-side #plus, .right-side #equals {
+    line-height: initial;
+  }
+  
+  .object .left-side-3D, .object .right-side-3D {
+    height: 298.5px;
+    width: 30px;
+    left: 106.5px;
+    top: 37.5px;
+  }
+
+  .object .left-side-3D {
+    transform: rotateY(-90deg) translateZ(121.5px);
+    -ms-transform: translateZ(50px) rotateY(45deg) rotateZ(20deg) rotateY(-90deg) translateZ(121.5px);
+  }
+
+  .object .right-side-3D {
+    transform: rotateY(90deg) translateZ(121.5px);
+    -ms-transform: translateZ(50px) rotateY(45deg) rotateZ(20deg) rotateY(90deg) translateZ(121.5px);
+  }
+  
+  .object .front-side {
+    transform: rotateY(0deg) translateZ(15px);
+    -ms-transform: translateZ(50px) rotateY(45deg) rotateZ(20deg) rotateY(0deg) translateZ(15px);
+    border-radius: 2rem;
+  }
+
+  .object .back-side {
+    transform: rotateY(0deg) translateZ(-15px);
+    -ms-transform: translateZ(50px) rotateY(45deg) rotateZ(20deg) rotateY(0deg) translateZ(-15px);
+  /* Send to back for MS  */
+  }
+
+  .back-side .back-texture {
+    background-image: url('../imgs/background/resized/calculator-background_200.jpg')
+  }
+}

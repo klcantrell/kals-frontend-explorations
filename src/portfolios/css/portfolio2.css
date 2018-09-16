@@ -1,0 +1,34 @@
+body {
+	background: #FFE681;
+}
+
+.background {
+	border: 1px solid black;
+	width: 700px;
+}
+
+.single-column {
+	display: flex;
+	flex-flow: column;
+	align-items: center;
+	justify-content: center;
+}
+
+.cool-btn {
+	font-size: 1.2rem;
+	text-transform: uppercase;
+	margin: 5px;
+	padding: 10px;
+	background: white;
+	border: 2px white;
+}
+
+.logo {
+	width: 70%;
+}
+
+@media screen and (max-width: 700px) {
+	.background {
+		width: 400px;
+	}
+}
