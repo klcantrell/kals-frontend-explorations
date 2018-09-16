@@ -1,0 +1,142 @@
+:root {
+  box-sizing: border-box;
+  font-family: "Lato", "Lucida Grande", "Lucida Sans Unicode", Tahoma,
+    Sans-Serif;
+  font-weight: normal;
+  color: white;
+  text-shadow: 0 2px 0 rgba(0, 0, 0, 0.07);
+  --grey: #343436;
+  --yellow: #ffc600;
+  --darkblue: #1b2b34;
+  --lightblue: #1b2b34;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+body {
+  margin: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: normal;
+  margin: 0;
+  font-size: 1.5em;
+}
+
+.codepen {
+  display: grid;
+  grid-template-rows: auto 1fr 1fr auto;
+  height: 100vh;
+}
+
+.pen {
+  display: grid;
+  background-color: black;
+  grid-template-columns: 1fr;
+  grid-auto-flow: column;
+  align-items: center;
+  padding: 10px;
+  grid-gap: 8px;
+  border-bottom: 3px solid var(--grey);
+}
+
+.button {
+  border-radius: 5px;
+  border: none;
+  background-color: var(--grey);
+  padding: 8px;
+  color: inherit;
+}
+
+.pen .button {
+  font-size: 1em;
+}
+
+.button--dirty {
+  position: relative;
+}
+
+.button--dirty::before {
+  content: '';
+  display: block;
+  height: 2px;
+  width: calc(100% - 6px);
+  position: absolute;
+  left: 3px;
+  top: 3px;
+  background-color: var(--yellow);
+}
+
+.code {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.editor {
+  display: grid;
+  grid-template-rows: auto 1fr;
+}
+
+.editor__header {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  padding: 10px;
+  align-items: center;
+  grid-gap: 5px;
+  background-color: #18272f;
+}
+
+.editor__code {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-auto-flow: column;
+  grid-gap: 5px;
+  padding: 5px;
+  background-color: var(--darkblue);
+  align-items: start;
+}
+
+
+/* Display: grid on container vs display: block on children start*/
+
+/* .editor__gutter {
+  display: grid;
+} */
+
+.editor__number {
+  display: block;
+  padding: 0 10px;
+}
+
+/* Display: grid on container vs display: block on children start*/
+.editor__input {
+  color: inherit;
+  background: none;
+  border: none;
+  resize: none;
+  height: 100%;
+  line-height: 25px;
+}
+
+.button--small {
+  padding: 2px;
+}
+
+.preview {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+.settings {
+  padding: 5px;
+  background-color: black;
+}
