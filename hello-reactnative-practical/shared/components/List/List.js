@@ -5,7 +5,11 @@ import ListItem from './ListItem';
 
 const List = ({ places }) => {
   const placesOutput = places.map((place, i) => (
-    <ListItem key={`${i}-${place}`} placeName={place} />
+    <ListItem
+      key={`${i}-${place}`}
+      placeName={place}
+      handlePress={() => alert(`Hi list ${i}`)}
+    />
   ));
   return <View style={styles.list}>{placesOutput}</View>;
 };
