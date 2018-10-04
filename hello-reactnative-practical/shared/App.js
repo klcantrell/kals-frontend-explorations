@@ -1,50 +1,26 @@
 import React, { Component } from 'react';
-import { View, Text, TextInput, StyleSheet, Button } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 
-import ListItem from './components/ListItem';
+import Input from './components/Input/Input';
+import List from './components/List/List';
 
 export default class App extends Component {
   state = {
-    placeName: '',
     places: [],
   };
 
-  handlePlaceNameChange = e => {
-    this.setState({
-      placeName: e,
-    });
-  };
-
-  onSubmitPlace = () => {
-    if (this.state.placeName.trim() === '') {
-      return;
-    }
+  handleSubmitPlace = place => {
     this.setState(prevState => ({
-      places: [...prevState.places, prevState.placeName],
-      placeName: '',
+      places: [...prevState.places, place],
     }));
   };
 
   render() {
-    const placesOutput = this.state.places.map((place, i) => (
-      <ListItem key={`${i}-${place}`} placeName={place} />
-    ));
+    const { places } = this.state;
     return (
       <View style={styles.container}>
-        <View style={styles.inputContainer}>
-          <TextInput
-            style={styles.placeInput}
-            placeholder="An awesome place"
-            value={this.state.placeName}
-            onChangeText={this.handlePlaceNameChange}
-          />
-          <Button
-            style={styles.placeButton}
-            title="Add"
-            onPress={this.onSubmitPlace}
-          />
-        </View>
-        <View style={styles.listContainer}>{placesOutput}</View>
+        <Input onSubmit={this.handleSubmitPlace} />
+        <List places={places} />
       </View>
     );
   }
@@ -57,20 +33,5 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     backgroundColor: '#fff',
     paddingTop: 40,
-  },
-  inputContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    width: '100%',
-  },
-  listContainer: {
-    width: '100%',
-  },
-  placeInput: {
-    width: '70%',
-  },
-  placeButton: {
-    width: '30%',
   },
 });
