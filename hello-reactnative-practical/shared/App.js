@@ -11,13 +11,16 @@ export default class App extends Component {
 
   handleSubmitPlace = place => {
     this.setState(prevState => ({
-      places: [...prevState.places, place],
+      places: [
+        ...prevState.places,
+        { value: place, key: String(Math.random()) },
+      ],
     }));
   };
 
-  handlePlaceDeleted = index => {
+  handlePlaceDeleted = key => {
     this.setState(prevState => ({
-      places: prevState.places.filter((place, i) => i !== index),
+      places: prevState.places.filter(place => place.key !== key),
     }));
   };
 
