@@ -15,12 +15,18 @@ export default class App extends Component {
     }));
   };
 
+  handlePlaceDeleted = index => {
+    this.setState(prevState => ({
+      places: prevState.places.filter((place, i) => i !== index),
+    }));
+  };
+
   render() {
     const { places } = this.state;
     return (
       <View style={styles.container}>
         <Input onSubmit={this.handleSubmitPlace} />
-        <List places={places} />
+        <List places={places} onItemDeleted={this.handlePlaceDeleted} />
       </View>
     );
   }
