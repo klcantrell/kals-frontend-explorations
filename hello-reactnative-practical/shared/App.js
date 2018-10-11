@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
+import kalalauValleyImage from './assets/kalalau-valley.jpg';
 
 import Input from './components/Input/Input';
 import List from './components/List/List';
@@ -13,7 +14,11 @@ export default class App extends Component {
     this.setState(prevState => ({
       places: [
         ...prevState.places,
-        { value: place, key: String(Math.random()) },
+        {
+          value: place,
+          key: String(Math.random()),
+          image: { uri: 'http://www.finalfantasykingdom.net/7/wonderback.png' },
+        },
       ],
     }));
   };

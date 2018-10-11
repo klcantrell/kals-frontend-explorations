@@ -8,6 +8,7 @@ const List = ({ places, onItemDeleted }) => {
     <ListItem
       placeName={item.value}
       handlePress={() => onItemDeleted(item.key)}
+      placeImage={item.image}
     />
   );
   return (
