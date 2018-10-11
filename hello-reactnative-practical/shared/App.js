@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
-import kalalauValleyImage from './assets/kalalau-valley.jpg';
 
 import Input from './components/Input/Input';
 import List from './components/List/List';
+import PlaceDetail from './components/PlaceDetail/PlaceDetail';
 
 export default class App extends Component {
   state = {
     places: [],
+    selectedPlace: null,
   };
 
   handleSubmitPlace = place => {
@@ -23,18 +24,44 @@ export default class App extends Component {
     }));
   };
 
-  handlePlaceDeleted = key => {
+  handlePlaceSelected = key => {
     this.setState(prevState => ({
-      places: prevState.places.filter(place => place.key !== key),
+      selectedPlace: prevState.places.find(place => {
+        return place.key === key;
+      }),
     }));
   };
 
+  handleItemDeleted = () => {
+    this.setState(prevState => ({
+      places: prevState.places.filter(place => {
+        return place.key !== prevState.selectedPlace.key;
+      }),
+      selectedPlace: null,
+    }));
+  };
+
+  handleModalClosed = () => {
+    this.setState({
+      selectedPlace: null,
+    });
+  };
+
   render() {
-    const { places } = this.state;
+    const { places, selectedPlace } = this.state;
     return (
       <View style={styles.container}>
+        <PlaceDetail
+          selectedPlace={selectedPlace}
+          onItemDeleted={this.handleItemDeleted}
+          onModalClosed={this.handleModalClosed}
+        />
         <Input onSubmit={this.handleSubmitPlace} />
-        <List places={places} onItemDeleted={this.handlePlaceDeleted} />
+        <List
+          places={places}
+          onPlaceSelected={this.handlePlaceSelected}
+          onModalClosed={this.handleModalClosed}
+        />
       </View>
     );
   }
