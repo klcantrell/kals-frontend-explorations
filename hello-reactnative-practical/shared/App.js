@@ -1,54 +1,36 @@
 import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
+import { connect } from 'react-redux';
 
+import {
+  addPlace,
+  deletePlace,
+  selectPlace,
+  deselectPlace,
+} from './store/actions';
 import Input from './components/Input/Input';
 import List from './components/List/List';
 import PlaceDetail from './components/PlaceDetail/PlaceDetail';
 
-export default class App extends Component {
-  state = {
-    places: [],
-    selectedPlace: null,
-  };
-
+class App extends Component {
   handleSubmitPlace = place => {
-    this.setState(prevState => ({
-      places: [
-        ...prevState.places,
-        {
-          value: place,
-          key: String(Math.random()),
-          image: { uri: 'http://www.finalfantasykingdom.net/7/wonderback.png' },
-        },
-      ],
-    }));
+    this.props.handleAddPlace(place);
   };
 
   handlePlaceSelected = key => {
-    this.setState(prevState => ({
-      selectedPlace: prevState.places.find(place => {
-        return place.key === key;
-      }),
-    }));
+    this.props.handleSelectPlace(key);
   };
 
   handleItemDeleted = () => {
-    this.setState(prevState => ({
-      places: prevState.places.filter(place => {
-        return place.key !== prevState.selectedPlace.key;
-      }),
-      selectedPlace: null,
-    }));
+    this.props.handleDeletePlace();
   };
 
   handleModalClosed = () => {
-    this.setState({
-      selectedPlace: null,
-    });
+    this.props.handleDeselectPlace();
   };
 
   render() {
-    const { places, selectedPlace } = this.state;
+    const { places, selectedPlace } = this.props;
     return (
       <View style={styles.container}>
         <PlaceDetail
@@ -76,3 +58,24 @@ const styles = StyleSheet.create({
     paddingTop: 40,
   },
 });
+
+const mapStateToProps = ({ places: { places, selectedPlace } }) => {
+  return {
+    places,
+    selectedPlace,
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    handleAddPlace: name => dispatch(addPlace(name)),
+    handleDeletePlace: () => dispatch(deletePlace()),
+    handleSelectPlace: key => dispatch(selectPlace(key)),
+    handleDeselectPlace: () => dispatch(deselectPlace()),
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App);

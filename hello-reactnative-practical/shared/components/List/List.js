@@ -6,7 +6,7 @@ import ListItem from './ListItem';
 const List = ({ places, onPlaceSelected }) => {
   const renderListItem = ({ item }) => (
     <ListItem
-      placeName={item.value}
+      placeName={item.name}
       handlePress={() => onPlaceSelected(item.key)}
       placeImage={item.image}
     />

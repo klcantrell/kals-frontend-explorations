@@ -1,7 +1,7 @@
-import React from 'react';
-import HybridApp from './shared/App';
+import React, { Component } from 'react';
+import HybridApp from './shared/index';
 
-export default class NativeApp extends React.Component {
+export default class NativeApp extends Component {
   render() {
     return <HybridApp />;
   }
