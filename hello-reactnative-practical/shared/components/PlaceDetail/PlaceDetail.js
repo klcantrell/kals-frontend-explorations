@@ -1,5 +1,15 @@
 import React, { Fragment } from 'react';
-import { Modal, View, Image, Text, Button, StyleSheet } from 'react-native';
+import {
+  Modal,
+  View,
+  Image,
+  Text,
+  Button,
+  StyleSheet,
+  TouchableOpacity,
+} from 'react-native';
+
+import Icon from 'react-native-vector-icons/Ionicons';
 
 const PlaceDetail = ({ selectedPlace, onItemDeleted, onModalClosed }) => {
   let modalContent = null;
@@ -19,9 +29,15 @@ const PlaceDetail = ({ selectedPlace, onItemDeleted, onModalClosed }) => {
     >
       <View styles={styles.modal}>
         {modalContent}
-        <View>
-          <Button title="Delete" color="red" onPress={onItemDeleted} />
-          <Button title="Close" onPress={onModalClosed} />
+        <View style={styles.controls}>
+          <Button
+            title="Close"
+            onPress={onModalClosed}
+            style={styles.controlsItem}
+          />
+          <TouchableOpacity onPress={onItemDeleted} style={styles.controlsItem}>
+            <Icon size={30} name="ios-trash" color="red" />
+          </TouchableOpacity>
         </View>
       </View>
     </Modal>
@@ -40,6 +56,14 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     fontSize: 28,
+  },
+  controls: {
+    marginTop: 40,
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  controlsItem: {
+    marginHorizontal: 20,
   },
 });
 
