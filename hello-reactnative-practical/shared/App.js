@@ -15,6 +15,7 @@ import PlaceDetail from './components/PlaceDetail/PlaceDetail';
 class App extends Component {
   handleSubmitPlace = place => {
     this.props.handleAddPlace(place);
+    console.log(`Place added: ${place}`);
   };
 
   handlePlaceSelected = key => {
