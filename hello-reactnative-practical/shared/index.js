@@ -1,15 +1,10 @@
-import React from 'react';
-import { Provider } from 'react-redux';
-
-import configureStore from './store/configureStore';
+import React, { Component } from 'react';
 import App from './App';
 
-const store = configureStore();
+class HybridApp extends Component {
+  render() {
+    return <App />;
+  }
+}
 
-const RNRedux = () => (
-  <Provider store={store}>
-    <App />
-  </Provider>
-);
-
-export default RNRedux;
+export default HybridApp;
