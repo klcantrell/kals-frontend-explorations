@@ -5,6 +5,7 @@ import configureStore from './store/configureStore';
 import AuthScreen from './screens/Auth/Auth';
 import SharePlaceScreen from './screens/SharePlace/SharePlace';
 import FindPlaceScreen from './screens/FindPlace/FindPlace';
+import PlaceDetailScreen from './screens/PlaceDetail/PlaceDetail';
 
 const store = configureStore();
 
@@ -23,6 +24,12 @@ Navigation.registerComponent(
 Navigation.registerComponent(
   'myapp.FindPlaceScreen',
   () => FindPlaceScreen,
+  store,
+  Provider
+);
+Navigation.registerComponent(
+  'myapp.PlaceDetail',
+  () => PlaceDetailScreen,
   store,
   Provider
 );
