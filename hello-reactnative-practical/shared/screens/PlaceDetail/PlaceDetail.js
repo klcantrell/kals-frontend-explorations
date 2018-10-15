@@ -1,9 +1,21 @@
 import React from 'react';
 import { View, Image, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { connect } from 'react-redux';
 
+import { deletePlace } from '../../store/actions';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-const PlaceDetail = ({ selectedPlace, onItemDeleted, onModalClosed }) => {
+const PlaceDetail = ({
+  selectedPlace,
+  onItemDeleted,
+  onModalClosed,
+  navigator,
+}) => {
+  const handleDeletePlace = () => {
+    onItemDeleted(selectedPlace.key);
+    navigator.pop();
+  };
+
   return (
     <View styles={styles.container}>
       <View>
@@ -11,7 +23,10 @@ const PlaceDetail = ({ selectedPlace, onItemDeleted, onModalClosed }) => {
         <Text style={styles.placeName}>{selectedPlace.name}</Text>
       </View>
       <View style={styles.controls}>
-        <TouchableOpacity onPress={onItemDeleted} style={styles.controlsItem}>
+        <TouchableOpacity
+          onPress={handleDeletePlace}
+          style={styles.controlsItem}
+        >
           <Icon size={30} name="ios-trash" color="red" />
         </TouchableOpacity>
       </View>
@@ -42,4 +57,13 @@ const styles = StyleSheet.create({
   },
 });
 
-export default PlaceDetail;
+const mapDispatchToProps = dispatch => {
+  return {
+    onItemDeleted: placeKey => dispatch(deletePlace(placeKey)),
+  };
+};
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(PlaceDetail);

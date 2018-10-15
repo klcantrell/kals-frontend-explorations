@@ -28,7 +28,7 @@ Navigation.registerComponent(
   Provider
 );
 Navigation.registerComponent(
-  'myapp.PlaceDetail',
+  'myapp.PlaceDetailScreen',
   () => PlaceDetailScreen,
   store,
   Provider

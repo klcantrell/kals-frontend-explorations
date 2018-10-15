@@ -8,7 +8,7 @@ class FindPlaceScreen extends Component {
   handlePlaceSelected = key => {
     const selPlace = this.props.places.find(place => place.key === key);
     this.props.navigator.push({
-      screen: 'myapp.PlaceDetail',
+      screen: 'myapp.PlaceDetailScreen',
       title: selPlace.name,
       passProps: {
         selectedPlace: selPlace,
