@@ -7,15 +7,15 @@ export default async function startTabs() {
   Navigation.startTabBasedApp({
     tabs: [
       {
-        screen: 'myapp.SharePlaceScreen',
-        label: 'Share Place',
-        title: 'Share Place',
-        icon: mapIcon,
-      },
-      {
         screen: 'myapp.FindPlaceScreen',
         label: 'Find Place',
         title: 'Find Place',
+        icon: mapIcon,
+      },
+      {
+        screen: 'myapp.SharePlaceScreen',
+        label: 'Share Place',
+        title: 'Share Place',
         icon: shareIcon,
       },
     ],
