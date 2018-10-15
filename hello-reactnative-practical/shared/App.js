@@ -6,3 +6,10 @@ import FindPlaceScreen from './screens/FindPlace/FindPlace';
 Navigation.registerComponent('myapp.AuthScreen', () => AuthScreen);
 Navigation.registerComponent('myapp.SharePlaceScreen', () => SharePlaceScreen);
 Navigation.registerComponent('myapp.FindPlaceScreen', () => FindPlaceScreen);
+
+Navigation.startSingleScreenApp({
+  screen: {
+    screen: 'myapp.AuthScreen',
+    title: 'Login',
+  },
+});
