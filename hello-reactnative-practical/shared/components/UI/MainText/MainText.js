@@ -8,6 +8,7 @@ const MainText = ({ children }) => {
 const styles = StyleSheet.create({
   mainText: {
     color: 'black',
+    backgroundColor: 'transparent',
   },
 });
 
