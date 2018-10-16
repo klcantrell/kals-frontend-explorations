@@ -12,7 +12,6 @@ import {
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import MainText from '../../components/UI/MainText/MainText';
-import HeadingText from '../../components/UI/HeadingText/HeadingText';
 
 class SideDrawer extends Component {
   render() {
@@ -20,7 +19,7 @@ class SideDrawer extends Component {
       <View style={styles.drawerItem}>
         <Icon
           size={30}
-          name={'ios-log-out'}
+          name={Platform.OS === 'android' ? 'md-log-out' : 'ios-log-out'}
           color="#aaa"
           style={styles.drawerItemIcon}
         />

@@ -1,5 +1,12 @@
 import React from 'react';
-import { View, Image, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import {
+  View,
+  Image,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Platform,
+} from 'react-native';
 import { connect } from 'react-redux';
 
 import { deletePlace } from '../../store/actions';
@@ -27,7 +34,11 @@ const PlaceDetail = ({
           onPress={handleDeletePlace}
           style={styles.controlsItem}
         >
-          <Icon size={30} name="ios-trash" color="red" />
+          <Icon
+            size={30}
+            name={Platform.OS === 'android' ? 'md-trash' : 'ios-trash'}
+            color="red"
+          />
         </TouchableOpacity>
       </View>
     </View>
