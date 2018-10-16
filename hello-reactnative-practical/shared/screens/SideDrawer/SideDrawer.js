@@ -5,6 +5,8 @@ import {
   Dimensions,
   StyleSheet,
   TouchableOpacity,
+  TouchableNativeFeedback,
+  Platform,
 } from 'react-native';
 
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -14,6 +16,27 @@ import HeadingText from '../../components/UI/HeadingText/HeadingText';
 
 class SideDrawer extends Component {
   render() {
+    const innerContent = (
+      <View style={styles.drawerItem}>
+        <Icon
+          size={30}
+          name={'ios-log-out'}
+          color="#aaa"
+          style={styles.drawerItemIcon}
+        />
+        <MainText>
+          <Text>Sign out</Text>
+        </MainText>
+      </View>
+    );
+    let touchableWrapper;
+    if (Platform.OS === 'android') {
+      touchableWrapper = (
+        <TouchableNativeFeedback>{innerContent}</TouchableNativeFeedback>
+      );
+    } else {
+      touchableWrapper = <TouchableOpacity>{innerContent}</TouchableOpacity>;
+    }
     return (
       <View
         style={[
@@ -21,19 +44,7 @@ class SideDrawer extends Component {
           { width: Dimensions.get('window').width * 0.8 },
         ]}
       >
-        <TouchableOpacity>
-          <View style={styles.drawerItem}>
-            <Icon
-              size={30}
-              name={'ios-log-out'}
-              color="#aaa"
-              style={styles.drawerItemIcon}
-            />
-            <MainText>
-              <Text>Sign out</Text>
-            </MainText>
-          </View>
-        </TouchableOpacity>
+        {touchableWrapper}
       </View>
     );
   }
