@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import {
   View,
   Image,
@@ -6,48 +6,88 @@ import {
   StyleSheet,
   TouchableOpacity,
   Platform,
+  Dimensions,
 } from 'react-native';
 import { connect } from 'react-redux';
 
 import { deletePlace } from '../../store/actions';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-const PlaceDetail = ({
-  selectedPlace,
-  onItemDeleted,
-  onModalClosed,
-  navigator,
-}) => {
-  const handleDeletePlace = () => {
+class PlaceDetail extends Component {
+  constructor(props) {
+    super(props);
+    Dimensions.addEventListener('change', this.handleOrientationChange);
+  }
+
+  state = {
+    viewMode: Dimensions.get('window').height > 500 ? 'portrait' : 'landscape',
+  };
+
+  componentWillUnmount() {
+    Dimensions.removeEventListener('change', this.handleOrientationChange);
+  }
+
+  handleOrientationChange = dims => {
+    this.setState({
+      viewMode: dims.window.height > 500 ? 'portrait' : 'landscape',
+    });
+  };
+
+  handleDeletePlace = () => {
+    const { selectedPlace, onItemDeleted, navigator } = this.props;
     onItemDeleted(selectedPlace.key);
     navigator.pop();
   };
 
-  return (
-    <View styles={styles.container}>
-      <View>
-        <Image source={selectedPlace.image} style={styles.placeImage} />
-        <Text style={styles.placeName}>{selectedPlace.name}</Text>
+  render() {
+    const { viewMode } = this.state;
+    const { selectedPlace } = this.props;
+    return (
+      <View
+        style={
+          viewMode === 'portrait'
+            ? styles.portraitContainer
+            : styles.landscapeContainer
+        }
+      >
+        <View style={styles.contentContainer}>
+          <Image source={selectedPlace.image} style={styles.placeImage} />
+        </View>
+        <View style={styles.contentContainer}>
+          <View>
+            <Text style={styles.placeName}>{selectedPlace.name}</Text>
+          </View>
+          <View style={styles.controls}>
+            <TouchableOpacity
+              onPress={this.handleDeletePlace}
+              style={styles.controlsItem}
+            >
+              <Icon
+                size={30}
+                name={Platform.OS === 'android' ? 'md-trash' : 'ios-trash'}
+                color="red"
+              />
+            </TouchableOpacity>
+          </View>
+        </View>
       </View>
-      <View style={styles.controls}>
-        <TouchableOpacity
-          onPress={handleDeletePlace}
-          style={styles.controlsItem}
-        >
-          <Icon
-            size={30}
-            name={Platform.OS === 'android' ? 'md-trash' : 'ios-trash'}
-            color="red"
-          />
-        </TouchableOpacity>
-      </View>
-    </View>
-  );
-};
+    );
+  }
+}
 
 const styles = StyleSheet.create({
-  container: {
+  portraitContainer: {
     margin: 22,
+    flexDirection: 'column',
+    flex: 1,
+  },
+  landscapeContainer: {
+    margin: 22,
+    flexDirection: 'row',
+    flex: 1,
+  },
+  contentContainer: {
+    flex: 1,
   },
   placeImage: {
     width: '100%',
@@ -59,7 +99,7 @@ const styles = StyleSheet.create({
     fontSize: 28,
   },
   controls: {
-    marginTop: 40,
+    marginTop: 20,
     flexDirection: 'row',
     justifyContent: 'center',
   },
