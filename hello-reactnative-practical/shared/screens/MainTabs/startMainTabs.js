@@ -53,5 +53,11 @@ export default async function startTabs() {
         screen: 'myapp.SideDrawerScreen',
       },
     },
+    tabsStyle: {
+      tabBarSelectedButtonColor: 'orange',
+    },
+    appStyle: {
+      tabBarSelectedButtonColor: 'orange',
+    },
   });
 }

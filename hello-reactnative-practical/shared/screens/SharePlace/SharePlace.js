@@ -12,6 +12,10 @@ import MainText from '../../components/UI/MainText/MainText';
 import HeadingText from '../../components/UI/HeadingText/HeadingText';
 
 class SharePlaceScreen extends Component {
+  static navigatorStyle = {
+    navBarButtonColor: 'orange',
+  };
+
   constructor(props) {
     super(props);
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
