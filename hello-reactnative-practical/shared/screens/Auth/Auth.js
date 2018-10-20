@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, ImageBackground, Dimensions } from 'react-native';
 
+import validate from '../../utility/validation';
+
 import backgroundImage from '../../assets/background.jpg';
 
 import DefaultInput from '../../components/UI/DefaultInput/DefaultInput';
@@ -57,14 +59,52 @@ export default class AuthScreen extends Component {
   };
 
   updateInputState = (key, value) => {
+    const { controls } = this.state;
+    let connectedValue = {};
+    if (controls[key].validationRules.equalTo) {
+      const equalTo = controls[controls[key].validationRules.equalTo].value;
+      connectedValue = {
+        ...connectedValue,
+        equalTo,
+      };
+    }
+    if (key === 'password') {
+      connectedValue = {
+        ...connectedValue,
+        equalTo: value,
+      };
+    }
     this.setState(prevState => {
       return {
         controls: {
           ...prevState.controls,
-          [key]: {
-            ...prevState.controls[key],
-            value,
-          },
+          ...Object.assign(
+            {},
+            {
+              confirmPassword: {
+                ...prevState.controls.confirmPassword,
+                valid:
+                  key === 'password'
+                    ? validate(
+                        prevState.controls.confirmPassword.value,
+                        prevState.controls.confirmPassword.validationRules,
+                        connectedValue
+                      )
+                    : prevState.controls.confirmPassword.valid,
+              },
+            },
+            {
+              [key]: {
+                ...prevState.controls[key],
+                value,
+                valid: validate(
+                  value,
+                  prevState.controls[key].validationRules,
+                  connectedValue
+                ),
+              },
+            }
+          ),
         },
       };
     });
