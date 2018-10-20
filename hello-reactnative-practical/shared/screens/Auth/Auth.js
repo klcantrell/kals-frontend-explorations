@@ -17,6 +17,29 @@ export default class AuthScreen extends Component {
 
   state = {
     viewMode: Dimensions.get('window').height > 500 ? 'portrait' : 'landscape',
+    controls: {
+      email: {
+        value: '',
+        valid: false,
+        validationRules: {
+          isEmail: true,
+        },
+      },
+      password: {
+        value: '',
+        valid: false,
+        validationRules: {
+          minLength: 6,
+        },
+      },
+      confirmPassword: {
+        value: '',
+        valid: false,
+        validationRules: {
+          equalTo: 'password',
+        },
+      },
+    },
   };
 
   componentWillUnmount() {
@@ -33,8 +56,22 @@ export default class AuthScreen extends Component {
     startMainTabs();
   };
 
+  updateInputState = (key, value) => {
+    this.setState(prevState => {
+      return {
+        controls: {
+          ...prevState.controls,
+          [key]: {
+            ...prevState.controls[key],
+            value,
+          },
+        },
+      };
+    });
+  };
+
   render() {
-    const { viewMode } = this.state;
+    const { viewMode, controls } = this.state;
     const headingText = (
       <MainText>
         <HeadingText>Please Log In</HeadingText>
@@ -49,6 +86,8 @@ export default class AuthScreen extends Component {
             <DefaultInput
               style={styles.input}
               placeholder="Your E-mail Address"
+              value={controls.email.value}
+              onChangeText={val => this.updateInputState('email', val)}
             />
             <View
               style={
@@ -65,6 +104,8 @@ export default class AuthScreen extends Component {
                     : styles.landscapePasswordInput,
                 ]}
                 placeholder="Password"
+                value={controls.email.password}
+                onChangeText={val => this.updateInputState('password', val)}
               />
               <DefaultInput
                 style={[
@@ -74,6 +115,10 @@ export default class AuthScreen extends Component {
                     : styles.landscapePasswordInput,
                 ]}
                 placeholder="Confirm Password"
+                value={controls.confirmPassword.value}
+                onChangeText={val =>
+                  this.updateInputState('confirmPassword', val)
+                }
               />
             </View>
           </View>
