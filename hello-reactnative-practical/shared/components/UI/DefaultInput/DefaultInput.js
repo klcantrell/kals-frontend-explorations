@@ -1,8 +1,13 @@
 import React from 'react';
 import { TextInput, StyleSheet } from 'react-native';
 
-const defaultInput = ({ style, ...restProps }) => {
-  return <TextInput style={[styles.input, style]} {...restProps} />;
+const defaultInput = ({ style, valid, touched, ...restProps }) => {
+  return (
+    <TextInput
+      style={[styles.input, style, !valid && touched ? styles.invalid : null]}
+      {...restProps}
+    />
+  );
 };
 
 const styles = StyleSheet.create({
@@ -13,6 +18,10 @@ const styles = StyleSheet.create({
     padding: 5,
     marginTop: 8,
     marginBottom: 8,
+  },
+  invalid: {
+    backgroundColor: '#f9c0c0',
+    borderColor: 'red',
   },
 });
 

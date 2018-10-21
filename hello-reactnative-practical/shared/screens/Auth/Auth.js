@@ -26,6 +26,7 @@ export default class AuthScreen extends Component {
         validationRules: {
           isEmail: true,
         },
+        touched: false,
       },
       password: {
         value: '',
@@ -33,6 +34,7 @@ export default class AuthScreen extends Component {
         validationRules: {
           minLength: 6,
         },
+        touched: false,
       },
       confirmPassword: {
         value: '',
@@ -40,6 +42,7 @@ export default class AuthScreen extends Component {
         validationRules: {
           equalTo: 'password',
         },
+        touched: false,
       },
     },
   };
@@ -102,6 +105,7 @@ export default class AuthScreen extends Component {
                   prevState.controls[key].validationRules,
                   connectedValue
                 ),
+                touched: true,
               },
             }
           ),
@@ -128,6 +132,8 @@ export default class AuthScreen extends Component {
               placeholder="Your E-mail Address"
               value={controls.email.value}
               onChangeText={val => this.updateInputState('email', val)}
+              valid={controls.email.valid}
+              touched={controls.email.touched}
             />
             <View
               style={
@@ -144,8 +150,10 @@ export default class AuthScreen extends Component {
                     : styles.landscapePasswordInput,
                 ]}
                 placeholder="Password"
-                value={controls.email.password}
+                value={controls.password.value}
                 onChangeText={val => this.updateInputState('password', val)}
+                valid={controls.password.valid}
+                touched={controls.password.touched}
               />
               <DefaultInput
                 style={[
@@ -159,10 +167,20 @@ export default class AuthScreen extends Component {
                 onChangeText={val =>
                   this.updateInputState('confirmPassword', val)
                 }
+                valid={controls.confirmPassword.valid}
+                touched={controls.confirmPassword.touched}
               />
             </View>
           </View>
-          <DefaultButton color="#29aaf4" onPress={this.handleLogin}>
+          <DefaultButton
+            color="#29aaf4"
+            onPress={this.handleLogin}
+            disabled={
+              !controls.email.valid ||
+              !controls.password.valid ||
+              !controls.confirmPassword.valid
+            }
+          >
             Submit
           </DefaultButton>
         </View>
