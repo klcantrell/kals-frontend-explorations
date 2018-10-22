@@ -23,6 +23,7 @@ class AuthScreen extends Component {
 
   state = {
     viewMode: Dimensions.get('window').height > 500 ? 'portrait' : 'landscape',
+    authMode: 'login',
     controls: {
       email: {
         value: '',
@@ -54,6 +55,14 @@ class AuthScreen extends Component {
   componentWillUnmount() {
     Dimensions.removeEventListener('change', this.handleOrientationChange);
   }
+
+  handleSwitchAuthMode = () => {
+    this.setState(prevState => {
+      return {
+        authMode: prevState.authMode === 'login' ? 'signup' : 'login',
+      };
+    });
+  };
 
   handleOrientationChange = dims => {
     this.setState({
@@ -126,21 +135,46 @@ class AuthScreen extends Component {
   };
 
   render() {
-    const { viewMode, controls } = this.state;
-    const headingText = (
-      <MainText>
-        <HeadingText>Please Log In</HeadingText>
-      </MainText>
-    );
+    const { viewMode, controls, authMode } = this.state;
+    const headingText =
+      viewMode === 'portrait' ? (
+        <MainText>
+          <HeadingText>
+            Please {authMode === 'login' ? 'Log In' : 'Sign Up'}
+          </HeadingText>
+        </MainText>
+      ) : null;
+    const confirmPasswordContent =
+      authMode === 'login' ? null : (
+        <DefaultInput
+          style={[
+            styles.input,
+            viewMode === 'portrait'
+              ? styles.portraitPasswordInput
+              : styles.landscapePasswordInput,
+          ]}
+          placeholder="Confirm Password"
+          secureTextEntry
+          value={controls.confirmPassword.value}
+          onChangeText={val => this.updateInputState('confirmPassword', val)}
+          valid={controls.confirmPassword.valid}
+          touched={controls.confirmPassword.touched}
+        />
+      );
     return (
       <ImageBackground style={styles.backgroundImage} source={backgroundImage}>
         <View style={styles.container}>
-          {viewMode === 'portrait' ? headingText : null}
-          <DefaultButton color="#29aaf4">Switch to Login</DefaultButton>
+          {headingText}
+          <DefaultButton onPress={this.handleSwitchAuthMode} color="#29aaf4">
+            Switch to {authMode === 'login' ? 'Sign Up' : 'Log In'}
+          </DefaultButton>
           <View style={styles.inputContainer}>
             <DefaultInput
               style={styles.input}
               placeholder="Your E-mail Address"
+              autoCapitalize="none"
+              autoCorrect={false}
+              keyboardType="email-address"
               value={controls.email.value}
               onChangeText={val => this.updateInputState('email', val)}
               valid={controls.email.valid}
@@ -156,31 +190,18 @@ class AuthScreen extends Component {
               <DefaultInput
                 style={[
                   styles.input,
-                  viewMode === 'portrait'
+                  viewMode === 'portrait' || authMode === 'login'
                     ? styles.portraitPasswordInput
                     : styles.landscapePasswordInput,
                 ]}
                 placeholder="Password"
+                secureTextEntry
                 value={controls.password.value}
                 onChangeText={val => this.updateInputState('password', val)}
                 valid={controls.password.valid}
                 touched={controls.password.touched}
               />
-              <DefaultInput
-                style={[
-                  styles.input,
-                  viewMode === 'portrait'
-                    ? styles.portraitPasswordInput
-                    : styles.landscapePasswordInput,
-                ]}
-                placeholder="Confirm Password"
-                value={controls.confirmPassword.value}
-                onChangeText={val =>
-                  this.updateInputState('confirmPassword', val)
-                }
-                valid={controls.confirmPassword.valid}
-                touched={controls.confirmPassword.touched}
-              />
+              {confirmPasswordContent}
             </View>
           </View>
           <DefaultButton
@@ -189,7 +210,7 @@ class AuthScreen extends Component {
             disabled={
               !controls.email.valid ||
               !controls.password.valid ||
-              !controls.confirmPassword.valid
+              (!controls.confirmPassword.valid && authMode === 'signup')
             }
           >
             Submit
