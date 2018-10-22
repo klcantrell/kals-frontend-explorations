@@ -1,5 +1,13 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, ImageBackground, Dimensions } from 'react-native';
+import {
+  View,
+  StyleSheet,
+  ImageBackground,
+  Dimensions,
+  Keyboard,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+} from 'react-native';
 import { connect } from 'react-redux';
 
 import { tryAuth } from '../../store/actions';
@@ -163,65 +171,78 @@ class AuthScreen extends Component {
       );
     return (
       <ImageBackground style={styles.backgroundImage} source={backgroundImage}>
-        <View style={styles.container}>
-          {headingText}
-          <DefaultButton onPress={this.handleSwitchAuthMode} color="#29aaf4">
-            Switch to {authMode === 'login' ? 'Sign Up' : 'Log In'}
-          </DefaultButton>
-          <View style={styles.inputContainer}>
-            <DefaultInput
-              style={styles.input}
-              placeholder="Your E-mail Address"
-              autoCapitalize="none"
-              autoCorrect={false}
-              keyboardType="email-address"
-              value={controls.email.value}
-              onChangeText={val => this.updateInputState('email', val)}
-              valid={controls.email.valid}
-              touched={controls.email.touched}
-            />
-            <View
-              style={
-                viewMode === 'portrait'
-                  ? styles.portraitPasswordContainer
-                  : styles.landscapePasswordContainer
-              }
-            >
-              <DefaultInput
-                style={[
-                  styles.input,
-                  viewMode === 'portrait' || authMode === 'login'
-                    ? styles.portraitPasswordInput
-                    : styles.landscapePasswordInput,
-                ]}
-                placeholder="Password"
-                secureTextEntry
-                value={controls.password.value}
-                onChangeText={val => this.updateInputState('password', val)}
-                valid={controls.password.valid}
-                touched={controls.password.touched}
-              />
-              {confirmPasswordContent}
+        <KeyboardAvoidingView
+          style={styles.keyboardAvoidingView}
+          behavior="padding"
+        >
+          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <View style={styles.container}>
+              {headingText}
+              <DefaultButton
+                onPress={this.handleSwitchAuthMode}
+                color="#29aaf4"
+              >
+                Switch to {authMode === 'login' ? 'Sign Up' : 'Log In'}
+              </DefaultButton>
+              <View style={styles.inputContainer}>
+                <DefaultInput
+                  style={styles.input}
+                  placeholder="Your E-mail Address"
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  keyboardType="email-address"
+                  value={controls.email.value}
+                  onChangeText={val => this.updateInputState('email', val)}
+                  valid={controls.email.valid}
+                  touched={controls.email.touched}
+                />
+                <View
+                  style={
+                    viewMode === 'portrait'
+                      ? styles.portraitPasswordContainer
+                      : styles.landscapePasswordContainer
+                  }
+                >
+                  <DefaultInput
+                    style={[
+                      styles.input,
+                      viewMode === 'portrait' || authMode === 'login'
+                        ? styles.portraitPasswordInput
+                        : styles.landscapePasswordInput,
+                    ]}
+                    placeholder="Password"
+                    secureTextEntry
+                    value={controls.password.value}
+                    onChangeText={val => this.updateInputState('password', val)}
+                    valid={controls.password.valid}
+                    touched={controls.password.touched}
+                  />
+                  {confirmPasswordContent}
+                </View>
+              </View>
+              <DefaultButton
+                color="#29aaf4"
+                onPress={this.handleLogin}
+                disabled={
+                  !controls.email.valid ||
+                  !controls.password.valid ||
+                  (!controls.confirmPassword.valid && authMode === 'signup')
+                }
+              >
+                Submit
+              </DefaultButton>
             </View>
-          </View>
-          <DefaultButton
-            color="#29aaf4"
-            onPress={this.handleLogin}
-            disabled={
-              !controls.email.valid ||
-              !controls.password.valid ||
-              (!controls.confirmPassword.valid && authMode === 'signup')
-            }
-          >
-            Submit
-          </DefaultButton>
-        </View>
+          </TouchableWithoutFeedback>
+        </KeyboardAvoidingView>
       </ImageBackground>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  keyboardAvoidingView: {
+    flex: 1,
+  },
   container: {
     flex: 1,
     paddingTop: 20,
