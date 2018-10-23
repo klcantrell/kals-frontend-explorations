@@ -1,13 +1,22 @@
 import React, { Component } from 'react';
-import { View, Text, Button, StyleSheet, ScrollView } from 'react-native';
+import {
+  View,
+  Text,
+  Button,
+  StyleSheet,
+  ScrollView,
+  Animated,
+  Keyboard,
+} from 'react-native';
 import { connect } from 'react-redux';
 
 import { addPlace } from '../../store/actions';
 
+import validate from '../../utility/validation';
+
 import PlaceInput from '../../components/PlaceInput/PlaceInput';
 import PickImage from '../../components/PickImage/PickImage';
 import PickLocation from '../../components/PickLocation/PickLocation';
-
 import MainText from '../../components/UI/MainText/MainText';
 import HeadingText from '../../components/UI/HeadingText/HeadingText';
 
@@ -19,26 +28,76 @@ class SharePlaceScreen extends Component {
   constructor(props) {
     super(props);
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+    this.keyboardHeight = new Animated.Value(0);
+    this.keyboardDidShowSubscription = Keyboard.addListener(
+      'keyboardDidShow',
+      this.keyboardDidShow
+    );
+    this.keyboardDidHideSubscription = Keyboard.addListener(
+      'keyboardDidHide',
+      this.keyboardDidHide
+    );
   }
 
   state = {
-    placeName: '',
+    controls: {
+      placeName: {
+        value: '',
+        valid: false,
+        validationRules: {
+          hasValue: true,
+        },
+        touched: false,
+      },
+    },
   };
 
-  handleChangeText = val => {
-    this.setState({
-      placeName: val,
+  keyboardDidShow = event => {
+    Animated.timing(this.keyboardHeight, {
+      duration: 300,
+      toValue: event.endCoordinates.height,
+    }).start();
+  };
+
+  keyboardDidHide = event => {
+    Animated.timing(this.keyboardHeight, {
+      duration: 300,
+      toValue: 0,
+    }).start();
+  };
+
+  updateInputState = (key, val) => {
+    this.setState(prevState => {
+      return {
+        controls: {
+          ...prevState.controls,
+          [key]: {
+            ...prevState.controls[key],
+            value: val,
+            valid: validate(val, prevState.controls[key].validationRules),
+            touched: true,
+          },
+        },
+      };
     });
   };
 
   handleSubmit = () => {
-    const { placeName } = this.state;
-    if (placeName === '') {
+    const { controls } = this.state;
+    if (controls.placeName.value === '') {
       return;
     }
-    this.props.handleAddPlace(placeName);
-    this.setState({
-      placeName: '',
+    this.props.handleAddPlace(controls.placeName.value);
+    this.setState(prevState => {
+      return {
+        controls: {
+          ...prevState.controls,
+          placeName: {
+            ...prevState.controls.placeName,
+            value: '',
+          },
+        },
+      };
     });
   };
 
@@ -57,10 +116,17 @@ class SharePlaceScreen extends Component {
   };
 
   render() {
-    const { placeName } = this.state;
+    const { controls } = this.state;
     return (
       <ScrollView>
-        <View style={styles.container}>
+        <Animated.View
+          style={[
+            styles.container,
+            {
+              paddingBottom: this.keyboardHeight,
+            },
+          ]}
+        >
           <MainText>
             <HeadingText>
               <Text>Share a place with us!</Text>
@@ -69,13 +135,17 @@ class SharePlaceScreen extends Component {
           <PickImage />
           <PickLocation />
           <PlaceInput
-            placeName={placeName}
-            handleChangeText={this.handleChangeText}
+            placeData={controls.placeName}
+            handleChangeText={val => this.updateInputState('placeName', val)}
           />
           <View style={styles.buttonContainer}>
-            <Button title="Share the Place!" onPress={this.handleSubmit} />
+            <Button
+              title="Share the Place!"
+              onPress={this.handleSubmit}
+              disabled={!controls.placeName.valid}
+            />
           </View>
-        </View>
+        </Animated.View>
       </ScrollView>
     );
   }
