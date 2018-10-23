@@ -28,6 +28,7 @@ class SharePlaceScreen extends Component {
   constructor(props) {
     super(props);
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+    this.scrollView = React.createRef();
     this.keyboardHeight = new Animated.Value(0);
     this.keyboardDidShowSubscription = Keyboard.addListener(
       'keyboardDidShow',
@@ -48,15 +49,20 @@ class SharePlaceScreen extends Component {
           hasValue: true,
         },
         touched: false,
+        touchedWithoutValidation: false,
       },
     },
   };
 
   keyboardDidShow = event => {
+    const { controls } = this.state;
     Animated.timing(this.keyboardHeight, {
       duration: 300,
       toValue: event.endCoordinates.height,
-    }).start();
+    }).start(() => {
+      controls.placeName.touchedWithoutValidation &&
+        this.scrollView.current.scrollToEnd();
+    });
   };
 
   keyboardDidHide = event => {
@@ -64,6 +70,20 @@ class SharePlaceScreen extends Component {
       duration: 300,
       toValue: 0,
     }).start();
+  };
+
+  handleInputFocus = () => {
+    this.setState(prevState => {
+      return {
+        controls: {
+          ...prevState.controls,
+          placeName: {
+            ...prevState.controls.placeName,
+            touchedWithoutValidation: true,
+          },
+        },
+      };
+    });
   };
 
   updateInputState = (key, val) => {
@@ -118,7 +138,7 @@ class SharePlaceScreen extends Component {
   render() {
     const { controls } = this.state;
     return (
-      <ScrollView>
+      <ScrollView ref={this.scrollView}>
         <Animated.View
           style={[
             styles.container,
@@ -136,6 +156,7 @@ class SharePlaceScreen extends Component {
           <PickLocation />
           <PlaceInput
             placeData={controls.placeName}
+            onFocus={this.handleInputFocus}
             handleChangeText={val => this.updateInputState('placeName', val)}
           />
           <View style={styles.buttonContainer}>
