@@ -19,7 +19,7 @@ export default class PickLocation extends Component {
     locationChosen: false,
   };
 
-  handleMapPress = event => {
+  handlePickLocation = event => {
     const { focusedLocation } = this.state;
     const coords = event.nativeEvent.coordinate;
     this.map.current.animateToRegion({
@@ -39,6 +39,25 @@ export default class PickLocation extends Component {
     });
   };
 
+  handleGetLocation = () => {
+    navigator.geolocation.getCurrentPosition(
+      pos => {
+        const coordsEvent = {
+          nativeEvent: {
+            coordinate: {
+              latitude: pos.coords.latitude,
+              longitude: pos.coords.longitude,
+            },
+          },
+        };
+        this.handlePickLocation(coordsEvent);
+      },
+      err => {
+        alert('Fetching the position failed, please pick one manually.');
+      }
+    );
+  };
+
   render() {
     let mapMarker = null;
     const { focusedLocation, locationChosen } = this.state;
@@ -49,14 +68,14 @@ export default class PickLocation extends Component {
       <>
         <MapView
           initialRegion={focusedLocation}
-          onPress={this.handleMapPress}
+          onPress={this.handlePickLocation}
           style={styles.map}
           ref={this.map}
         >
           {mapMarker}
         </MapView>
         <View style={styles.buttonContainer}>
-          <Button title="Locate Me!" onPress={() => alert('pick a location')} />
+          <Button title="Locate Me!" onPress={this.handleGetLocation} />
         </View>
       </>
     );
