@@ -51,6 +51,10 @@ class SharePlaceScreen extends Component {
         touched: false,
         touchedWithoutValidation: false,
       },
+      location: {
+        value: null,
+        valid: false,
+      },
     },
   };
 
@@ -104,10 +108,10 @@ class SharePlaceScreen extends Component {
 
   handleSubmit = () => {
     const { controls } = this.state;
-    if (controls.placeName.value === '') {
-      return;
-    }
-    this.props.handleAddPlace(controls.placeName.value);
+    this.props.handleAddPlace(
+      controls.placeName.value,
+      controls.location.value
+    );
     this.setState(prevState => {
       return {
         controls: {
@@ -135,6 +139,20 @@ class SharePlaceScreen extends Component {
     }
   };
 
+  handleLocationPicked = location => {
+    this.setState(prevState => {
+      return {
+        controls: {
+          ...prevState.controls,
+          location: {
+            value: location,
+            valid: true,
+          },
+        },
+      };
+    });
+  };
+
   render() {
     const { controls } = this.state;
     return (
@@ -153,7 +171,7 @@ class SharePlaceScreen extends Component {
             </HeadingText>
           </MainText>
           <PickImage />
-          <PickLocation />
+          <PickLocation onLocationPicked={this.handleLocationPicked} />
           <PlaceInput
             placeData={controls.placeName}
             onFocus={this.handleInputFocus}
@@ -163,7 +181,7 @@ class SharePlaceScreen extends Component {
             <Button
               title="Share the Place!"
               onPress={this.handleSubmit}
-              disabled={!controls.placeName.valid}
+              disabled={!controls.placeName.valid || !controls.location.valid}
             />
           </View>
         </Animated.View>
@@ -195,7 +213,8 @@ const styles = StyleSheet.create({
 
 const mapDispatchToProps = dispatch => {
   return {
-    handleAddPlace: placeName => dispatch(addPlace(placeName)),
+    handleAddPlace: (placeName, location) =>
+      dispatch(addPlace(placeName, location)),
   };
 };
 

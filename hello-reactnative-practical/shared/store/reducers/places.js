@@ -12,11 +12,12 @@ const reducer = (state = initialState, action) => {
         places: [
           ...state.places,
           {
-            name: action.payload,
+            name: action.payload.placeName,
             key: String(Math.random()),
             image: {
               uri: 'http://www.finalfantasykingdom.net/7/wonderback.png',
             },
+            location: action.payload.location,
           },
         ],
       };

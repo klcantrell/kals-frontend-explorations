@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Button, Text, StyleSheet, Dimensions } from 'react-native';
+import { View, Button, StyleSheet, Dimensions } from 'react-native';
 import MapView from 'react-native-maps';
 
 export default class PickLocation extends Component {
@@ -20,6 +20,7 @@ export default class PickLocation extends Component {
   };
 
   handlePickLocation = event => {
+    const { onLocationPicked } = this.props;
     const { focusedLocation } = this.state;
     const coords = event.nativeEvent.coordinate;
     this.map.current.animateToRegion({
@@ -36,6 +37,10 @@ export default class PickLocation extends Component {
         },
         locationChosen: true,
       };
+    });
+    onLocationPicked({
+      latitude: coords.latitude,
+      longitude: coords.longitude,
     });
   };
 
