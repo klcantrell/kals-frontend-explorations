@@ -3,6 +3,10 @@ import { View, Button, Text, StyleSheet, Dimensions } from 'react-native';
 import MapView from 'react-native-maps';
 
 export default class PickLocation extends Component {
+  constructor(props) {
+    super(props);
+    this.map = React.createRef();
+  }
   state = {
     focusedLocation: {
       latitude: 37.7900352,
@@ -16,7 +20,13 @@ export default class PickLocation extends Component {
   };
 
   handleMapPress = event => {
+    const { focusedLocation } = this.state;
     const coords = event.nativeEvent.coordinate;
+    this.map.current.animateToRegion({
+      ...focusedLocation,
+      latitude: coords.latitude,
+      longitude: coords.longitude,
+    });
     this.setState(prevState => {
       return {
         focusedLocation: {
@@ -39,9 +49,9 @@ export default class PickLocation extends Component {
       <>
         <MapView
           initialRegion={focusedLocation}
-          region={focusedLocation}
           onPress={this.handleMapPress}
           style={styles.map}
+          ref={this.map}
         >
           {mapMarker}
         </MapView>
