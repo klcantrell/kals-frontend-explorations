@@ -9,6 +9,7 @@ import {
   Dimensions,
 } from 'react-native';
 import { connect } from 'react-redux';
+import MapView from 'react-native-maps';
 
 import { deletePlace } from '../../store/actions';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -43,17 +44,43 @@ class PlaceDetail extends Component {
     const { viewMode } = this.state;
     const { selectedPlace } = this.props;
     return (
-      <View
-        style={
-          viewMode === 'portrait'
-            ? styles.portraitContainer
-            : styles.landscapeContainer
-        }
-      >
-        <View style={styles.contentContainer}>
-          <Image source={selectedPlace.image} style={styles.placeImage} />
+      <View style={styles.container}>
+        <View
+          style={
+            viewMode === 'portrait'
+              ? styles.contentContainerPortrait
+              : styles.contentContainerLandscape
+          }
+        >
+          <Image
+            source={selectedPlace.image}
+            style={
+              viewMode === 'portrait'
+                ? styles.placeImagePortrait
+                : styles.placeImageLandscape
+            }
+          />
+          <MapView
+            initialRegion={{
+              ...selectedPlace.location,
+              latitudeDelta: 0.0122,
+              longitudeDelta:
+                (Dimensions.get('window').width /
+                  Dimensions.get('window').height) *
+                0.0122,
+            }}
+            style={
+              viewMode === 'portrait' ? styles.mapPortrait : styles.mapLandscape
+            }
+          />
         </View>
-        <View style={styles.contentContainer}>
+        <View
+          style={
+            viewMode === 'portrait'
+              ? styles.controlsContainerPortrait
+              : styles.controlsContainerLandscape
+          }
+        >
           <View>
             <Text style={styles.placeName}>{selectedPlace.name}</Text>
           </View>
@@ -76,22 +103,41 @@ class PlaceDetail extends Component {
 }
 
 const styles = StyleSheet.create({
-  portraitContainer: {
+  container: {
     margin: 22,
     flexDirection: 'column',
     flex: 1,
   },
-  landscapeContainer: {
-    margin: 22,
+  mapPortrait: {
+    width: '100%',
+    height: 200,
+  },
+  placeImagePortrait: {
+    width: '100%',
+    height: 200,
+  },
+  mapLandscape: {
+    width: '50%',
+    height: 175,
+  },
+  placeImageLandscape: {
+    width: '50%',
+    height: 175,
+  },
+  contentContainerPortrait: {
+    flex: 1,
+  },
+  contentContainerLandscape: {
     flexDirection: 'row',
     flex: 1,
   },
-  contentContainer: {
-    flex: 1,
+  controlsContainerPortrait: {
+    flexDirection: 'column',
   },
-  placeImage: {
-    width: '100%',
-    height: 200,
+  controlsContainerLandscape: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
   },
   placeName: {
     fontWeight: 'bold',
