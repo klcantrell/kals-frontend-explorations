@@ -72,7 +72,9 @@ class PlaceDetail extends Component {
             style={
               viewMode === 'portrait' ? styles.mapPortrait : styles.mapLandscape
             }
-          />
+          >
+            <MapView.Marker coordinate={selectedPlace.location} />
+          </MapView>
         </View>
         <View
           style={

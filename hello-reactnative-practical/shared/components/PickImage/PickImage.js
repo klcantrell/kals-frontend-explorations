@@ -1,17 +1,45 @@
 import React, { Component } from 'react';
 import { View, Image, Button, StyleSheet } from 'react-native';
-
-import imagePlaceholder from '../../assets/kalalau-valley.jpg';
+import ImagePicker from 'react-native-image-picker';
 
 export default class PickImage extends Component {
+  state = {
+    pickedImage: null,
+  };
+
+  handlePickImage = () => {
+    ImagePicker.showImagePicker(
+      {
+        title: 'Pick an Image',
+      },
+      res => {
+        switch (true) {
+          case res.didCancel:
+            console.log('User canceled');
+            break;
+          case res.error:
+            console.log('Error', res.error);
+            break;
+          default:
+            this.setState({
+              pickedImage: {
+                uri: res.uri,
+              },
+            });
+        }
+      }
+    );
+  };
+
   render() {
+    const { pickedImage } = this.state;
     return (
       <>
         <View style={styles.placeholder}>
-          <Image source={imagePlaceholder} style={styles.previewImage} />
+          <Image source={pickedImage} style={styles.previewImage} />
         </View>
         <View style={styles.buttonContainer}>
-          <Button title="Pick Image" onPress={() => alert('pick an image')} />
+          <Button title="Pick Image" onPress={this.handlePickImage} />
         </View>
       </>
     );
