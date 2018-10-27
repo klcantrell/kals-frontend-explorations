@@ -55,6 +55,10 @@ class SharePlaceScreen extends Component {
         value: null,
         valid: false,
       },
+      image: {
+        value: null,
+        valid: false,
+      },
     },
   };
 
@@ -76,18 +80,18 @@ class SharePlaceScreen extends Component {
     }).start();
   };
 
-  handleInputFocus = () => {
-    this.setState(prevState => {
-      return {
-        controls: {
-          ...prevState.controls,
-          placeName: {
-            ...prevState.controls.placeName,
-            touchedWithoutValidation: true,
-          },
-        },
-      };
-    });
+  onNavigatorEvent = event => {
+    switch (event.type) {
+      case 'NavBarButtonPress':
+        if (event.id === 'sideDrawerToggle') {
+          this.props.navigator.toggleDrawer({
+            side: 'left',
+          });
+        }
+        break;
+      default:
+        return null;
+    }
   };
 
   updateInputState = (key, val) => {
@@ -106,11 +110,26 @@ class SharePlaceScreen extends Component {
     });
   };
 
+  handleInputFocus = () => {
+    this.setState(prevState => {
+      return {
+        controls: {
+          ...prevState.controls,
+          placeName: {
+            ...prevState.controls.placeName,
+            touchedWithoutValidation: true,
+          },
+        },
+      };
+    });
+  };
+
   handleSubmit = () => {
     const { controls } = this.state;
     this.props.handleAddPlace(
       controls.placeName.value,
-      controls.location.value
+      controls.location.value,
+      controls.image.value
     );
     this.setState(prevState => {
       return {
@@ -125,20 +144,6 @@ class SharePlaceScreen extends Component {
     });
   };
 
-  onNavigatorEvent = event => {
-    switch (event.type) {
-      case 'NavBarButtonPress':
-        if (event.id === 'sideDrawerToggle') {
-          this.props.navigator.toggleDrawer({
-            side: 'left',
-          });
-        }
-        break;
-      default:
-        return null;
-    }
-  };
-
   handleLocationPicked = location => {
     this.setState(prevState => {
       return {
@@ -146,6 +151,20 @@ class SharePlaceScreen extends Component {
           ...prevState.controls,
           location: {
             value: location,
+            valid: true,
+          },
+        },
+      };
+    });
+  };
+
+  handleImagePicked = image => {
+    this.setState(prevState => {
+      return {
+        controls: {
+          ...prevState.controls,
+          image: {
+            value: image,
             valid: true,
           },
         },
@@ -170,7 +189,7 @@ class SharePlaceScreen extends Component {
               <Text>Share a place with us!</Text>
             </HeadingText>
           </MainText>
-          <PickImage />
+          <PickImage onImagePicked={this.handleImagePicked} />
           <PickLocation onLocationPicked={this.handleLocationPicked} />
           <PlaceInput
             placeData={controls.placeName}
@@ -181,7 +200,11 @@ class SharePlaceScreen extends Component {
             <Button
               title="Share the Place!"
               onPress={this.handleSubmit}
-              disabled={!controls.placeName.valid || !controls.location.valid}
+              disabled={
+                !controls.placeName.valid ||
+                !controls.location.valid ||
+                !controls.image.valid
+              }
             />
           </View>
         </Animated.View>
@@ -213,8 +236,8 @@ const styles = StyleSheet.create({
 
 const mapDispatchToProps = dispatch => {
   return {
-    handleAddPlace: (placeName, location) =>
-      dispatch(addPlace(placeName, location)),
+    handleAddPlace: (placeName, location, image) =>
+      dispatch(addPlace(placeName, location, image)),
   };
 };
 

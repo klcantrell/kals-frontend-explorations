@@ -15,7 +15,7 @@ const reducer = (state = initialState, action) => {
             name: action.payload.placeName,
             key: String(Math.random()),
             image: {
-              uri: 'http://www.finalfantasykingdom.net/7/wonderback.png',
+              uri: action.payload.image.uri,
             },
             location: action.payload.location,
           },

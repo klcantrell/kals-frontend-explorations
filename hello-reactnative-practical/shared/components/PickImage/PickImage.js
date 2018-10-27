@@ -8,6 +8,7 @@ export default class PickImage extends Component {
   };
 
   handlePickImage = () => {
+    const { onImagePicked } = this.props;
     ImagePicker.showImagePicker(
       {
         title: 'Pick an Image',
@@ -26,6 +27,7 @@ export default class PickImage extends Component {
                 uri: res.uri,
               },
             });
+            onImagePicked({ uri: res.uri, base64: res.data });
         }
       }
     );
