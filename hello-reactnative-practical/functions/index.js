@@ -4,19 +4,18 @@ const cors = require('cors')({ origin: true });
 const fs = require('fs');
 const UUID = require('uuid-v4');
 
-const serviceAccout = require('./react-native-practical-firebase-key.json');
+const serviceAccount = require('./react-native-practical-firebase-key.json');
 
 admin.initializeApp({
-  credential: admin.credential.cert(serviceAccout),
+  credential: admin.credential.cert(serviceAccount),
   storageBucket: functions.config().gcp.bucket_name,
 });
 
 const bucket = admin.storage().bucket();
 
-const uuid = UUID();
-
 exports.storeImage = functions.https.onRequest((request, response) => {
   return cors(request, response, () => {
+    const uuid = UUID();
     const body = JSON.parse(request.body);
     fs.writeFileSync('/tmp/uploaded-image.jpg', body.image, 'base64', err => {
       console.log(err);

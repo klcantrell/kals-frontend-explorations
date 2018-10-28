@@ -1,8 +1,11 @@
-import { ADD_PLACE, DELETE_PLACE } from './actionTypes';
 import { DATABASE_URL, SAVEIMAGE_URL } from 'react-native-dotenv';
+
+import { ADD_PLACE, DELETE_PLACE } from './actionTypes';
+import { uiStartLoading, uiStopLoading } from './ui';
 
 export const addPlace = (placeName, location, image) => {
   return dispatch => {
+    dispatch(uiStartLoading());
     fetch(SAVEIMAGE_URL, {
       method: 'POST',
       body: JSON.stringify({
@@ -23,9 +26,13 @@ export const addPlace = (placeName, location, image) => {
           .then(res => res.json())
           .then(data => {
             console.log(data);
+            dispatch(uiStopLoading());
           });
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        console.log(err);
+        dispatch(uiStopLoading());
+      });
     // return {
     //   type: ADD_PLACE,
     //   payload: { placeName, location, image },
