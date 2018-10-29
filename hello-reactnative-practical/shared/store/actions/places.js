@@ -1,6 +1,6 @@
 import { DATABASE_URL, SAVEIMAGE_URL } from 'react-native-dotenv';
 
-import { GET_PLACES, SET_PLACES } from './actionTypes';
+import { SET_PLACES, REMOVE_PLACE } from './actionTypes';
 import { uiStartLoading, uiStopLoading } from './ui';
 
 export const addPlace = (placeName, location, image) => {
@@ -64,5 +64,29 @@ export const setPlaces = places => {
   return {
     type: SET_PLACES,
     payload: places,
+  };
+};
+
+export const deletePlace = placeKey => {
+  return dispatch => {
+    dispatch(removePlace(placeKey));
+    fetch(`${DATABASE_URL}/places/${placeKey}.json`, {
+      method: 'DELETE',
+    })
+      .then(res => res.json())
+      .then(data => {
+        console.log(data);
+      })
+      .catch(err => {
+        alert('Something went wrong!');
+        console.log(err);
+      });
+  };
+};
+
+export const removePlace = placeKey => {
+  return {
+    type: REMOVE_PLACE,
+    payload: placeKey,
   };
 };
