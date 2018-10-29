@@ -1,14 +1,17 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 
-const listItem = ({ placeImage, placeName, handlePress }) => (
-  <TouchableOpacity onPress={handlePress}>
-    <View style={styles.listItem}>
-      <Image source={placeImage} style={styles.placeImage} />
-      <Text>{placeName}</Text>
-    </View>
-  </TouchableOpacity>
-);
+const listItem = ({ placeImage, placeName, handlePress }) => {
+  console.log(placeImage);
+  return (
+    <TouchableOpacity onPress={handlePress}>
+      <View style={styles.listItem}>
+        <Image source={placeImage} style={styles.placeImage} />
+        <Text>{placeName}</Text>
+      </View>
+    </TouchableOpacity>
+  );
+};
 
 const styles = StyleSheet.create({
   listItem: {

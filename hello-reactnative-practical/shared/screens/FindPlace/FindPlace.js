@@ -10,6 +10,8 @@ import { connect } from 'react-redux';
 
 import List from '../../components/List/List';
 
+import { getPlaces } from '../../store/actions';
+
 class FindPlaceScreen extends Component {
   static navigatorStyle = {
     navBarButtonColor: 'orange',
@@ -18,6 +20,10 @@ class FindPlaceScreen extends Component {
   constructor(props) {
     super(props);
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+  }
+
+  componentDidMount() {
+    this.props.handleLoadPlaces();
   }
 
   state = {
@@ -74,16 +80,14 @@ class FindPlaceScreen extends Component {
 
   render() {
     const { placesLoaded, removeAnim, fadeInAnim } = this.state;
+    const { places } = this.props;
     let content = placesLoaded ? (
       <Animated.View
         style={{
           opacity: fadeInAnim,
         }}
       >
-        <List
-          places={this.props.places}
-          onPlaceSelected={this.handlePlaceSelected}
-        />
+        <List places={places} onPlaceSelected={this.handlePlaceSelected} />
       </Animated.View>
     ) : (
       <Animated.View
@@ -139,4 +143,13 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(FindPlaceScreen);
+const mapDispatchToProps = dispatch => {
+  return {
+    handleLoadPlaces: () => dispatch(getPlaces()),
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(FindPlaceScreen);
