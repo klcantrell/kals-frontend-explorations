@@ -3,16 +3,13 @@ import { uiStartLoading, uiStopLoading } from './ui';
 
 import startMainTabs from '../../screens/MainTabs/startMainTabs';
 
-export const tryAuth = authData => {
-  return dispatch => {
-    dispatch(signUp(authData));
-  };
-};
-
-export const signUp = authData => {
-  const url = `https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=${API_KEY}`;
+export const tryAuth = (authData, authMode) => {
   return dispatch => {
     dispatch(uiStartLoading());
+    let url = `https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=${API_KEY}`;
+    if (authMode === 'signup') {
+      url = `https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=${API_KEY}`;
+    }
     fetch(url, {
       method: 'POST',
       body: JSON.stringify({
