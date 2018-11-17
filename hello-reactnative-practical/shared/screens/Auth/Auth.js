@@ -7,6 +7,7 @@ import {
   Keyboard,
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
+  ActivityIndicator,
 } from 'react-native';
 import { connect } from 'react-redux';
 
@@ -20,8 +21,6 @@ import DefaultInput from '../../components/UI/DefaultInput/DefaultInput';
 import HeadingText from '../../components/UI/HeadingText/HeadingText';
 import MainText from '../../components/UI/MainText/MainText';
 import DefaultButton from '../../components/UI/DefaultButton/DefaultButton';
-
-import startMainTabs from '../MainTabs/startMainTabs';
 
 class AuthScreen extends Component {
   constructor(props) {
@@ -86,7 +85,6 @@ class AuthScreen extends Component {
       password: controls.password.value,
     };
     handleUserLogin(authData);
-    startMainTabs();
   };
 
   updateInputState = (key, value) => {
@@ -144,6 +142,22 @@ class AuthScreen extends Component {
 
   render() {
     const { viewMode, controls, authMode } = this.state;
+    const { isLoading } = this.props;
+    const button = isLoading ? (
+      <ActivityIndicator />
+    ) : (
+      <DefaultButton
+        color="#29aaf4"
+        onPress={this.handleLogin}
+        disabled={
+          !controls.email.valid ||
+          !controls.password.valid ||
+          (!controls.confirmPassword.valid && authMode === 'signup')
+        }
+      >
+        Submit
+      </DefaultButton>
+    );
     const headingText =
       viewMode === 'portrait' ? (
         <MainText>
@@ -220,17 +234,7 @@ class AuthScreen extends Component {
                   {confirmPasswordContent}
                 </View>
               </View>
-              <DefaultButton
-                color="#29aaf4"
-                onPress={this.handleLogin}
-                disabled={
-                  !controls.email.valid ||
-                  !controls.password.valid ||
-                  (!controls.confirmPassword.valid && authMode === 'signup')
-                }
-              >
-                Submit
-              </DefaultButton>
+              {button}
             </View>
           </TouchableWithoutFeedback>
         </KeyboardAvoidingView>
@@ -274,6 +278,12 @@ const styles = StyleSheet.create({
   },
 });
 
+const mapStateToProps = state => {
+  return {
+    isLoading: state.ui.isLoading,
+  };
+};
+
 const mapDispatchToProps = dispatch => {
   return {
     handleUserLogin: authData => dispatch(tryAuth(authData)),
@@ -281,6 +291,6 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(AuthScreen);

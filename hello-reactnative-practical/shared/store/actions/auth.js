@@ -1,5 +1,7 @@
 import { API_KEY } from 'react-native-dotenv';
-import { TRY_AUTH } from './actionTypes';
+import { uiStartLoading, uiStopLoading } from './ui';
+
+import startMainTabs from '../../screens/MainTabs/startMainTabs';
 
 export const tryAuth = authData => {
   return dispatch => {
@@ -10,6 +12,7 @@ export const tryAuth = authData => {
 export const signUp = authData => {
   const url = `https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=${API_KEY}`;
   return dispatch => {
+    dispatch(uiStartLoading());
     fetch(url, {
       method: 'POST',
       body: JSON.stringify({
@@ -23,11 +26,18 @@ export const signUp = authData => {
     })
       .then(res => res.json())
       .then(data => {
-        console.log(data);
+        if (data.error) {
+          alert('Something went wrong, please try again');
+          dispatch(uiStopLoading());
+        } else {
+          dispatch(uiStopLoading());
+          startMainTabs();
+        }
       })
       .catch(err => {
         console.log(err);
         alert('Something went wrong, please try again');
+        dispatch(uiStopLoading());
       });
   };
 };
