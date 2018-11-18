@@ -2,16 +2,23 @@ import { DATABASE_URL, SAVEIMAGE_URL } from 'react-native-dotenv';
 
 import { SET_PLACES, REMOVE_PLACE } from './actionTypes';
 import { uiStartLoading, uiStopLoading } from './ui';
+import { authGetToken } from './auth';
 
 export const addPlace = (placeName, location, image) => {
   return dispatch => {
     dispatch(uiStartLoading());
-    fetch(SAVEIMAGE_URL, {
-      method: 'POST',
-      body: JSON.stringify({
-        image: image.base64,
-      }),
-    })
+    dispatch(authGetToken())
+      .then(token => {
+        return fetch(SAVEIMAGE_URL, {
+          method: 'POST',
+          body: JSON.stringify({
+            image: image.base64,
+          }),
+        });
+      })
+      .catch(() => {
+        alert('No valid token found');
+      })
       .then(res => res.json())
       .then(data => {
         const placeData = {
@@ -39,7 +46,13 @@ export const addPlace = (placeName, location, image) => {
 
 export const getPlaces = () => {
   return dispatch => {
-    fetch(`${DATABASE_URL}/places.json`)
+    dispatch(authGetToken())
+      .then(token => {
+        return fetch(`${DATABASE_URL}/places.json?auth=${token}`);
+      })
+      .catch(() => {
+        alert('No valid token found');
+      })
       .then(res => res.json())
       .then(data => {
         if (!data.error) {
@@ -73,10 +86,16 @@ export const setPlaces = places => {
 
 export const deletePlace = placeKey => {
   return dispatch => {
-    dispatch(removePlace(placeKey));
-    fetch(`${DATABASE_URL}/places/${placeKey}.json`, {
-      method: 'DELETE',
-    })
+    dispatch(authGetToken())
+      .then(token => {
+        dispatch(removePlace(placeKey));
+        return fetch(`${DATABASE_URL}/places/${placeKey}.json?auth=${token}`, {
+          method: 'DELETE',
+        });
+      })
+      .catch(() => {
+        alert('No valid token found');
+      })
       .then(res => res.json())
       .then(data => {
         console.log(data);
