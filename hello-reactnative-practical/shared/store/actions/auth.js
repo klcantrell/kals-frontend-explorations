@@ -96,3 +96,10 @@ export const authAutoSignIn = () => {
       .catch(err => console.log('Failed to fetch token'));
   };
 };
+
+export const authClearStorage = () => {
+  return dispatch => {
+    AsyncStorage.removeItem('places:auth:token');
+    AsyncStorage.removeItem('places:auth:expiryDate');
+  };
+};

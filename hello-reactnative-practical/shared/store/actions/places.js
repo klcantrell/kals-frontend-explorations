@@ -2,7 +2,7 @@ import { DATABASE_URL, SAVEIMAGE_URL } from 'react-native-dotenv';
 
 import { SET_PLACES, REMOVE_PLACE } from './actionTypes';
 import { uiStartLoading, uiStopLoading } from './ui';
-import { authGetToken } from './auth';
+import { authGetToken, authClearStorage } from './auth';
 
 export const addPlace = (placeName, location, image) => {
   return dispatch => {
@@ -23,6 +23,7 @@ export const addPlace = (placeName, location, image) => {
       })
       .catch(() => {
         alert('No valid token found');
+        dispatch(authClearStorage());
       })
       .then(res => res.json())
       .then(data => {
@@ -57,6 +58,7 @@ export const getPlaces = () => {
       })
       .catch(() => {
         alert('No valid token found');
+        dispatch(authClearStorage());
       })
       .then(res => res.json())
       .then(data => {
@@ -100,6 +102,7 @@ export const deletePlace = placeKey => {
       })
       .catch(() => {
         alert('No valid token found');
+        dispatch(authClearStorage());
       })
       .then(res => res.json())
       .then(data => {
