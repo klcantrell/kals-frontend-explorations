@@ -1,4 +1,5 @@
 import { API_KEY } from 'react-native-dotenv';
+import { AUTH_SET_TOKEN } from './actionTypes';
 import { uiStartLoading, uiStopLoading } from './ui';
 
 import startMainTabs from '../../screens/MainTabs/startMainTabs';
@@ -23,11 +24,11 @@ export const tryAuth = (authData, authMode) => {
     })
       .then(res => res.json())
       .then(data => {
-        if (data.error) {
+        dispatch(uiStopLoading());
+        if (!data.idToken) {
           alert('Something went wrong, please try again');
-          dispatch(uiStopLoading());
         } else {
-          dispatch(uiStopLoading());
+          dispatch(authSetToken(data.idToken));
           startMainTabs();
         }
       })
@@ -36,5 +37,12 @@ export const tryAuth = (authData, authMode) => {
         alert('Something went wrong, please try again');
         dispatch(uiStopLoading());
       });
+  };
+};
+
+export const authSetToken = token => {
+  return {
+    type: AUTH_SET_TOKEN,
+    payload: token,
   };
 };

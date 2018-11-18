@@ -42,16 +42,20 @@ export const getPlaces = () => {
     fetch(`${DATABASE_URL}/places.json`)
       .then(res => res.json())
       .then(data => {
-        const places = Object.keys(data).map(key => {
-          return {
-            ...data[key],
-            key,
-            image: {
-              uri: data[key].image,
-            },
-          };
-        });
-        dispatch(setPlaces(places));
+        if (!data.error) {
+          const places = Object.keys(data).map(key => {
+            return {
+              ...data[key],
+              key,
+              image: {
+                uri: data[key].image,
+              },
+            };
+          });
+          dispatch(setPlaces(places));
+        } else {
+          throw Error(data.error);
+        }
       })
       .catch(err => {
         alert('Something went wrong, please try again!');
