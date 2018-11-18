@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 
-import { tryAuth } from '../../store/actions';
+import { tryAuth, authAutoSignIn } from '../../store/actions';
 
 import validate from '../../utility/validation';
 
@@ -58,6 +58,10 @@ class AuthScreen extends Component {
       },
     },
   };
+
+  componentDidMount() {
+    this.props.handleTryAutoSignIn();
+  }
 
   componentWillUnmount() {
     Dimensions.removeEventListener('change', this.handleOrientationChange);
@@ -288,6 +292,7 @@ const mapDispatchToProps = dispatch => {
   return {
     handleTryAuth: (authData, authMode) =>
       dispatch(tryAuth(authData, authMode)),
+    handleTryAutoSignIn: () => dispatch(authAutoSignIn()),
   };
 };
 

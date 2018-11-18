@@ -62,6 +62,9 @@ export const authGetToken = () => {
       if (!token) {
         AsyncStorage.getItem('places:auth:token')
           .then(tokenFromStorage => {
+            if (!tokenFromStorage) {
+              return reject();
+            }
             dispatch(authSetToken(tokenFromStorage));
             resolve(tokenFromStorage);
           })
@@ -70,5 +73,15 @@ export const authGetToken = () => {
         resolve(token);
       }
     });
+  };
+};
+
+export const authAutoSignIn = () => {
+  return dispatch => {
+    dispatch(authGetToken())
+      .then(token => {
+        startMainTabs();
+      })
+      .catch(err => console.log('Failed to fetch token'));
   };
 };
