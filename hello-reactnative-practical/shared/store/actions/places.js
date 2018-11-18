@@ -6,14 +6,19 @@ import { authGetToken } from './auth';
 
 export const addPlace = (placeName, location, image) => {
   return dispatch => {
+    let authToken;
     dispatch(uiStartLoading());
     dispatch(authGetToken())
       .then(token => {
+        authToken = token;
         return fetch(SAVEIMAGE_URL, {
           method: 'POST',
           body: JSON.stringify({
             image: image.base64,
           }),
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         });
       })
       .catch(() => {
@@ -26,7 +31,7 @@ export const addPlace = (placeName, location, image) => {
           location,
           image: data.imageUrl,
         };
-        return fetch(`${DATABASE_URL}/places.json`, {
+        return fetch(`${DATABASE_URL}/places.json?auth=${authToken}`, {
           method: 'POST',
           body: JSON.stringify(placeData),
         })
