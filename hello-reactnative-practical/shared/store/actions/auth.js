@@ -1,3 +1,4 @@
+import { AsyncStorage } from 'react-native';
 import { API_KEY } from 'react-native-dotenv';
 import { AUTH_SET_TOKEN } from './actionTypes';
 import { uiStartLoading, uiStopLoading } from './ui';
@@ -28,7 +29,7 @@ export const tryAuth = (authData, authMode) => {
         if (!data.idToken) {
           alert('Something went wrong, please try again');
         } else {
-          dispatch(authSetToken(data.idToken));
+          dispatch(authStoreToken(data.idToken));
           startMainTabs();
         }
       })
@@ -37,6 +38,13 @@ export const tryAuth = (authData, authMode) => {
         alert('Something went wrong, please try again');
         dispatch(uiStopLoading());
       });
+  };
+};
+
+export const authStoreToken = token => {
+  return dispatch => {
+    dispatch(authSetToken(token));
+    AsyncStorage.setItem('places:auth:token', token);
   };
 };
 
@@ -52,7 +60,12 @@ export const authGetToken = () => {
     return new Promise((resolve, reject) => {
       const token = getState().auth.token;
       if (!token) {
-        reject();
+        AsyncStorage.getItem('places:auth:token')
+          .then(tokenFromStorage => {
+            dispatch(authSetToken(tokenFromStorage));
+            resolve(tokenFromStorage);
+          })
+          .catch(err => reject());
       } else {
         resolve(token);
       }
