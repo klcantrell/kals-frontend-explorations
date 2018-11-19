@@ -47,17 +47,17 @@ export const tryAuth = (authData, authMode) => {
 export const authStoreToken = (token, expiresIn, refreshToken) => {
   const expiryDate = Date.now() + expiresIn * 1000;
   return dispatch => {
-    dispatch(authSetToken(token));
+    dispatch(authSetToken(token, expiryDate));
     AsyncStorage.setItem('places:auth:token', token);
     AsyncStorage.setItem('places:auth:expiryDate', expiryDate.toString());
     AsyncStorage.setItem('places:auth:refreshToken', refreshToken);
   };
 };
 
-export const authSetToken = token => {
+export const authSetToken = (token, expiryDate) => {
   return {
     type: AUTH_SET_TOKEN,
-    payload: token,
+    payload: { token, expiryDate },
   };
 };
 
@@ -65,8 +65,9 @@ export const authGetToken = () => {
   return (dispatch, getState) => {
     return new Promise((resolve, reject) => {
       let asyncStorageToken;
-      const token = getState().auth.token;
-      if (!token) {
+      const { token, tokenExpiryDate } = getState().auth;
+      const now = Date.now();
+      if (!token || now >= tokenExpiryDate) {
         return AsyncStorage.getItem('places:auth:token')
           .then(tokenFromStorage => {
             asyncStorageToken = tokenFromStorage;
@@ -76,11 +77,10 @@ export const authGetToken = () => {
             return AsyncStorage.getItem('places:auth:expiryDate');
           })
           .then(expiryDate => {
-            const now = Date.now();
             if (!expiryDate || now >= Number(expiryDate)) {
               return reject();
             }
-            dispatch(authSetToken(asyncStorageToken));
+            dispatch(authSetToken(asyncStorageToken, expiryDate));
             resolve(asyncStorageToken);
           })
           .catch(err => reject());
@@ -130,6 +130,7 @@ export const authTryRefreshToken = () => {
           return null;
         }
       })
+      .then(res => res.json())
       .then(data => {
         if (data.id_token) {
           dispatch(
