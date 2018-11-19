@@ -41,9 +41,10 @@ Navigation.registerComponent(
   Provider
 );
 
-Navigation.startSingleScreenApp({
-  screen: {
-    screen: 'myapp.AuthScreen',
-    title: 'Login',
-  },
-});
+export default () =>
+  Navigation.startSingleScreenApp({
+    screen: {
+      screen: 'myapp.AuthScreen',
+      title: 'Login',
+    },
+  });

@@ -8,6 +8,9 @@ import {
   TouchableNativeFeedback,
   Platform,
 } from 'react-native';
+import { connect } from 'react-redux';
+
+import { authLogout } from '../../store/actions';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 
@@ -15,6 +18,7 @@ import MainText from '../../components/UI/MainText/MainText';
 
 class SideDrawer extends Component {
   render() {
+    const { handleLogout } = this.props;
     const innerContent = (
       <View style={styles.drawerItem}>
         <Icon
@@ -31,10 +35,16 @@ class SideDrawer extends Component {
     let touchableWrapper;
     if (Platform.OS === 'android') {
       touchableWrapper = (
-        <TouchableNativeFeedback>{innerContent}</TouchableNativeFeedback>
+        <TouchableNativeFeedback onPress={handleLogout}>
+          {innerContent}
+        </TouchableNativeFeedback>
       );
     } else {
-      touchableWrapper = <TouchableOpacity>{innerContent}</TouchableOpacity>;
+      touchableWrapper = (
+        <TouchableOpacity onPress={handleLogout}>
+          {innerContent}
+        </TouchableOpacity>
+      );
     }
     return (
       <View
@@ -66,4 +76,15 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SideDrawer;
+const mapDispatchToProps = dispatch => {
+  return {
+    handleLogout: () => {
+      dispatch(authLogout());
+    },
+  };
+};
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(SideDrawer);
