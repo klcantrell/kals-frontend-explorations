@@ -7,6 +7,7 @@ export default class PickLocation extends Component {
     super(props);
     this.map = React.createRef();
   }
+
   state = {
     focusedLocation: {
       latitude: 37.7900352,
@@ -63,6 +64,20 @@ export default class PickLocation extends Component {
     );
   };
 
+  reset = () => {
+    this.setState({
+      focusedLocation: {
+        latitude: 37.7900352,
+        longitude: -122.4013726,
+        latitudeDelta: 0.0122,
+        longitudeDelta:
+          (Dimensions.get('window').width / Dimensions.get('window').height) *
+          0.0122,
+      },
+      locationChosen: false,
+    });
+  };
+
   render() {
     let mapMarker = null;
     const { focusedLocation, locationChosen } = this.state;
@@ -73,6 +88,7 @@ export default class PickLocation extends Component {
       <>
         <MapView
           initialRegion={focusedLocation}
+          region={!locationChosen ? focusedLocation : null}
           onPress={this.handlePickLocation}
           style={styles.map}
           ref={this.map}

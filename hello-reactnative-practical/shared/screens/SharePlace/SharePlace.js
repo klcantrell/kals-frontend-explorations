@@ -30,6 +30,8 @@ class SharePlaceScreen extends Component {
     super(props);
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
     this.scrollView = React.createRef();
+    this.imagePicker = React.createRef();
+    this.locationPicker = React.createRef();
     this.keyboardHeight = new Animated.Value(0);
     this.keyboardDidShowSubscription = Keyboard.addListener(
       'keyboardDidShow',
@@ -132,17 +134,7 @@ class SharePlaceScreen extends Component {
       controls.location.value,
       controls.image.value
     );
-    this.setState(prevState => {
-      return {
-        controls: {
-          ...prevState.controls,
-          placeName: {
-            ...prevState.controls.placeName,
-            value: '',
-          },
-        },
-      };
-    });
+    this.reset();
   };
 
   handleLocationPicked = location => {
@@ -171,6 +163,32 @@ class SharePlaceScreen extends Component {
         },
       };
     });
+  };
+
+  reset = () => {
+    this.setState({
+      controls: {
+        placeName: {
+          value: '',
+          valid: false,
+          validationRules: {
+            hasValue: true,
+          },
+          touched: false,
+          touchedWithoutValidation: false,
+        },
+        location: {
+          value: null,
+          valid: false,
+        },
+        image: {
+          value: null,
+          valid: false,
+        },
+      },
+    });
+    this.imagePicker.current.reset();
+    this.locationPicker.current.reset();
   };
 
   render() {
@@ -207,8 +225,14 @@ class SharePlaceScreen extends Component {
               <Text>Share a place with us!</Text>
             </HeadingText>
           </MainText>
-          <PickImage onImagePicked={this.handleImagePicked} />
-          <PickLocation onLocationPicked={this.handleLocationPicked} />
+          <PickImage
+            onImagePicked={this.handleImagePicked}
+            ref={this.imagePicker}
+          />
+          <PickLocation
+            onLocationPicked={this.handleLocationPicked}
+            ref={this.locationPicker}
+          />
           <PlaceInput
             placeData={controls.placeName}
             onFocus={this.handleInputFocus}

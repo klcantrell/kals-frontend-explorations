@@ -35,6 +35,12 @@ export default class PickImage extends Component {
     );
   };
 
+  reset = () => {
+    this.setState({
+      pickedImage: null,
+    });
+  };
+
   render() {
     const { pickedImage } = this.state;
     return (
