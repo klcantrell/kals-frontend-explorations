@@ -4,5 +4,6 @@ export {
   authGetToken,
   authAutoSignIn,
   authClearStorage,
+  authTryRefreshToken
 } from './auth';
 export { uiStartLoading, uiStopLoading } from './ui';

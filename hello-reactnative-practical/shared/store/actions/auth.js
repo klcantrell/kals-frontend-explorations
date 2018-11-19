@@ -29,7 +29,9 @@ export const tryAuth = (authData, authMode) => {
         if (!data.idToken) {
           alert('Something went wrong, please try again');
         } else {
-          dispatch(authStoreToken(data.idToken, data.expiresIn));
+          dispatch(
+            authStoreToken(data.idToken, data.expiresIn, data.refreshToken)
+          );
           startMainTabs();
         }
       })
@@ -41,12 +43,13 @@ export const tryAuth = (authData, authMode) => {
   };
 };
 
-export const authStoreToken = (token, expiresIn) => {
+export const authStoreToken = (token, expiresIn, refreshToken) => {
   const expiryDate = Date.now() + expiresIn * 1000;
   return dispatch => {
     dispatch(authSetToken(token));
     AsyncStorage.setItem('places:auth:token', token);
     AsyncStorage.setItem('places:auth:expiryDate', expiryDate.toString());
+    AsyncStorage.setItem('places:auth:refreshToken', refreshToken);
   };
 };
 
@@ -63,7 +66,7 @@ export const authGetToken = () => {
       let asyncStorageToken;
       const token = getState().auth.token;
       if (!token) {
-        AsyncStorage.getItem('places:auth:token')
+        return AsyncStorage.getItem('places:auth:token')
           .then(tokenFromStorage => {
             asyncStorageToken = tokenFromStorage;
             if (!tokenFromStorage) {
@@ -83,7 +86,17 @@ export const authGetToken = () => {
       } else {
         resolve(token);
       }
-    });
+    })
+      .catch(err => {
+        return dispatch(authTryRefreshToken());
+      })
+      .then(token => {
+        if (!token) {
+          throw Error('No valid token found');
+        } else {
+          return token;
+        }
+      });
   };
 };
 
@@ -97,9 +110,43 @@ export const authAutoSignIn = () => {
   };
 };
 
+export const authTryRefreshToken = () => {
+  return dispatch => {
+    return AsyncStorage.getItem('places:auth:refreshToken')
+      .then(refreshToken => {
+        if (refreshToken) {
+          return fetch(
+            `https://securetoken.googleapis.com/v1/token?key=${API_KEY}`,
+            {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+              },
+              body: `grant_type=refresh_token&refresh_token=${refreshToken}`,
+            }
+          );
+        } else {
+          return null;
+        }
+      })
+      .then(data => {
+        if (data.id_token) {
+          dispatch(
+            authStoreToken(data.id_token, data.expires_in, data.refresh_token)
+          );
+          return data.id_token;
+        } else {
+          dispatch(authClearStorage());
+        }
+      })
+      .catch(err => console.log(err));
+  };
+};
+
 export const authClearStorage = () => {
   return dispatch => {
     AsyncStorage.removeItem('places:auth:token');
     AsyncStorage.removeItem('places:auth:expiryDate');
+    AsyncStorage.removeItem('places:auth:refreshToken');
   };
 };
