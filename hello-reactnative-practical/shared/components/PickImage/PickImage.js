@@ -12,6 +12,8 @@ export default class PickImage extends Component {
     ImagePicker.showImagePicker(
       {
         title: 'Pick an Image',
+        maxWidth: 800,
+        maxHeight: 600,
       },
       res => {
         switch (true) {
