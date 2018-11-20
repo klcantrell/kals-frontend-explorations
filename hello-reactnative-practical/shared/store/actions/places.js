@@ -35,7 +35,13 @@ export const addPlace = (placeName, location, image) => {
       .catch(() => {
         alert('No valid token found');
       })
-      .then(res => res.json())
+      .then(res => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          throw Error();
+        }
+      })
       .then(data => {
         const placeData = {
           name: placeName,
@@ -46,7 +52,13 @@ export const addPlace = (placeName, location, image) => {
           method: 'POST',
           body: JSON.stringify(placeData),
         })
-          .then(res => res.json())
+          .then(res => {
+            if (res.ok) {
+              return res.json();
+            } else {
+              throw Error();
+            }
+          })
           .then(data => {
             console.log(data);
             dispatch(uiStopLoading());
@@ -70,7 +82,13 @@ export const getPlaces = () => {
       .catch(() => {
         alert('No valid token found');
       })
-      .then(res => res.json())
+      .then(res => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          throw Error();
+        }
+      })
       .then(data => {
         if (!data.error) {
           const places = Object.keys(data).map(key => {
@@ -113,7 +131,13 @@ export const deletePlace = placeKey => {
       .catch(() => {
         alert('No valid token found');
       })
-      .then(res => res.json())
+      .then(res => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          throw Error();
+        }
+      })
       .then(data => {
         console.log(data);
       })

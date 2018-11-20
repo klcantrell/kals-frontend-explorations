@@ -132,13 +132,13 @@ export const authTryRefreshToken = () => {
       })
       .then(res => res.json())
       .then(data => {
-        if (data.id_token) {
+        if (!data.id_token) {
+        } else {
+          dispatch(authClearStorage());
           dispatch(
             authStoreToken(data.id_token, data.expires_in, data.refresh_token)
           );
           return data.id_token;
-        } else {
-          dispatch(authClearStorage());
         }
       })
       .catch(err => console.log(err));
