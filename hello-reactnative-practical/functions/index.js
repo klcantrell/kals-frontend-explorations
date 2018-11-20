@@ -57,6 +57,7 @@ exports.storeImage = functions.https.onRequest((request, response) => {
                 .then(signedUrls => {
                   return response.status(201).json({
                     imageUrl: signedUrls[0],
+                    imagePath: `/places/${uuid}.jpg`,
                   });
                 });
             } else {
@@ -71,3 +72,11 @@ exports.storeImage = functions.https.onRequest((request, response) => {
       });
   });
 });
+
+exports.deleteImage = functions.database
+  .ref('/places/{placeId}')
+  .onDelete(snapshot => {
+    const imagePath = snapshot.val().imagePath;
+
+    return bucket.file(imagePath).delete();
+  });

@@ -47,6 +47,7 @@ export const addPlace = (placeName, location, image) => {
           name: placeName,
           location,
           image: data.imageUrl,
+          imagePath: data.imagePath,
         };
         return fetch(`${DATABASE_URL}/places.json?auth=${authToken}`, {
           method: 'POST',
