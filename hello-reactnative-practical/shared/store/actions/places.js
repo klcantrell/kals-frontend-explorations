@@ -106,7 +106,7 @@ export const getPlaces = () => {
         }
       })
       .catch(err => {
-        alert('Something went wrong, please try again!');
+        alert('No places found!  Please add a place.');
         console.log(err);
       });
   };
