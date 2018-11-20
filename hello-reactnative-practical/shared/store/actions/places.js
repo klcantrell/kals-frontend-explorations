@@ -1,8 +1,19 @@
 import { DATABASE_URL, SAVEIMAGE_URL } from 'react-native-dotenv';
 
-import { SET_PLACES, REMOVE_PLACE } from './actionTypes';
+import {
+  SET_PLACES,
+  REMOVE_PLACE,
+  START_ADD_PLACE,
+  END_ADD_PLACE,
+} from './actionTypes';
 import { uiStartLoading, uiStopLoading } from './ui';
 import { authGetToken } from './auth';
+
+export const startAddPlace = () => {
+  return {
+    type: START_ADD_PLACE,
+  };
+};
 
 export const addPlace = (placeName, location, image) => {
   return dispatch => {
@@ -39,6 +50,7 @@ export const addPlace = (placeName, location, image) => {
           .then(data => {
             console.log(data);
             dispatch(uiStopLoading());
+            dispatch(endAddPlace());
           });
       })
       .catch(err => {
@@ -116,5 +128,11 @@ export const removePlace = placeKey => {
   return {
     type: REMOVE_PLACE,
     payload: placeKey,
+  };
+};
+
+export const endAddPlace = () => {
+  return {
+    type: END_ADD_PLACE,
   };
 };

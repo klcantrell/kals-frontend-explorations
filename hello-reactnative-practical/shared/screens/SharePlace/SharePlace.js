@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 
-import { addPlace } from '../../store/actions';
+import { addPlace, startAddPlace } from '../../store/actions';
 
 import validate from '../../utility/validation';
 
@@ -65,6 +65,13 @@ class SharePlaceScreen extends Component {
     },
   };
 
+  componentDidUpdate() {
+    const { placeAdded, navigator } = this.props;
+    if (placeAdded) {
+      navigator.switchToTab({ tabIndex: 0 });
+    }
+  }
+
   keyboardDidShow = event => {
     const { controls } = this.state;
     Animated.timing(this.keyboardHeight, {
@@ -90,6 +97,11 @@ class SharePlaceScreen extends Component {
           this.props.navigator.toggleDrawer({
             side: 'left',
           });
+        }
+        break;
+      case 'ScreenChangedEvent':
+        if (event.id === 'willAppear') {
+          this.props.handleStartAddPlace();
         }
         break;
       default:
@@ -269,6 +281,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => {
   return {
     isLoading: state.ui.isLoading,
+    placeAdded: state.places.placeAdded,
   };
 };
 
@@ -276,6 +289,9 @@ const mapDispatchToProps = dispatch => {
   return {
     handleAddPlace: (placeName, location, image) =>
       dispatch(addPlace(placeName, location, image)),
+    handleStartAddPlace: () => {
+      dispatch(startAddPlace());
+    },
   };
 };
 
