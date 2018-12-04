@@ -111,4 +111,4 @@ const appStyles = css`
   font-family: fantasy;
 `;
 
-export default App;
+export default App
