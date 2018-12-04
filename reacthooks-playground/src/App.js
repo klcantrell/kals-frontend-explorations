@@ -1,17 +1,30 @@
-import React, { useState, useEffect, useRef } from 'react';
-import './App.css';
+/** @jsx jsx */
+import { useState, useEffect, useRef } from 'react';
+import { css, jsx, Global } from '@emotion/core';
 
 function IncButton({ handleClick }) {
   return (
-    <button className="inc-button" onClick={handleClick}>
+    <button css={incButtonStyles}  onClick={handleClick}>
       +
     </button>
   );
 }
 
+const incButtonStyles = css`
+  padding: 0px 20px;
+  font-size: 80px;
+  background-color: rgb(0, 119, 255);
+  border-color: rgb(0, 119, 255);
+  border-radius: 10px;
+`;
+
 function CountDisplay({ count }) {
-  return <div className="count-display">{count}</div>;
+  return <div css={countDisplayStyles}>{count}</div>;
 }
+
+const countDisplayStyles = css`
+  font-size: 50px;
+`;
 
 function App() {
   const [count, setCount] = useState(0);
@@ -55,17 +68,47 @@ function App() {
   };
   return (
     <div
-      className="App"
+      css={appStyles}
       style={{
         backgroundColor: `
         rgb(${calcRed(count)}, ${calcGreen(count)}, ${calcBlue(count)})`,
       }}
       ref={container}
     >
+      <Global styles={css`
+        .all-done {
+          border: 5px solid rgb(255, 0, 255);
+        }
+        .all-done::after {
+          content: 'Yer done!';
+          display: block;
+          position: absolute;
+          left: 50%;
+          transform: translateX(-50%);
+          top: 25%;
+          font-size: 30px;
+        }
+      `} />
       <CountDisplay count={count} />
       <IncButton handleClick={incrementCount} />
     </div>
   );
 }
+
+const appStyles = css`
+  position: relative;
+  background-color: blue;
+  border-radius: 30%;
+  width: 500px;
+  height: 500px;
+  display: grid;
+  justify-content: center;
+  justify-items: center;
+  align-content: center;
+  margin: auto;
+  box-sizing: border-box;
+  border: 5px solid transparent;
+  font-family: fantasy;
+`;
 
 export default App;
