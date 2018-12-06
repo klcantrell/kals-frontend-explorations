@@ -4,7 +4,7 @@ import { css, jsx, Global } from '@emotion/core';
 
 function IncButton({ handleClick }) {
   return (
-    <button css={incButtonStyles}  onClick={handleClick}>
+    <button css={incButtonStyles} onClick={handleClick}>
       +
     </button>
   );
@@ -12,6 +12,7 @@ function IncButton({ handleClick }) {
 
 const incButtonStyles = css`
   padding: 0px 20px;
+  box-shadow: 0px 0px 4px 1px;
   font-size: 80px;
   background-color: rgb(0, 119, 255);
   border-color: rgb(0, 119, 255);
@@ -75,20 +76,25 @@ function App() {
       }}
       ref={container}
     >
-      <Global styles={css`
-        .all-done {
-          border: 5px solid rgb(255, 0, 255);
-        }
-        .all-done::after {
-          content: 'Yer done!';
-          display: block;
-          position: absolute;
-          left: 50%;
-          transform: translateX(-50%);
-          top: 25%;
-          font-size: 30px;
-        }
-      `} />
+      <Global
+        styles={css`
+          body {
+            background-color: #fff;
+          }
+          .all-done {
+            border: 5px solid rgb(255, 0, 255);
+          }
+          .all-done::after {
+            content: 'Yer done!';
+            display: block;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            top: 25%;
+            font-size: 30px;
+          }
+        `}
+      />
       <CountDisplay count={count} />
       <IncButton handleClick={incrementCount} />
     </div>
@@ -99,6 +105,7 @@ const appStyles = css`
   position: relative;
   background-color: blue;
   border-radius: 30%;
+  box-shadow: 0px 0px 10px rgb(0, 119, 255);
   width: 500px;
   height: 500px;
   display: grid;
@@ -111,4 +118,4 @@ const appStyles = css`
   font-family: fantasy;
 `;
 
-export default App
+export default App;
