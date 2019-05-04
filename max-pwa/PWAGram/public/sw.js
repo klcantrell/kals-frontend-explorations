@@ -1,7 +1,7 @@
 self.addEventListener('install', event => {
   console.log('[Service Worker] Installing Service Worker...', event);
   event.waitUntil(
-    caches.open('static').then(cache => {
+    caches.open('static-v3').then(cache => {
       console.log('[Service Worker] Precaching App Shell');
       cache.addAll([
         '/',
@@ -22,6 +22,19 @@ self.addEventListener('install', event => {
 
 self.addEventListener('activate', event => {
   console.log('[Service Worker] Activating Service Worker...', event);
+  event.waitUntil(
+    caches.keys().then(keyList => {
+      console.log(keyList);
+      return Promise.all(
+        keyList.map(key => {
+          if (key !== 'static-v3' && key !== 'dynamic') {
+            console.log('[Service Worker] removing old cache', key);
+            return caches.delete(key);
+          }
+        })
+      );
+    })
+  );
   return self.clients.claim();
 });
 
@@ -30,15 +43,17 @@ self.addEventListener('fetch', event => {
     caches.match(event.request).then(res => {
       return res
         ? res
-        : fetch(event.request).then(serverRes => {
-            if (event.request.url.includes('browser-sync')) {
-              return serverRes;
-            }
-            caches.open('dynamic').then(cache => {
-              cache.put(event.request.url, serverRes.clone());
-              return serverRes;
-            });
-          });
+        : fetch(event.request)
+            .then(serverRes => {
+              if (event.request.url.includes('browser-sync')) {
+                return serverRes;
+              }
+              caches.open('dynamic').then(cache => {
+                cache.put(event.request.url, serverRes.clone());
+                return serverRes;
+              });
+            })
+            .catch(console.log);
     })
   );
 });
