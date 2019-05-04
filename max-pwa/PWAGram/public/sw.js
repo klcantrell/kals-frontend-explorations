@@ -28,7 +28,17 @@ self.addEventListener('activate', event => {
 self.addEventListener('fetch', event => {
   event.respondWith(
     caches.match(event.request).then(res => {
-      return res ? res : fetch(event.request);
+      return res
+        ? res
+        : fetch(event.request).then(serverRes => {
+            if (event.request.url.includes('browser-sync')) {
+              return serverRes;
+            }
+            caches.open('dynamic').then(cache => {
+              cache.put(event.request.url, serverRes.clone());
+              return serverRes;
+            });
+          });
     })
   );
 });
