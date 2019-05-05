@@ -1,5 +1,5 @@
-const CACHE_STATIC_NAME = 'static-v4';
-const CACHE_DYNAMIC_NAME = 'dynamic-v2';
+const CACHE_STATIC_NAME = 'static-v14';
+const CACHE_DYNAMIC_NAME = 'dynamic-v11';
 
 self.addEventListener('install', event => {
   console.log('[Service Worker] Installing Service Worker...', event);
@@ -29,7 +29,7 @@ self.addEventListener('activate', event => {
     caches.keys().then(keyList => {
       return Promise.all(
         keyList.map(key => {
-          if (key !== CACHE_STATIC_NAME && key !== CACHE_DYNAMIC_NAME {
+          if (key !== CACHE_STATIC_NAME && key !== CACHE_DYNAMIC_NAME) {
             console.log('[Service Worker] removing old cache', key);
             return caches.delete(key);
           }
@@ -50,8 +50,8 @@ self.addEventListener('fetch', event => {
               if (event.request.url.includes('browser-sync')) {
                 return serverRes;
               }
-              caches.open(CACHE_DYNAMIC_NAME).then(cache => {
-                cache.put(event.request.url, serverRes.clone());
+              return caches.open(CACHE_DYNAMIC_NAME).then(cache => {
+                // cache.put(event.request.url, serverRes.clone());
                 return serverRes;
               });
             })
