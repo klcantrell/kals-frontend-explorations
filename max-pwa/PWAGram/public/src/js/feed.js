@@ -31,6 +31,7 @@ shareImageButton.addEventListener('click', openCreatePostModal);
 
 closeCreatePostModalButton.addEventListener('click', closeCreatePostModal);
 
+// could be used to dynamically cache an asset on demand
 function handleSaveButtonClicked(e) {
   console.log('save button clicked');
   if ('caches' in window) {
@@ -61,10 +62,10 @@ function createCard() {
   cardSupportingText.className = 'mdl-card__supporting-text';
   cardSupportingText.textContent = 'In San Francisco';
   cardSupportingText.style.textAlign = 'center';
-  const cardSaveButton = document.createElement('button');
-  cardSaveButton.textContent = 'Save';
-  cardSaveButton.addEventListener('click', handleSaveButtonClicked);
-  cardSupportingText.appendChild(cardSaveButton);
+  // const cardSaveButton = document.createElement('button');
+  // cardSaveButton.textContent = 'Save';
+  // cardSaveButton.addEventListener('click', handleSaveButtonClicked);
+  // cardSupportingText.appendChild(cardSaveButton);
   cardWrapper.appendChild(cardSupportingText);
   componentHandler.upgradeElement(cardWrapper);
   sharedMomentsArea.appendChild(cardWrapper);
