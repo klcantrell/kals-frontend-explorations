@@ -1,20 +1,17 @@
-const CACHE_STATIC_NAME = 'static-v4';
-const CACHE_DYNAMIC_NAME = 'dynamic-v2';
+const CACHE_STATIC_NAME = 'static-v3';
+const CACHE_DYNAMIC_NAME = 'dynamic-v1';
 
 self.addEventListener('install', event => {
-  console.log('[Service Worker] Installing Service Worker...', event);
+  console.log('[Service Worker] Installing', event);
   event.waitUntil(
     caches.open(CACHE_STATIC_NAME).then(cache => {
-      console.log('[Service Worker] Precaching App Shell');
       cache.addAll([
         '/',
         '/index.html',
-        '/src/js/app.js',
-        '/src/js/feed.js',
+        '/src/js/main.js',
         '/src/js/material.min.js',
         '/src/css/app.css',
-        '/src/css/feed.css',
-        '/src/images/main-image.jpg',
+        '/src/css/main.css',
         'https://fonts.googleapis.com/css?family=Roboto:400,700',
         'https://fonts.googleapis.com/icon?family=Material+Icons',
         'https://cdnjs.cloudflare.com/ajax/libs/material-design-lite/1.3.0/material.indigo-pink.min.css',
@@ -24,13 +21,13 @@ self.addEventListener('install', event => {
 });
 
 self.addEventListener('activate', event => {
-  console.log('[Service Worker] Activating Service Worker...', event);
+  console.log('[Service Worker] Activating', event);
   event.waitUntil(
     caches.keys().then(keyList => {
       return Promise.all(
         keyList.map(key => {
-          if (key !== CACHE_STATIC_NAME && key !== CACHE_DYNAMIC_NAME {
-            console.log('[Service Worker] removing old cache', key);
+          if (key !== CACHE_STATIC_NAME && key !== CACHE_DYNAMIC_NAME) {
+            console.log('[Service Woker] Removing old cache', key);
             return caches.delete(key);
           }
         })
@@ -47,10 +44,7 @@ self.addEventListener('fetch', event => {
         ? res
         : fetch(event.request)
             .then(serverRes => {
-              if (event.request.url.includes('browser-sync')) {
-                return serverRes;
-              }
-              caches.open(CACHE_DYNAMIC_NAME).then(cache => {
+              return caches.open(CACHE_DYNAMIC_NAME).then(cache => {
                 cache.put(event.request.url, serverRes.clone());
                 return serverRes;
               });
