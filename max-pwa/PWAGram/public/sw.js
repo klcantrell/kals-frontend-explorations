@@ -1,5 +1,5 @@
-const CACHE_STATIC_NAME = 'static-v2';
-const CACHE_DYNAMIC_NAME = 'dynamic-v1';
+const CACHE_STATIC_NAME = 'static-v3';
+const CACHE_DYNAMIC_NAME = 'dynamic-v2';
 
 self.addEventListener('install', event => {
   console.log('[Service Worker] Installing Service Worker...', event);
@@ -41,26 +41,46 @@ self.addEventListener('activate', event => {
   return self.clients.claim();
 });
 
+// cache first w/ network fallback strategy
+// self.addEventListener('fetch', event => {
+//   event.respondWith(
+//     caches.match(event.request).then(res => {
+//       return res
+//         ? res
+//         : fetch(event.request)
+//             .then(serverRes => {
+//               if (event.request.url.includes('browser-sync')) {
+//                 return serverRes;
+//               }
+//               return caches.open(CACHE_DYNAMIC_NAME).then(cache => {
+//                 cache.put(event.request.url, serverRes.clone());
+//                 return serverRes;
+//               });
+//             })
+//             .catch(err => {
+//               return caches.open(CACHE_STATIC_NAME).then(cache => {
+//                 return cache.match('/offline.html');
+//               });
+//             });
+//     })
+//   );
+// });
+
+// network first w/ cache fallback strategy
 self.addEventListener('fetch', event => {
   event.respondWith(
-    caches.match(event.request).then(res => {
-      return res
-        ? res
-        : fetch(event.request)
-            .then(serverRes => {
-              if (event.request.url.includes('browser-sync')) {
-                return serverRes;
-              }
-              return caches.open(CACHE_DYNAMIC_NAME).then(cache => {
-                cache.put(event.request.url, serverRes.clone());
-                return serverRes;
-              });
-            })
-            .catch(err => {
-              return caches.open(CACHE_STATIC_NAME).then(cache => {
-                return cache.match('/offline.html');
-              });
-            });
-    })
+    fetch(event.request)
+      .then(serverRes => {
+        if (event.request.url.includes('browser-sync')) {
+          return serverRes;
+        }
+        return caches.open(CACHE_DYNAMIC_NAME).then(cache => {
+          cache.put(event.request.url, serverRes.clone());
+          return serverRes;
+        });
+      })
+      .catch(err => {
+        return caches.match(event.request);
+      })
   );
 });
