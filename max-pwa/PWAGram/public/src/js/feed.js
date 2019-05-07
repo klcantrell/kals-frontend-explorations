@@ -1,4 +1,4 @@
-const USER_REQUESTED_CACHE = 'user-requested-v1';
+const USER_REQUESTED_CACHE = 'user-requested-v2';
 
 const shareImageButton = document.querySelector('#share-image-button');
 const createPostArea = document.querySelector('#create-post');
@@ -44,6 +44,12 @@ function handleSaveButtonClicked(e) {
   }
 }
 
+function clearCards() {
+  while (sharedMomentsArea.hasChildNodes()) {
+    sharedMomentsArea.removeChild(sharedMomentsArea.lastChild);
+  }
+}
+
 function createCard() {
   const cardWrapper = document.createElement('div');
   cardWrapper.className = 'shared-moment-card mdl-card mdl-shadow--2dp';
@@ -71,7 +77,33 @@ function createCard() {
   sharedMomentsArea.appendChild(cardWrapper);
 }
 
+const url = 'https://httpbin.org/get';
+let networkDataReceived = false;
+
 // fake dynamic content
 fetch('https://httpbin.org/get')
   .then(res => res.json())
-  .then(data => createCard());
+  .then(data => {
+    networkDataReceived = true;
+    console.log('From network', data);
+    clearCards();
+    createCard();
+  });
+
+if ('caches' in window) {
+  caches
+    .match(url)
+    .then(res => {
+      if (res) {
+        return res.json();
+      }
+    })
+    .then(data => {
+      console.log('From cache', data);
+      if (!networkDataReceived) {
+        createCard();
+      }
+    });
+} else {
+  alert("You don't have the ability to save offline");
+}
