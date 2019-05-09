@@ -1,6 +1,7 @@
-const CACHE_STATIC_NAME = 'static-v1';
-const CACHE_DYNAMIC_NAME = 'dynamic-v1';
+const CACHE_STATIC_NAME = 'static-v3';
+const CACHE_DYNAMIC_NAME = 'dynamic-v3';
 const STATIC_FILES = [
+  '/',
   '/index.html',
   '/offline.html',
   '/src/js/app.js',
@@ -19,7 +20,7 @@ self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_STATIC_NAME).then(cache => {
       console.log('[Service Worker] Precaching App Shell');
-      cache.addAll([...STATIC_FILES, '/']);
+      cache.addAll(STATIC_FILES);
     })
   );
 });
@@ -66,6 +67,18 @@ self.addEventListener('activate', event => {
 //   );
 // });
 
+function isInArray(string, array) {
+  var cachePath;
+  if (string.indexOf(self.origin) === 0) {
+    // request targets domain where we serve the page from (i.e. NOT a CDN)
+    console.log('matched ', string);
+    cachePath = string.substring(self.origin.length); // take the part of the URL AFTER the domain (e.g. after localhost:8080)
+  } else {
+    cachePath = string; // store the full request (for CDNs)
+  }
+  return array.indexOf(cachePath) > -1;
+}
+
 // cache then network strategy, service worker side
 self.addEventListener('fetch', event => {
   const url = 'https://httpbin.org/get';
@@ -79,11 +92,7 @@ self.addEventListener('fetch', event => {
         });
       })
     );
-  } else if (
-    new RegExp('\\b' + STATIC_FILES.join('\\b|\\b') + '\\b').test(
-      event.request.url
-    )
-  ) {
+  } else if (isInArray(event.request.url, STATIC_FILES)) {
     event.respondWith(caches.match(event.request));
   } else {
     event.respondWith(
@@ -102,7 +111,9 @@ self.addEventListener('fetch', event => {
               })
               .catch(err => {
                 return caches.open(CACHE_STATIC_NAME).then(cache => {
-                  if (event.request.url.includes('/help')) {
+                  if (
+                    event.request.headers.get('accept').includes('text/html')
+                  ) {
                     return cache.match('/offline.html');
                   }
                 });

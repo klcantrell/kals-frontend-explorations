@@ -1,4 +1,4 @@
-const USER_REQUESTED_CACHE = 'user-requested-v2';
+const USER_REQUESTED_CACHE = 'user-requested-v3';
 
 const shareImageButton = document.querySelector('#share-image-button');
 const createPostArea = document.querySelector('#create-post');
