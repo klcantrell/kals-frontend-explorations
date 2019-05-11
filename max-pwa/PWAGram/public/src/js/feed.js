@@ -13,13 +13,24 @@ function openCreatePostModal() {
     deferredPrompt.prompt();
     deferredPrompt.userChoice.then(choiceResult => {
       console.log(choiceResult.outcome);
+      if (choiceResult.outcome === 'dismissed') {
+        console.log('user cancelled installation');
+      } else {
+        console.log('user added to homescreen');
+      }
+      deferredPrompt = null;
     });
-    if (choiceResult.outcome === 'dismissed') {
-      console.log('user cancelled installation');
-    } else {
-      console.log('user added to homescreen');
-    }
-    deferredPrompt = null;
+  }
+
+  // example on how to remove all service workers
+  if ('serviceWorker' in navigator) {
+    console.log('service worker here?');
+    navigator.serviceWorker.getRegistrations().then(registrations => {
+      registrations.forEach(registration => {
+        console.log('unregistering service worker');
+        registration.unregister();
+      });
+    });
   }
 }
 
