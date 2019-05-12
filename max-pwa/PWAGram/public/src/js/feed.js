@@ -111,6 +111,7 @@ fetch(url)
   .then(res => res.json())
   .then(data => {
     networkDataReceived = true;
+    console.log('From web', data);
     const dataArray = mapFirebaseResponseToArray(data);
     updateUi(dataArray);
   });
