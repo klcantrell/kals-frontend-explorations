@@ -101,11 +101,15 @@ self.addEventListener('fetch', event => {
       fetch(event.request).then(res => {
         // trimCache(CACHE_DYNAMIC_NAME, 3);
         const clonedRes = res.clone();
-        clonedRes.json().then(data => {
-          for (const key in data) {
-            writeData('posts', data[key]);
-          }
-        });
+        clearAllData('posts')
+          .then(() => {
+            return clonedRes.json();
+          })
+          .then(data => {
+            for (const key in data) {
+              writeData('posts', data[key]);
+            }
+          });
         return res;
       })
     );

@@ -20,3 +20,12 @@ function readAllData(store) {
     return st.getAll();
   });
 }
+
+function clearAllData(store) {
+  return db.then(openedDb => {
+    const tx = openedDb.transaction(store, 'readwrite');
+    const st = tx.objectStore(store);
+    st.clear();
+    return tx.complete;
+  });
+}
