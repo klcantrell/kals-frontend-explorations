@@ -116,21 +116,11 @@ fetch(url)
     updateUi(dataArray);
   });
 
-if ('caches' in window) {
-  caches
-    .match(url)
-    .then(res => {
-      if (res) {
-        return res.json();
-      }
-    })
-    .then(data => {
+if ('indexedDB' in window) {
+  readAllData('posts').then(data => {
+    if (!networkDataReceived) {
       console.log('From cache', data);
-      if (!networkDataReceived) {
-        const dataArray = mapFirebaseResponseToArray(data);
-        updateUi(dataArray);
-      }
-    });
-} else {
-  alert("You don't have the ability to save offline");
+      updateUi(data);
+    }
+  });
 }
