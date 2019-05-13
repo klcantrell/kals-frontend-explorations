@@ -29,3 +29,16 @@ function clearAllData(store) {
     return tx.complete;
   });
 }
+
+function deleteItemFromData(store, id) {
+  return db
+    .then(openedDb => {
+      const tx = openedDb.transaction(store, 'readwrite');
+      const st = tx.objectStore(store);
+      st.delete(id);
+      return tx.complete;
+    })
+    .then(() => {
+      console.log('Item deleted!');
+    });
+}
