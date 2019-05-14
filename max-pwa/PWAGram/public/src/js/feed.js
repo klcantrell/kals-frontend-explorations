@@ -6,6 +6,9 @@ const closeCreatePostModalButton = document.querySelector(
   '#close-create-post-modal-btn'
 );
 const sharedMomentsArea = document.querySelector('#shared-moments');
+const form = document.querySelector('form');
+const titleInput = document.querySelector('#title');
+const locationInput = document.querySelector('#location');
 
 function openCreatePostModal() {
   createPostArea.classList.add('create-post--show');
@@ -123,3 +126,19 @@ if ('indexedDB' in window) {
     }
   });
 }
+
+form.addEventListener('submit', e => {
+  e.preventDefault();
+  if (titleInput.value.trim() === '' || locationInput.value.trim() === '') {
+    alert('Please enter valid data');
+    return;
+  }
+
+  closeCreatePostModal();
+
+  if ('serviceWorker' in navigator && 'SyncManager' in window) {
+    navigator.serviceWorker.ready.then(sw => {
+      sw.sync.register('sync-new-post');
+    });
+  }
+});
