@@ -8,7 +8,14 @@
   top: 56px;
   background: white;
   text-align: center;
-  display: none;
+  visibility: hidden;
+  transform: translateY(100vh);
+  transition: transform 300ms, visibility 300ms;
+}
+
+#create-post.create-post--show {
+  visibility: visible;
+  transform: translateY(0);
 }
 
 .main-image {
