@@ -164,7 +164,8 @@ self.addEventListener('fetch', event => {
 //   );
 // });
 
-const url = 'https://pwagram-d5dac.firebaseio.com/posts.json';
+const url =
+  'https://us-central1-pwagram-d5dac.cloudfunctions.net/storePostData';
 
 self.addEventListener('sync', event => {
   console.log('[Service Worker] Background syncing', event);
@@ -190,7 +191,9 @@ self.addEventListener('sync', event => {
             .then(res => {
               console.log('Sent data', res);
               if (res.ok) {
-                deleteItemFromData('sync-posts', dt.id);
+                res.json().then(data => {
+                  deleteItemFromData('sync-posts', data.id);
+                });
               }
             })
             .catch(err => {
