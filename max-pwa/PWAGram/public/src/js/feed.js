@@ -128,6 +128,25 @@ if ('indexedDB' in window) {
   });
 }
 
+function sendData() {
+  fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
+    body: JSON.stringify({
+      id: new Date().toISOString(),
+      title: titleInput.value,
+      location: locationInput.value,
+      image:
+        'https://firebasestorage.googleapis.com/v0/b/pwagram-d5dac.appspot.com/o/lili-kovac-432691-unsplash.jpg?alt=media&token=df868d79-64fb-4ba6-8b37-f3cb8cafec64',
+    }),
+  }).then(res => {
+    console.log('Sent data', res);
+  });
+}
+
 form.addEventListener('submit', e => {
   e.preventDefault();
   if (titleInput.value.trim() === '' || locationInput.value.trim() === '') {
@@ -146,12 +165,15 @@ form.addEventListener('submit', e => {
       };
       writeData('sync-posts', post)
         .then(() => {
-          sw.sync.register('sync-new-post');
+          sw.sync.register('sync-new-posts');
         })
         .then(() => {
           const data = { message: 'Your post was saved for syncing!' };
           snackbarContainer.MaterialSnackbar.showSnackbar(data);
-        });
+        })
+        .catch(err => console.log(err));
     });
+  } else {
+    sendData();
   }
 });
