@@ -204,3 +204,22 @@ self.addEventListener('sync', event => {
     );
   }
 });
+
+self.addEventListener('notificationclick', event => {
+  const notification = event.notification;
+  const action = event.action;
+  console.log('notification', notification);
+  console.log('action', action);
+
+  if (action === 'confirm') {
+    console.log('Confirm was chosen!');
+    notification.close();
+  } else {
+    console.log('Some other option other than confirm was chosen!');
+    notification.close();
+  }
+});
+
+self.addEventListener('notificationclose', event => {
+  console.log('Notification was closed', event);
+});
