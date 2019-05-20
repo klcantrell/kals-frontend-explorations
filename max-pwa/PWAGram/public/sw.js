@@ -215,8 +215,19 @@ self.addEventListener('notificationclick', event => {
     console.log('Confirm was chosen!');
     notification.close();
   } else {
-    console.log('Some other option other than confirm was chosen!');
-    notification.close();
+    event.waitUntil(
+      clients.matchAll().then(allClients => {
+        const client = allClients.find(c => c.visibilityState === 'visible');
+
+        if (client) {
+          client.navigate('http://localhost:3000');
+          client.focus();
+        } else {
+          clients.openWindow('http://localhost:3000');
+        }
+        notification.close();
+      })
+    );
   }
 });
 
