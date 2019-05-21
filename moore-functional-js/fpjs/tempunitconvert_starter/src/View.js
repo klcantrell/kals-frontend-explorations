@@ -17,13 +17,12 @@ function temperatureInput(value, oninput) {
 
 function unitSelect(selectedOption, oninput) {
   const options = R.map(opt => {
-      return option(
-        {
-          value: opt,
-          selected: selectedOption === opt,
-        },
-        opt
-      );
+    return option(
+      {
+        value: opt,
+        selected: selectedOption === opt,
+      },
+      opt
     );
   }, R.values(UNIT));
   return select({ oninput }, options);
