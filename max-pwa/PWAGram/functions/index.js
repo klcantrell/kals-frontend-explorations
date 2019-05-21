@@ -48,7 +48,8 @@ exports.storePostData = functions.https.onRequest((req, res) => {
               pushConfig,
               JSON.stringify({
                 title: 'New Post',
-                content: 'New Post Added!',
+                content: 'A new post was added!',
+                openUrl: '/help',
               })
             )
             .catch(console.log);
