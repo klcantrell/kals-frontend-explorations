@@ -46,6 +46,21 @@ function initializeMedia() {
     });
 }
 
+captureButton.addEventListener('click', e => {
+  canvasElement.style.display = 'block';
+  videoPlayer.style.display = 'none';
+  captureButton.style.display = 'none';
+  const context = canvasElement.getContext('2d');
+  context.drawImage(
+    videoPlayer,
+    0,
+    0,
+    canvasElement.width,
+    videoPlayer.videoHeight / (videoPlayer.videoWidth / canvasElement.width)
+  );
+  videoPlayer.srcObject.getVideoTracks().forEach(track => track.stop());
+});
+
 function openCreatePostModal() {
   createPostArea.classList.add('create-post--show');
   initializeMedia();
