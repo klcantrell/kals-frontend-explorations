@@ -10,9 +10,45 @@ const form = document.querySelector('form');
 const titleInput = document.querySelector('#title');
 const locationInput = document.querySelector('#location');
 const snackbarContainer = document.querySelector('#confirmation-toast');
+const videoPlayer = document.querySelector('#player');
+const canvasElement = document.querySelector('#canvas');
+const captureButton = document.querySelector('#capture-btn');
+const imagePicker = document.querySelector('#image-picker');
+const imagePickerArea = document.querySelector('#pick-image');
+
+function initializeMedia() {
+  if (!'mediaDevices' in navigator) {
+    navigator.mediaDevices;
+  }
+  if (!('getUserMedia' in navigator.mediaDevices)) {
+    navigator.mediaDevices.getUserMedia = constraints => {
+      const getUserMedia =
+        navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+
+      if (!getUserMedia) {
+        return Promise.reject(new Error('getUserMedia is not implemented'));
+      }
+
+      return new Promise((resolve, reject) => {
+        getUserMedia.call(navigator, constraints, resolve, reject);
+      });
+    };
+  }
+
+  navigator.mediaDevices
+    .getUserMedia({ video: true })
+    .then(stream => {
+      videoPlayer.srcObject = stream;
+      videoPlayer.style.display = 'block';
+    })
+    .catch(err => {
+      imagePickerArea.style.display = 'block';
+    });
+}
 
 function openCreatePostModal() {
   createPostArea.classList.add('create-post--show');
+  initializeMedia();
   if (deferredPrompt) {
     deferredPrompt.prompt();
     deferredPrompt.userChoice.then(choiceResult => {
@@ -40,6 +76,9 @@ function openCreatePostModal() {
 
 function closeCreatePostModal() {
   createPostArea.classList.remove('create-post--show');
+  imagePickerArea.style.display = 'none';
+  videoPlayer.style.display = 'none';
+  canvasElement.style.display = 'none';
 }
 
 shareImageButton.addEventListener('click', openCreatePostModal);
