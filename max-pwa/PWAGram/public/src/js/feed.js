@@ -16,6 +16,8 @@ const captureButton = document.querySelector('#capture-btn');
 const imagePicker = document.querySelector('#image-picker');
 const imagePickerArea = document.querySelector('#pick-image');
 
+let picture;
+
 function initializeMedia() {
   if (!'mediaDevices' in navigator) {
     navigator.mediaDevices;
@@ -59,6 +61,7 @@ captureButton.addEventListener('click', e => {
     videoPlayer.videoHeight / (videoPlayer.videoWidth / canvasElement.width)
   );
   videoPlayer.srcObject.getVideoTracks().forEach(track => track.stop());
+  picture = dataURItoBlob(canvasElement.toDataURL());
 });
 
 function openCreatePostModal() {
@@ -184,18 +187,14 @@ if ('indexedDB' in window) {
 
 function sendData() {
   fetch(url, {
+    const id = new Date().toISOString();
+    const postData = new FormData();
+    postData.append('id', id);
+    postData.append('title', titleInput.value);
+    postData.append('location', locationInput.value);
+    postData.append('file', picture, id + '.png');
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-    },
-    body: JSON.stringify({
-      id: new Date().toISOString(),
-      title: titleInput.value,
-      location: locationInput.value,
-      image:
-        'https://firebasestorage.googleapis.com/v0/b/pwagram-d5dac.appspot.com/o/lili-kovac-432691-unsplash.jpg?alt=media&token=df868d79-64fb-4ba6-8b37-f3cb8cafec64',
-    }),
+    body: postData,
   }).then(res => {
     console.log('Sent data', res);
   });
@@ -216,6 +215,7 @@ form.addEventListener('submit', e => {
         id: new Date().toISOString(),
         title: titleInput.value,
         location: locationInput.value,
+        picture,
       };
       writeData('sync-posts', post)
         .then(() => {

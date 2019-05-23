@@ -174,19 +174,15 @@ self.addEventListener('sync', event => {
     event.waitUntil(
       readAllData('sync-posts').then(data => {
         for (const dt of data) {
+          const postData = new FormData();
+          postData.append('id', dt.id);
+          postData.append('title', dt.title);
+          postData.append('location', dt.location);
+          postData.append('file', dt.picture, dt.id + '.png');
+
           fetch(url, {
             method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              Accept: 'application/json',
-            },
-            body: JSON.stringify({
-              id: dt.id,
-              title: dt.title,
-              location: dt.location,
-              image:
-                'https://firebasestorage.googleapis.com/v0/b/pwagram-d5dac.appspot.com/o/lili-kovac-432691-unsplash.jpg?alt=media&token=df868d79-64fb-4ba6-8b37-f3cb8cafec64',
-            }),
+            body: postData,
           })
             .then(res => {
               console.log('Sent data', res);
