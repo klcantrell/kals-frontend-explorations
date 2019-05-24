@@ -16,10 +16,11 @@ admin.initializeApp({
   storageBucket: 'pwagram-d5dac.appspot.com',
 });
 
+const bucket = admin.storage().bucket();
+
 exports.storePostData = functions.https.onRequest((req, res) => {
   cors(req, res, () => {
     const uuid = UUID();
-    const formData = new formidable.IncomingForm();
     const busboy = new Busboy({ headers: req.headers });
     // These objects will store the values (file + fields) extracted from busboy
     let upload;
@@ -50,30 +51,30 @@ exports.storePostData = functions.https.onRequest((req, res) => {
     // This callback will be invoked after all uploaded files are saved.
     busboy.on('finish', () => {
       bucket.upload(
-        '/tmp/' + files.file.name,
+        upload.file,
         {
           uploadType: 'media',
           metadata: {
             metadata: {
-              contentType: files.file.type,
+              contentType: upload.type,
               firebaseStorageDownloadTokens: uuid,
             },
           },
         },
-        (err, file) => {
+        (err, uploadedFile) => {
           if (!err) {
             admin
               .database()
               .ref('posts')
               .push({
-                id,
-                title,
-                location,
+                id: fields.id,
+                title: fields.title,
+                location: fields.location,
                 image:
-                  'https://firebasestorage.googleapis.com/v0/b' +
+                  'https://firebasestorage.googleapis.com/v0/b/' +
                   bucket.name +
                   '/o/' +
-                  encodeURIComponent(file.name) +
+                  encodeURIComponent(uploadedFile.name) +
                   '?alt=media&token=' +
                   uuid,
               })
@@ -109,7 +110,7 @@ exports.storePostData = functions.https.onRequest((req, res) => {
                     )
                     .catch(console.log);
                 });
-                res.status(201).json({ message: 'Data stored', id });
+                res.status(201).json({ message: 'Data stored', id: fields.id });
               })
               .catch(err => {
                 res.status(500).json({ error: err });
@@ -123,7 +124,7 @@ exports.storePostData = functions.https.onRequest((req, res) => {
 
     // The raw bytes of the upload will be in request.rawBody.  Send it to busboy, and get
     // a callback when it's finished.
-    busboy.end(request.rawBody);
+    busboy.end(req.rawBody);
     // formData.parse(request, function(err, fields, files) {
     //   fs.rename(files.file.path, "/tmp/" + files.file.name);
     //   var bucket = gcs.bucket("YOUR_PROJECT_ID.appspot.com");

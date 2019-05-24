@@ -186,15 +186,16 @@ if ('indexedDB' in window) {
 }
 
 function sendData() {
+  const id = new Date().toISOString();
+  const postData = new FormData();
+  postData.append('id', id);
+  postData.append('title', titleInput.value);
+  postData.append('location', locationInput.value);
+  postData.append('file', picture, id + '.png');
   fetch(url, {
-    const id = new Date().toISOString();
-    const postData = new FormData();
-    postData.append('id', id);
-    postData.append('title', titleInput.value);
-    postData.append('location', locationInput.value);
-    postData.append('file', picture, id + '.png');
     method: 'POST',
     body: postData,
+    mode: 'no-cors',
   }).then(res => {
     console.log('Sent data', res);
   });

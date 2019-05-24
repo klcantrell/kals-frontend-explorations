@@ -1,7 +1,7 @@
 importScripts('/src/js/idb.js');
 importScripts('/src/js/utils.js');
 
-const CACHE_STATIC_NAME = 'static-v9';
+const CACHE_STATIC_NAME = 'static-v1';
 const CACHE_DYNAMIC_NAME = 'dynamic-v1';
 const STATIC_FILES = [
   '/',
@@ -183,6 +183,7 @@ self.addEventListener('sync', event => {
           fetch(url, {
             method: 'POST',
             body: postData,
+            mode: 'no-cors',
           })
             .then(res => {
               console.log('Sent data', res);
