@@ -183,7 +183,7 @@ self.addEventListener('sync', event => {
           fetch(url, {
             method: 'POST',
             body: postData,
-            mode: 'no-cors',
+            mode: 'cors',
           })
             .then(res => {
               console.log('Sent data', res);

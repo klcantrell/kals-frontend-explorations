@@ -64,6 +64,10 @@ captureButton.addEventListener('click', e => {
   picture = dataURItoBlob(canvasElement.toDataURL());
 });
 
+imagePicker.addEventListener('change', e => {
+  picture = e.target.files[0];
+});
+
 function openCreatePostModal() {
   createPostArea.classList.add('create-post--show');
   initializeMedia();
@@ -195,7 +199,7 @@ function sendData() {
   fetch(url, {
     method: 'POST',
     body: postData,
-    mode: 'no-cors',
+    mode: 'cors',
   }).then(res => {
     console.log('Sent data', res);
   });
