@@ -1,4 +1,10 @@
 const USER_REQUESTED_CACHE = 'user-requested-v1';
+const POSTS_URL = 'https://pwagram-d5dac.firebaseio.com/posts.json';
+const STORE_POSTS_URL =
+  'https://us-central1-pwagram-d5dac.cloudfunctions.net/storePostData';
+const LOCATION_URL_BASE = 'https://maps.googleapis.com/maps/api/geocode/json';
+const MAPS_RESULT_TYPE = 'locality';
+const MY_G_M_K = 'AIzaSyDI_E1rGyVNwbPazRv-Kk7kk29PTqH8m5U';
 
 const shareImageButton = document.querySelector('#share-image-button');
 const createPostArea = document.querySelector('#create-post');
@@ -15,12 +21,62 @@ const canvasElement = document.querySelector('#canvas');
 const captureButton = document.querySelector('#capture-btn');
 const imagePicker = document.querySelector('#image-picker');
 const imagePickerArea = document.querySelector('#pick-image');
+const locationBtn = document.querySelector('#location-btn');
+const locationLoader = document.querySelector('#location-loader');
 
 let picture;
+let geoLocation;
+
+locationBtn.addEventListener('click', e => {
+  if (!('geolocation' in navigator)) {
+    return;
+  }
+
+  locationBtn.style.display = 'none';
+  locationLoader.style.display = 'block';
+
+  navigator.geolocation.getCurrentPosition(
+    position => {
+      locationBtn.style.display = 'inline';
+      locationLoader.style.display = 'none';
+      geoLocation = {
+        lat: position.coords.latitude,
+        long: position.coords.longitude,
+      };
+      fetchReverseGeocode(geoLocation).then(data => {
+        locationInput.value = data.results[0]['formatted_address'];
+        locationInput.parentNode.classList.add('is-focused');
+      });
+    },
+    err => {
+      console.log(err);
+      locationBtn.style.display = 'inline';
+      locationLoader.style.display = 'none';
+      alert("Couldn't get location, please enter manually!");
+      geoLocation = null;
+    },
+    {
+      timeout: 7000,
+    }
+  );
+});
+
+function fetchReverseGeocode(coords) {
+  const url = `${LOCATION_URL_BASE}?latlng=${coords.lat},${
+    coords.long
+  }&result_type=${MAPS_RESULT_TYPE}&key=${MY_G_M_K}`;
+  return fetch(url).then(res => res.json());
+}
+
+function initializeLocation() {
+  if (!('geolocation' in navigator)) {
+    locationBtn.style.display = 'none';
+  }
+}
 
 function initializeMedia() {
-  if (!'mediaDevices' in navigator) {
-    navigator.mediaDevices;
+  if (!('mediaDevices' in navigator)) {
+    navigator.mediaDevices = {};
   }
   if (!('getUserMedia' in navigator.mediaDevices)) {
     navigator.mediaDevices.getUserMedia = constraints => {
@@ -69,8 +125,8 @@ imagePicker.addEventListener('change', e => {
 });
 
 function openCreatePostModal() {
-  createPostArea.classList.add('create-post--show');
   initializeMedia();
+  initializeLocation();
   if (deferredPrompt) {
     deferredPrompt.prompt();
     deferredPrompt.userChoice.then(choiceResult => {
@@ -83,6 +139,9 @@ function openCreatePostModal() {
       deferredPrompt = null;
     });
   }
+  setTimeout(() => {
+    createPostArea.classList.add('create-post--show');
+  }, 1);
 
   // example on how to remove all service workers
   // if ('serviceWorker' in navigator) {
@@ -97,10 +156,18 @@ function openCreatePostModal() {
 }
 
 function closeCreatePostModal() {
-  createPostArea.classList.remove('create-post--show');
   imagePickerArea.style.display = 'none';
   videoPlayer.style.display = 'none';
   canvasElement.style.display = 'none';
+  locationBtn.style.display = 'inline';
+  locationLoader.style.display = 'none';
+  captureButton.style.display = 'inline';
+  if (videoPlayer.srcObject) {
+    videoPlayer.srcObject.getVideoTracks().forEach(track => track.stop());
+  }
+  setTimeout(() => {
+    createPostArea.classList.remove('create-post--show');
+  }, 1);
 }
 
 shareImageButton.addEventListener('click', openCreatePostModal);
@@ -167,11 +234,10 @@ function mapFirebaseResponseToArray(data) {
   return dataArray;
 }
 
-const url = 'https://pwagram-d5dac.firebaseio.com/posts.json';
 let networkDataReceived = false;
 
 // fake dynamic content
-fetch(url)
+fetch(POSTS_URL)
   .then(res => res.json())
   .then(data => {
     networkDataReceived = true;
@@ -196,7 +262,7 @@ function sendData() {
   postData.append('title', titleInput.value);
   postData.append('location', locationInput.value);
   postData.append('file', picture, id + '.png');
-  fetch(url, {
+  fetch(STORE_POSTS_URL, {
     method: 'POST',
     body: postData,
     mode: 'cors',

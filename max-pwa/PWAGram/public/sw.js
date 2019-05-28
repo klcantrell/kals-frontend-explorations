@@ -94,9 +94,10 @@ function isInArray(string, array) {
 
 // cache then network strategy, service worker side
 self.addEventListener('fetch', event => {
-  const url = 'https://pwagram-d5dac.firebaseio.com/posts';
+  const POSTS_URL = 'https://pwagram-d5dac.firebaseio.com/posts';
+  const LOCATION_URL = 'https://maps.googleapis.com/maps/api/geocode/';
 
-  if (event.request.url.includes(url)) {
+  if (event.request.url.includes(POSTS_URL)) {
     event.respondWith(
       fetch(event.request).then(res => {
         // trimCache(CACHE_DYNAMIC_NAME, 3);
@@ -122,7 +123,10 @@ self.addEventListener('fetch', event => {
           ? res
           : fetch(event.request)
               .then(serverRes => {
-                if (event.request.url.includes('browser-sync')) {
+                if (
+                  event.request.url.includes('browser-sync') ||
+                  event.request.url.includes(LOCATION_URL)
+                ) {
                   return serverRes;
                 }
                 return caches.open(CACHE_DYNAMIC_NAME).then(cache => {
@@ -164,7 +168,7 @@ self.addEventListener('fetch', event => {
 //   );
 // });
 
-const url =
+const STORE_POSTS_URL =
   'https://us-central1-pwagram-d5dac.cloudfunctions.net/storePostData';
 
 self.addEventListener('sync', event => {
@@ -180,7 +184,7 @@ self.addEventListener('sync', event => {
           postData.append('location', dt.location);
           postData.append('file', dt.picture, dt.id + '.png');
 
-          fetch(url, {
+          fetch(STORE_POSTS_URL, {
             method: 'POST',
             body: postData,
             mode: 'cors',
