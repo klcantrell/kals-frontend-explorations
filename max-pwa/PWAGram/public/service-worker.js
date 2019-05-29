@@ -2,6 +2,20 @@ importScripts(
   'https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js'
 );
 
+workbox.routing.registerRoute(
+  /.*(?:googleapis|gstatic)\.com/,
+  new workbox.strategies.StaleWhileRevalidate({
+    cacheName: 'google-fonts',
+  })
+);
+
+workbox.routing.registerRoute(
+  'https://cdnjs.cloudflare.com/ajax/libs/material-design-lite/1.3.0/material.indigo-pink.min.css',
+  new workbox.strategies.StaleWhileRevalidate({
+    cacheName: 'material-css',
+  })
+);
+
 workbox.precaching.precacheAndRoute([
   {
     "url": "404.html",
@@ -65,7 +79,7 @@ workbox.precaching.precacheAndRoute([
   },
   {
     "url": "sw-base.js",
-    "revision": "46a4d5bb2ee3ae2cd23992b8e1973304"
+    "revision": "d6c6708188d9bf4e19263faa1b2240af"
   },
   {
     "url": "sw.js",
