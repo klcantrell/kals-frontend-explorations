@@ -5,7 +5,10 @@
   "main": "index.js",
   "scripts": {
     "start": "http-server -c-1",
-    "bsync": "browser-sync public -w"
+    "bsync": "browser-sync public -w",
+    "workbox-wizard": "workbox wizard",
+    "generate-sw": "workbox generateSW workbox-config.js",
+    "workbox-inject": "workbox injectManifest"
   },
   "keywords": [
     "pwa",
@@ -20,5 +23,8 @@
   "devDependencies": {
     "http-server": "^0.10.0",
     "browser-sync": "^2.26.5"
+  },
+  "dependencies": {
+    "workbox-cli": "^4.3.1"
   }
 }
