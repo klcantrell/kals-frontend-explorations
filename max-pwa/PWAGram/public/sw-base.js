@@ -3,7 +3,20 @@ importScripts(
 );
 
 workbox.routing.registerRoute(
-  /.*(?:googleapis|gstatic)\.com/,
+  /.*(?:firebasestorage\.googleapis)\.com.*$/,
+  new workbox.strategies.StaleWhileRevalidate({
+    cacheName: 'post-images',
+    plugins: [
+      new workbox.expiration.Plugin({
+        maxEntries: 3,
+        maxAgeSeconds: 60 * 60 * 24 * 30,
+      }),
+    ],
+  })
+);
+
+workbox.routing.registerRoute(
+  /.*(?:googleapis|gstatic)\.com.*$/,
   new workbox.strategies.StaleWhileRevalidate({
     cacheName: 'google-fonts',
   })
