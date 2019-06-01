@@ -4,6 +4,9 @@ importScripts(
 importScripts('/src/js/idb.js');
 importScripts('/src/js/utils.js');
 
+const STORE_POSTS_URL =
+  'https://us-central1-pwagram-d5dac.cloudfunctions.net/storePostData';
+
 workbox.routing.registerRoute(
   /.*(?:firebasestorage\.googleapis)\.com.*$/,
   new workbox.strategies.StaleWhileRevalidate({
@@ -63,4 +66,41 @@ workbox.routing.setCatchHandler(ctx => {
     });
 });
 
+workbox.routing.registerRoute(
+  STORE_POSTS_URL,
+  new workbox.strategies.NetworkOnly({
+    plugins: [
+      new workbox.backgroundSync.Plugin('sync-posts'),
+      {
+        maxRetentionTime: 24 * 60,
+      },
+    ],
+  }),
+  'POST'
+);
+
 workbox.precaching.precacheAndRoute([]);
+
+self.addEventListener('notificationclose', event => {
+  console.log('Notification was closed', event);
+});
+
+self.addEventListener('push', event => {
+  console.log('Push Notification received', event);
+
+  let data = { title: 'New!', content: 'Something new happend!', openUrl: '/' };
+  if (event.data) {
+    data = JSON.parse(event.data.text());
+  }
+
+  const options = {
+    body: data.content,
+    icon: '/src/images/icons/app-icon-96x96.png',
+    badge: '/src/images/icons/app-icon-96x96.png',
+    data: {
+      url: data.openUrl,
+    },
+  };
+
+  event.waitUntil(self.registration.showNotification(data.title, options));
+});

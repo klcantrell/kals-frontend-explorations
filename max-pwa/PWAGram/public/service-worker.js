@@ -4,6 +4,9 @@ importScripts(
 importScripts('/src/js/idb.js');
 importScripts('/src/js/utils.js');
 
+const STORE_POSTS_URL =
+  'https://us-central1-pwagram-d5dac.cloudfunctions.net/storePostData';
+
 workbox.routing.registerRoute(
   /.*(?:firebasestorage\.googleapis)\.com.*$/,
   new workbox.strategies.StaleWhileRevalidate({
@@ -63,6 +66,19 @@ workbox.routing.setCatchHandler(ctx => {
     });
 });
 
+workbox.routing.registerRoute(
+  STORE_POSTS_URL,
+  new workbox.strategies.NetworkOnly({
+    plugins: [
+      new workbox.backgroundSync.Plugin('sync-posts'),
+      {
+        maxRetentionTime: 24 * 60,
+      },
+    ],
+  }),
+  'POST'
+);
+
 workbox.precaching.precacheAndRoute([
   {
     "url": "404.html",
@@ -102,7 +118,7 @@ workbox.precaching.precacheAndRoute([
   },
   {
     "url": "src/js/feed.js",
-    "revision": "1d95e6da972d5853e9cfd7dee7ad9adf"
+    "revision": "f04a3ae074a90f03976a3e8ca9553609"
   },
   {
     "url": "src/js/fetch.js",
@@ -126,7 +142,7 @@ workbox.precaching.precacheAndRoute([
   },
   {
     "url": "sw-base.js",
-    "revision": "e7eaad14b1af05813f1e9a6ab9bd46c8"
+    "revision": "eeb9c4003cab8ddfa8cad399dd8d448e"
   },
   {
     "url": "sw.js",
@@ -149,3 +165,27 @@ workbox.precaching.precacheAndRoute([
     "revision": "0f282d64b0fb306daf12050e812d6a19"
   }
 ]);
+
+self.addEventListener('notificationclose', event => {
+  console.log('Notification was closed', event);
+});
+
+self.addEventListener('push', event => {
+  console.log('Push Notification received', event);
+
+  let data = { title: 'New!', content: 'Something new happend!', openUrl: '/' };
+  if (event.data) {
+    data = JSON.parse(event.data.text());
+  }
+
+  const options = {
+    body: data.content,
+    icon: '/src/images/icons/app-icon-96x96.png',
+    badge: '/src/images/icons/app-icon-96x96.png',
+    data: {
+      url: data.openUrl,
+    },
+  };
+
+  event.waitUntil(self.registration.showNotification(data.title, options));
+});

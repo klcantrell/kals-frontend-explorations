@@ -262,7 +262,7 @@ function sendData() {
   postData.append('title', titleInput.value);
   postData.append('location', locationInput.value);
   postData.append('file', picture, id + '.png');
-  fetch(STORE_POSTS_URL, {
+  return fetch(STORE_POSTS_URL, {
     method: 'POST',
     body: postData,
     mode: 'cors',
@@ -281,24 +281,13 @@ form.addEventListener('submit', e => {
   closeCreatePostModal();
 
   if ('serviceWorker' in navigator && 'SyncManager' in window) {
-    navigator.serviceWorker.ready.then(sw => {
-      const post = {
-        id: new Date().toISOString(),
-        title: titleInput.value,
-        location: locationInput.value,
-        picture,
-      };
-      writeData('sync-posts', post)
-        .then(() => {
-          sw.sync.register('sync-new-posts');
-        })
-        .then(() => {
-          const data = { message: 'Your post was saved for syncing!' };
-          snackbarContainer.MaterialSnackbar.showSnackbar(data);
-        })
-        .catch(err => console.log(err));
-    });
+    sendData()
+      .then(() => {
+        const data = { message: 'Your post was saved for syncing!' };
+        snackbarContainer.MaterialSnackbar.showSnackbar(data);
+      })
+      .catch(err => console.log(err));
   } else {
-    sendData();
+    sendData().catch(err => console.log(err));
   }
 });
