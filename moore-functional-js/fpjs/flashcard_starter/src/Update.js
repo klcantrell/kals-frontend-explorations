@@ -7,6 +7,9 @@ const MSGS = {
   CARD_ANSWER_TEXT_INPUT: 'CARD_ANSWER_TEXT_INPUT',
   DELETE_CARD: 'DELETE_CARD',
   TOGGLE_ANSWER_HIDDEN: 'TOGGLE_ANSWER_HIDDEN',
+  BAD_ANSWER_RATING: 'BAD_ANSWER_RATING',
+  GOOD_ANSWER_RATING: 'GOOD_ANSWER_RATING',
+  GREAT_ANSWER_RATING: 'GREAT_ANSWER_RATING',
 };
 
 const createCard = {
@@ -50,38 +53,24 @@ function deleteCard(id) {
   };
 }
 
-function transformCardWithId(id, transformFn, card) {
-  return card.id === id ? transformFn(card) : card;
-}
-
-function toggleEditModeForCard(card) {
-  if (R.isEmpty(card.questionText) || R.isEmpty(card.answerText)) {
-    return card;
-  }
+function badAnswerRating(id) {
   return {
-    ...card,
-    edit: !card.edit,
+    type: MSGS.BAD_ANSWER_RATING,
+    id,
   };
 }
 
-function toggleAnswerHiddenForCard(card) {
+function goodAnswerRating(id) {
   return {
-    ...card,
-    answerHidden: !card.answerHidden,
+    type: MSGS.GOOD_ANSWER_RATING,
+    id,
   };
 }
 
-function questionTextInputForCard(questionText, card) {
+function greatAnswerRating(id) {
   return {
-    ...card,
-    questionText,
-  };
-}
-
-function answerTextInputForCard(answerText, card) {
-  return {
-    ...card,
-    answerText,
+    type: MSGS.GREAT_ANSWER_RATING,
+    id,
   };
 }
 
@@ -95,6 +84,7 @@ function update(msg, model) {
         answerText: '',
         createdAt: new Date(),
         edit: true,
+        answerHidden: true,
         score: 0,
         id,
       });
@@ -155,10 +145,115 @@ function update(msg, model) {
         cards,
       };
     }
+    case MSGS.BAD_ANSWER_RATING: {
+      const badRating = R.partial(transformCardWithId, [
+        msg.id,
+        badRatingForCard,
+      ]);
+      const cards = R.pipe(
+        R.map(badRating),
+        sortCardsByScoreAndCreatedAt
+      )(model.cards);
+      return {
+        ...model,
+        cards,
+      };
+    }
+    case MSGS.GOOD_ANSWER_RATING: {
+      const goodRating = R.partial(transformCardWithId, [
+        msg.id,
+        goodRatingForCard,
+      ]);
+      const cards = R.pipe(
+        R.map(goodRating),
+        sortCardsByScoreAndCreatedAt
+      )(model.cards);
+      return {
+        ...model,
+        cards,
+      };
+    }
+    case MSGS.GREAT_ANSWER_RATING: {
+      const greatRating = R.partial(transformCardWithId, [
+        msg.id,
+        greatRatingForCard,
+      ]);
+      const cards = R.pipe(
+        R.map(greatRating),
+        sortCardsByScoreAndCreatedAt
+      )(model.cards);
+      return {
+        ...model,
+        cards,
+      };
+    }
     default: {
       return model;
     }
   }
+}
+
+function transformCardWithId(id, transformFn, card) {
+  return card.id === id ? transformFn(card) : card;
+}
+
+function toggleEditModeForCard(card) {
+  if (R.isEmpty(card.questionText) || R.isEmpty(card.answerText)) {
+    return card;
+  }
+  return {
+    ...card,
+    edit: !card.edit,
+  };
+}
+
+function toggleAnswerHiddenForCard(card) {
+  return {
+    ...card,
+    answerHidden: !card.answerHidden,
+  };
+}
+
+function questionTextInputForCard(questionText, card) {
+  return {
+    ...card,
+    questionText: questionText.trim(),
+  };
+}
+
+function answerTextInputForCard(answerText, card) {
+  return {
+    ...card,
+    answerText: answerText.trim(),
+  };
+}
+
+function badRatingForCard(card) {
+  return {
+    ...card,
+    score: 0,
+  };
+}
+
+function goodRatingForCard(card) {
+  return {
+    ...card,
+    score: card.score + 1,
+  };
+}
+
+function greatRatingForCard(card) {
+  return {
+    ...card,
+    score: card.score + 2,
+  };
+}
+
+function sortCardsByScoreAndCreatedAt(cards) {
+  return R.sortWith([
+    R.descend(R.prop('score')),
+    R.ascend(R.prop('createdAt')),
+  ])(cards);
 }
 
 export {
@@ -168,5 +263,8 @@ export {
   cardAnswerTextInput,
   deleteCard,
   toggleAnswerHidden,
+  badAnswerRating,
+  goodAnswerRating,
+  greatAnswerRating,
 };
 export default update;
