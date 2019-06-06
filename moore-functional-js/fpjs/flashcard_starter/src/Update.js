@@ -5,6 +5,8 @@ const MSGS = {
   TOGGLE_EDIT_CARD: 'TOGGLE_EDIT_CARD',
   CARD_QUESTION_TEXT_INPUT: 'CARD_QUESTION_TEXT_INPUT',
   CARD_ANSWER_TEXT_INPUT: 'CARD_ANSWER_TEXT_INPUT',
+  DELETE_CARD: 'DELETE_CARD',
+  TOGGLE_ANSWER_HIDDEN: 'TOGGLE_ANSWER_HIDDEN',
 };
 
 const createCard = {
@@ -34,6 +36,20 @@ function toggleEditCard(id) {
   };
 }
 
+function toggleAnswerHidden(id) {
+  return {
+    type: MSGS.TOGGLE_ANSWER_HIDDEN,
+    id,
+  };
+}
+
+function deleteCard(id) {
+  return {
+    type: MSGS.DELETE_CARD,
+    id,
+  };
+}
+
 function transformCardWithId(id, transformFn, card) {
   return card.id === id ? transformFn(card) : card;
 }
@@ -48,10 +64,24 @@ function toggleEditModeForCard(card) {
   };
 }
 
+function toggleAnswerHiddenForCard(card) {
+  return {
+    ...card,
+    answerHidden: !card.answerHidden,
+  };
+}
+
 function questionTextInputForCard(questionText, card) {
   return {
     ...card,
     questionText,
+  };
+}
+
+function answerTextInputForCard(answerText, card) {
+  return {
+    ...card,
+    answerText,
   };
 }
 
@@ -79,10 +109,7 @@ function update(msg, model) {
         msg.id,
         toggleEditModeForCard,
       ]);
-      const cards = R.pipe(
-        R.clone,
-        R.map(toggleEditMode)
-      )(model.cards);
+      const cards = R.map(toggleEditMode, model.cards);
       return {
         ...model,
         cards,
@@ -93,11 +120,36 @@ function update(msg, model) {
         msg.id,
         R.partial(questionTextInputForCard, [msg.questionText]),
       ]);
-      const cards = R.pipe(
-        R.clone,
-        R.map(addQuestionText)
-      )(model.cards);
-      console.log(cards);
+      const cards = R.map(addQuestionText, model.cards);
+      return {
+        ...model,
+        cards,
+      };
+    }
+    case MSGS.CARD_ANSWER_TEXT_INPUT: {
+      const addAnswerText = R.partial(transformCardWithId, [
+        msg.id,
+        R.partial(answerTextInputForCard, [msg.answerText]),
+      ]);
+      const cards = R.map(addAnswerText, model.cards);
+      return {
+        ...model,
+        cards,
+      };
+    }
+    case MSGS.DELETE_CARD: {
+      const cards = R.filter(c => c.id !== msg.id, model.cards);
+      return {
+        ...model,
+        cards,
+      };
+    }
+    case MSGS.TOGGLE_ANSWER_HIDDEN: {
+      const toggleShowAnswer = R.partial(transformCardWithId, [
+        msg.id,
+        toggleAnswerHiddenForCard,
+      ]);
+      const cards = R.map(toggleShowAnswer, model.cards);
       return {
         ...model,
         cards,
@@ -114,5 +166,7 @@ export {
   toggleEditCard,
   cardQuestionTextInput,
   cardAnswerTextInput,
+  deleteCard,
+  toggleAnswerHidden,
 };
 export default update;

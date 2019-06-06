@@ -3,6 +3,7 @@ const initModel = {
     {
       id: 1,
       edit: false,
+      answerHidden: true,
       questionText: 'Enter your first question here',
       answerText: 'Enter the answer here',
       score: 0,
