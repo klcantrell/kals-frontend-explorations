@@ -22,6 +22,12 @@ module.exports = {
             plugins: [
               require('babel-plugin-transform-object-rest-spread'),
               require('regenerator-transform'),
+              [
+                'babel-plugin-dotenv',
+                {
+                  replacedModuleName: 'babel-dotenv',
+                },
+              ],
             ],
           },
         },
