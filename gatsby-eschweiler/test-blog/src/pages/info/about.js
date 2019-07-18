@@ -1,13 +1,14 @@
 import React from 'react';
-import { Link } from 'gatsby';
-import Layout from '../../components/layout';
+import Layout from '../../components/layout2';
 import Greeting from '../../components/greeting';
+
+import cloud from '../../images/cloud.png';
 
 const About = ({ location }) => (
   <Layout location={location}>
     <div>
       <h1>About Page</h1>
-      <Link to="/">Home</Link>
+      <img style={{ width: '150px' }} src={cloud} alt="cloud" />
       <p>
         Consequat sunt minim enim mollit esse non elit consectetur esse esse
         labore eiusmod. Nostrud ullamco nisi dolore reprehenderit adipisicing eu
