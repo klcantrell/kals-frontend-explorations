@@ -10,7 +10,7 @@ const Greeting = ({ greeting, name }) => (
 );
 
 Greeting.propTypes = {
-  greeting: PropTypes.shape.isRequired,
+  greeting: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
 };
 

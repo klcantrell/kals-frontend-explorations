@@ -15,6 +15,7 @@ const ListLink = props => (
 
 const Layout2 = ({ children }) => (
   <div
+    className="my-background"
     style={{
       margin: '0 auto',
       maxWidth: 650,
