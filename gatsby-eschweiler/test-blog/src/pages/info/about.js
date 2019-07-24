@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { graphql } from 'gatsby';
 import Layout from '../../components/layout2';
 import Greeting from '../../components/greeting';
 import cloud from '../../images/cloud.png';
@@ -40,11 +41,15 @@ const User = ({ avatar, username, excerpt }) => (
   </StyledUser>
 );
 
-const About = ({ location }) => (
+const About = ({ location, data }) => (
   <Layout location={location}>
     <div>
       <h1>About Page</h1>
-      <User avatar={cloud} username="Cloud" excerpt="Dude with a big sword" />
+      <User
+        avatar={cloud}
+        username={data.site.siteMetadata.author}
+        excerpt="Dude with a big sword"
+      />
       <p>
         Consequat sunt minim enim mollit esse non elit consectetur esse esse
         labore eiusmod. Nostrud ullamco nisi dolore reprehenderit adipisicing eu
@@ -55,5 +60,15 @@ const About = ({ location }) => (
     </div>
   </Layout>
 );
+
+export const query = graphql`
+  query {
+    site {
+      siteMetadata {
+        author
+      }
+    }
+  }
+`;
 
 export default About;
