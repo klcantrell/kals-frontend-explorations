@@ -1,5 +1,8 @@
+/** @jsx jsx */
 import React from 'react';
 import { Link, graphql } from 'gatsby';
+import Img from 'gatsby-image';
+import { css, jsx } from '@emotion/core';
 
 import Bio from '../components/bio';
 import Layout from '../components/layout';
@@ -19,22 +22,42 @@ class BlogIndex extends React.Component {
         {posts.map(({ node }) => {
           const title = node.title || node.slug;
           return (
-            <div key={node.slug}>
-              <h3
-                style={{
-                  marginBottom: rhythm(1 / 4),
-                }}
-              >
-                <Link style={{ boxShadow: `none` }} to={`/${node.slug}`}>
-                  {title}
-                </Link>
-              </h3>
-              <small>{node.createdAt}</small>
-              <p
-                dangerouslySetInnerHTML={{
-                  __html: node.description || node.subtitle,
-                }}
+            <div
+              key={node.slug}
+              css={css`
+                display: flex;
+                margin-bottom: 20px;
+              `}
+            >
+              <Img
+                fluid={node.image.fluid}
+                css={css`
+                  flex: 25%;
+                  margin-right: 1rem;
+                  height: ;
+                `}
               />
+              <div
+                css={css`
+                  flex: 75%;
+                `}
+              >
+                <h3
+                  css={css`
+                    margin-top: 0;
+                  `}
+                >
+                  <Link style={{ boxShadow: `none` }} to={`/${node.slug}`}>
+                    {title}
+                  </Link>
+                </h3>
+                <small>{node.createdAt}</small>
+                <p
+                  dangerouslySetInnerHTML={{
+                    __html: node.description || node.subtitle,
+                  }}
+                />
+              </div>
             </div>
           );
         })}
@@ -61,8 +84,8 @@ export const pageQuery = graphql`
           subtitle
           slug
           image {
-            file {
-              url
+            fluid {
+              ...GatsbyContentfulFluid
             }
           }
         }
